@@ -1,0 +1,27 @@
+### 前端快速开发文档
+
+这篇文档适合已经熟悉[原来那种模式](https://github.com/upcyiban/IntegrateApplication)的前端端开发人员阅读。
+
+首先按照易班官方的形式引导用户进行授权认证，获取到vq，然后以post形式请求向
+localhost:8082/auth 以json的格式发送请求 类似于下面这种，其中appname提前和管理员协商好。
+```
+{
+	"appname": "test",
+	"vq":"14555ebe58b98e17bf735c6ac52a3c98792ee8e20fac2a528b9d16eccabc95ccc51e8df4df39908bf6d0376bb16251f76b7bb56c96b0c3c91eb2fb116025030d12aeb4f0ddcd1b019aadaed1d0ad73feeb1a77f75b82ae402b990620a69177a0d3b21f868586518ce535c62fcfb4d974f6335c76888dbec39920c3782e3517058021526ae55b245caa4985cecb494a74a502e277fb885306b9f636dc5d0a1931f5bee0e321a89c9c6f395bc889b9ebbcb944278f8816b797709798b90ee0528c70d63d9c546fa56efbf78876c73b52872c6a222987d28900565a8da8826d9b64"
+}
+
+```
+如果请求成功会返回类似与这样的数据。
+```
+{
+  "token": "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiI5OTRkYWZiOGY1YWE0MGYxNmVkYTNhN2YyMTA1NTc3NmVlNDY4MTBmIiwiYXBwbmFtZSI6InRlc3QiLCJjcmVhdGVkIjoxNDk2NTY2OTYyNTUxLCJ5YmlkIjo1ODMxNDQ5LCJleHAiOjE0OTcxNzE3NjJ9.k8w5OT2YvjXST8t60h8dR3AY6cLUglN3FKFPnMwBHEAyKexLtpGmssB7OgK7VHKdPeC7z8i7Pgu57qNV8VwCzw"
+}
+
+```
+保存一下这个token，除了这个接口以外的所有接口都需要tocken。
+
+其他的接口请求的时候在请求头中，注意是请求头，加入 "Authorization": token, "AppName": appname
+
+其他的都和以前一样。
+
+

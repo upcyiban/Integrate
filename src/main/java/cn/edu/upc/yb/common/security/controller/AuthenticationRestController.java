@@ -9,6 +9,7 @@ import cn.edu.upc.yb.common.security.service.JwtAuthenticationRequest;
 import cn.edu.upc.yb.common.security.service.JwtAuthenticationResponse;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.security.service.JwtUser;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class AuthenticationRestController {
     @Autowired
     private UPCYbUserFactory upcYbUserFactory;
 
+    @ApiOperation(value = "授权", notes = "")
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
@@ -70,6 +72,7 @@ public class AuthenticationRestController {
         }
     }
 
+    @ApiOperation(value = "刷新token", notes = "")
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
