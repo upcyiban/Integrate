@@ -5,8 +5,6 @@ spring:
     password:
     test-while-idle: true
     validation-query: SELECT 1
-  thymeleaf:
-    mode: LEGACYHTML5
   jpa:
     show-sql: true
     hibernate:
@@ -19,6 +17,7 @@ jwt:
   header: Authorization
   secret: mySecret
   expiration: 604800
+  appname: AppName
   route:
     authentication:
       path: auth

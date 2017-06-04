@@ -63,7 +63,7 @@ public class AuthenticationRestController {
             String ybid = String.valueOf(yibanOAuth.getYibanBasicUserInfo().visit_user.userid);
             String ybtocken = yibanOAuth.getYibanBasicUserInfo().visit_oauth.access_token;
             final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername(ybid);
-            final String token = jwtTokenUtil.generateToken(userDetails, ybtocken, device);
+            final String token = jwtTokenUtil.generateToken(userDetails, ybtocken,authenticationRequest.getAppname(), device);
             return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         } else {
             return ResponseEntity.ok(new ErrorReporter(2, "解析vq失败"));

@@ -28,6 +28,7 @@ public class JwtTokenUtil implements Serializable {
     private static final String AUDIENCE_TABLET = "tablet";
     private static final String YBACCESS_TOKEN = "ybtoken";
     private static final String CLAIM_KEY_YBID = "ybid";
+    private static final String CLAIM_APP_NAME = "appname";
 
     @Value("${jwt.secret}")
     private String secret;
@@ -56,6 +57,18 @@ public class JwtTokenUtil implements Serializable {
         }
 
         return ybid;
+    }
+
+    public String  getAppnameFromTocken(String token){
+        String appname;
+        try{
+            final Claims claims = getClaimsFromToken(token);
+            appname = claims.get(CLAIM_APP_NAME).toString();
+        } catch (Exception e){
+            appname = null;
+        }
+
+        return appname;
     }
 
     public Date getCreatedDateFromToken(String token) {
@@ -147,12 +160,13 @@ public class JwtTokenUtil implements Serializable {
         return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
     }
 
-    public String generateToken(JwtUser userDetails,String ybtocken, Device device) {
+    public String generateToken(JwtUser userDetails,String ybtocken, String appname,Device device) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_YBID, userDetails.getUserid());
         claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
         claims.put(CLAIM_KEY_CREATED, new Date());
         claims.put(YBACCESS_TOKEN, ybtocken);
+        claims.put(CLAIM_APP_NAME, appname);
         return generateToken(claims);
     }
 

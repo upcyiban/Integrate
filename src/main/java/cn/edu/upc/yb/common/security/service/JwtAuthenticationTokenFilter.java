@@ -30,12 +30,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${jwt.header}")
     private String tokenHeader;
 
+    @Value(("${jwt.appname}"))
+    private String appName;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String authToken = request.getHeader(this.tokenHeader);
+        String userAppname = request.getHeader(this.appName);
         // authToken.startsWith("Bearer ")
         // String authToken = header.substring(7);
         String ybid = jwtTokenUtil.getYBidFromTocken(authToken);
+        String appname = jwtTokenUtil.getAppnameFromTocken(authToken);
 
         logger.info("checking authentication für user " + ybid);
 
@@ -47,7 +52,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
             // the database compellingly. Again it's up to you ;)
-            if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+            if (jwtTokenUtil.validateToken(authToken, userDetails) && appname.equals(userAppname)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 logger.info("authenticated user " + ybid + ", setting security context");
