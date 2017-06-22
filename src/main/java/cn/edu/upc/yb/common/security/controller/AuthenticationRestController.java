@@ -68,7 +68,7 @@ public class AuthenticationRestController {
             final String token = jwtTokenUtil.generateToken(userDetails, ybtocken,authenticationRequest.getAppname(), device);
             return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         } else {
-            return ResponseEntity.ok(new ErrorReporter(2, "解析vq失败"));
+            return ResponseEntity.ok(new ErrorReporter(2, "解析vq失败，可能是由于密钥长度不匹配"));
         }
     }
 

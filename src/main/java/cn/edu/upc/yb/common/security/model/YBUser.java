@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.common.security.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -78,5 +79,11 @@ public class YBUser {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setAuthoritie(Authority authorities){
+        List<Authority> authorities1 = new ArrayList<>();
+        authorities1.add(authorities);
+        this.authorities = authorities1;
     }
 }

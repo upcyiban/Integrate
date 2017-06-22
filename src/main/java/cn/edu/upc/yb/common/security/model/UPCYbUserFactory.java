@@ -14,6 +14,9 @@ public class UPCYbUserFactory {
     @Autowired
     private YBUserRepository userRepository;
 
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
 
     /**
      * 基础数据保存到我们自己的数据库中，不存在创建，存在则更新
@@ -28,7 +31,10 @@ public class UPCYbUserFactory {
                     yibaninfo.visit_user.username,
                     yibaninfo.visit_user.usernick,
                     yibaninfo.visit_user.usersex);
+            Authority authority = authorityRepository.findFirstByName("ROLE_ORDINARY");
+            user.setAuthoritie(authority);
             userRepository.save(user);
+
         } else {
             user.setUsername(yibaninfo.visit_user.username);
             user.setUsernick(yibaninfo.visit_user.usernick);

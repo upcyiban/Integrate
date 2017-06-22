@@ -19,6 +19,12 @@ public class Authority {
     @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
     private List<YBUser> users;
 
+    public Authority(){}
+
+    public Authority(String name){
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
