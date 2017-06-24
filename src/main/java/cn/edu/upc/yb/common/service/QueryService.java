@@ -16,11 +16,6 @@ import java.net.URLConnection;
 @Service
 public class QueryService {
 
-
-    @Autowired
-
-
-
     /**
      *
      * @param apiName 请求的api地址
@@ -31,7 +26,6 @@ public class QueryService {
     public String getYbApi(String apiName,String query) throws IOException {
         String url = "https://openapi.yiban.cn/" + apiName;
         String charset = "UTF-8";
-
         URLConnection connection = new URL(url + "?" + query).openConnection();
         connection.setRequestProperty("Accept-Charset", charset);
         InputStream response = connection.getInputStream();

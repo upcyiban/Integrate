@@ -47,24 +47,24 @@ public class JwtTokenUtil implements Serializable {
         return username;
     }
 
-    public String  getYBidFromTocken(String token){
+    public String getYBidFromTocken(String token) {
         String ybid;
-        try{
+        try {
             final Claims claims = getClaimsFromToken(token);
             ybid = claims.get(CLAIM_KEY_YBID).toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             ybid = null;
         }
 
         return ybid;
     }
 
-    public String  getAppnameFromTocken(String token){
+    public String getAppnameFromTocken(String token) {
         String appname;
-        try{
+        try {
             final Claims claims = getClaimsFromToken(token);
             appname = claims.get(CLAIM_APP_NAME).toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             appname = null;
         }
 
@@ -104,15 +104,14 @@ public class JwtTokenUtil implements Serializable {
         return audience;
     }
 
-    public String getYbaccessToken(String token){
+    public String getYbaccessToken(String token) {
         String ybtoken;
-        try{
+        try {
             final Claims claims = getClaimsFromToken(token);
             ybtoken = claims.get(YBACCESS_TOKEN).toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             ybtoken = null;
         }
-
         return ybtoken;
 
     }
@@ -160,7 +159,7 @@ public class JwtTokenUtil implements Serializable {
         return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
     }
 
-    public String generateToken(JwtUser userDetails,String ybtocken, String appname,Device device) {
+    public String generateToken(JwtUser userDetails, String ybtocken, String appname, Device device) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_YBID, userDetails.getUserid());
         claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
