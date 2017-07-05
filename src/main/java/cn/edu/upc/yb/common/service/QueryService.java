@@ -39,4 +39,24 @@ public class QueryService {
         br.close();
         return sb.toString();
     }
+
+    public String postYbApi(String apiName,String query) throws IOException {
+        String url = "https://openapi.yiban.cn/" + apiName;
+        String charset = "UTF-8";
+        URLConnection connection = new URL(url + "?" + query).openConnection();
+        connection.setRequestProperty("Accept-Charset", charset);
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        InputStream response = connection.getInputStream();
+        StringBuilder sb=new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(response));
+        String read;
+
+        while((read=br.readLine()) != null) {
+            sb.append(read);
+        }
+        br.close();
+        return sb.toString();
+    }
+
 }
