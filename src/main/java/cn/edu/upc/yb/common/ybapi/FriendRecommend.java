@@ -5,6 +5,7 @@ import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.service.QueryService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by 17797 on 2017/7/4.
  */
+@Service
 public class FriendRecommend {
 
     @Autowired

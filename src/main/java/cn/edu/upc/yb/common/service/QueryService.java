@@ -3,10 +3,7 @@ package cn.edu.upc.yb.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -43,10 +40,14 @@ public class QueryService {
     public String postYbApi(String apiName,String query) throws IOException {
         String url = "https://openapi.yiban.cn/" + apiName;
         String charset = "UTF-8";
-        URLConnection connection = new URL(url + "?" + query).openConnection();
+        URLConnection connection = new URL(url).openConnection();
         connection.setRequestProperty("Accept-Charset", charset);
         connection.setDoOutput(true);
         connection.setDoInput(true);
+
+        PrintWriter out = new PrintWriter(connection.getOutputStream());
+        out.print(query);
+        out.flush();
         InputStream response = connection.getInputStream();
         StringBuilder sb=new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(response));

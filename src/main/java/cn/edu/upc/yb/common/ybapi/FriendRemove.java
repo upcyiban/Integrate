@@ -5,6 +5,7 @@ import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.service.QueryService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
  * Created by 17797 on 2017/7/4.
  */
 
-
+@Service
 public class FriendRemove {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -28,7 +29,7 @@ public class FriendRemove {
 */
     public Object doFriendRemove(String token,int yb_friend_uid) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken + "&yb_friend_uid"+yb_friend_uid;
+        String queryString = "access_token=" + ybtoken + "&yb_friend_uid="+yb_friend_uid;
         String result = queryService.getYbApi("friend/remove", queryString);
         Gson gson = new Gson();
         System.out.println(result);
