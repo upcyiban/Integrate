@@ -27,7 +27,7 @@ public class FriendApply {
      * @param token upcyiban token
      * @return
      */
-    public Object doFriendApply(String token,int to_yb_uid,int content) throws IOException {
+    public Object doFriendApply(String token,int to_yb_uid,String content) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
 
         String queryString = "access_token=" + ybtoken + "&to_yb_uid=" + to_yb_uid+ "&content="+content;

@@ -41,7 +41,7 @@ public class FriendTest {
     @Test
     public void applay() throws IOException {
 
-        friendapplay.doFriendApply(tocken,7075653,61);
+        friendapplay.doFriendApply(tocken,7075653,"I am your father.");
     }
 
     @Test
