@@ -35,15 +35,15 @@ public class UserMe {
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserInfor userInfor = gson.fromJson(result,UserInfor.class);
-            return userInfor;
+            UserInfo userInfo = gson.fromJson(result,UserInfo.class);
+            return userInfo;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
     }
 
 
-    class UserInfor {
+    class UserInfo {
 
         public String status;
 
