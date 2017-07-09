@@ -30,7 +30,7 @@ public class UserMe {
      */
     public Object getUserMe(String token) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken;
+        String queryString = "access_token=" + ybtoken ;
         String result = queryService.getYbApi("user/me", queryString);
         Gson gson = new Gson();
         System.out.println(result);
