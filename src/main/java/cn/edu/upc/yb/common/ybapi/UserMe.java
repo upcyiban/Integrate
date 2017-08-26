@@ -43,7 +43,7 @@ public class UserMe {
     }
 
 
-    class UserInfo {
+     class UserInfo {
 
         public String status;
 
