@@ -29,8 +29,8 @@ public class ManageController {
 
     @ApiOperation(value = "创建app", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "header", name = SwaggerParameter.AppName, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.AppName, dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "appname", value = "应用的名字", required = true,dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "appid",value = "应用的appid",required = true,dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "appkey",value = "应用的appkey",required = true,dataType = "String")})
@@ -41,8 +41,8 @@ public class ManageController {
 
     @ApiOperation(value = "添加管理员", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "header", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "header", name = SwaggerParameter.AppName, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.AppName, dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "appname", value = "应用的名字", required = true,dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "ybid",value = "易班id",required = true,dataType = "int")})
     @PostMapping("/addadmin")

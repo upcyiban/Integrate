@@ -23,4 +23,4 @@ jwt:
       path: auth
       refresh: refresh
 server:
-  port: 9999
+  port: 8084
