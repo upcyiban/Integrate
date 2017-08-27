@@ -1,0 +1,17 @@
+package cn.edu.upc.yb.auth;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class AuthTest {
+
+    @Test
+    public void auth(){
+        String vq = "4f471fb5275243ae9a89959777a23ea3046850184e52c88d1e3492c0b7bd70ed0c8415bca05606399ed9951a4c6377f5e4dd486be2fec69ad524c5d09ed05cdd3286a0f2b2eff5a30cd481140bd81fb4785b535a37c87c63d32f405fe1cfda61165d100db357c4477f97c4177ef8b65fe45d87f959be262c448ea0961eab081c9cd99ac9eaad650b35d5ce312126fa72a04920f04fb8ecf984aef91164383bdee690010a7dcceaf6b01c93bf64e8e6ffb0d74ddae8c5ce08359b0633c5e8183209d35d37b616fcf34a030d003288ce894407cbee16cba56e7b83229ca4f6ed09e12704d07e71f649783d3ef307870718d41e04bb4c319c3a946b1e4e7c20e76fa73225f582d186eac943327c16ebe3a238a258f7f77a4fb5a40cb41293ab594c9f60342b845003a83248d31113851e056bc7afcc3044d3b3e4f15cefbc6c5c2549b46de480568d7eb144ffb382ec120953c56957510e0b9d4e248af69422f38e";
+
+    }
+}

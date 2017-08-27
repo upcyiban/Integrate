@@ -48,14 +48,16 @@ public class AuthenticationRestController {
 
     @ApiOperation(value = "授权", notes = "")
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(String appName,String vq, Device device) throws AuthenticationException {
 
-        App app = appRepository.findFirstByAppname(authenticationRequest.getAppname());
+        logger.info("应用:" + appName  + " 正在授权！");
+
+        App app = appRepository.findFirstByAppname(appName);
         if (app == null) {
-            return ResponseEntity.ok(new ErrorReporter(1, "未找到应用" + authenticationRequest.getAppname()));
+            return ResponseEntity.ok(new ErrorReporter(1, "未找到应用" + appName));
         }
 
-        YibanOAuth yibanOAuth = new YibanOAuth(authenticationRequest.getVq(), app);
+        YibanOAuth yibanOAuth = new YibanOAuth(vq, app);
         yibanOAuth.dealYibanOauth();
         if (yibanOAuth.isHasError() == false) {
             upcYbUserFactory.createUser(yibanOAuth.getYibanBasicUserInfo());
@@ -63,7 +65,8 @@ public class AuthenticationRestController {
             String ybtocken = yibanOAuth.getYibanBasicUserInfo().visit_oauth.access_token;
             logger.info("ybtocken: " + ybtocken);
             final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername(ybid);
-            final String token = jwtTokenUtil.generateToken(userDetails, ybtocken,authenticationRequest.getAppname(), device);
+            final String token = jwtTokenUtil.generateToken(userDetails, ybtocken,appName, device);
+            logger.info("发放token：" + token);
             return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         } else {
             return ResponseEntity.ok(new ErrorReporter(2, "解析vq失败，可能是由于密钥长度不匹配"));
