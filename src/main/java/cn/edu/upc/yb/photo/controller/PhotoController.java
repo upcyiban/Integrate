@@ -36,7 +36,7 @@ public class PhotoController {
         String name = userService.getStuName(request).toString();
         String stuid = userService.getStuId(request).toString();
         boolean isexist = photoService.isExist(stuid);
-        String url = "http://yb.upc.edu.cn/picture/photo2017/" + stuid + ".jpg";
+        String url = "http://yb.upc.edu.cn:8084/photo/img/" + stuid + ".jpg";
         Map<String,Object> map = new HashMap<>();
         map.put("name",name);
         map.put("stuId",stuid);
