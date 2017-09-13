@@ -27,7 +27,7 @@ public class UserRealMe {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/user/real_me接口封装
      *
      * @param token upcyiban token
      * @return

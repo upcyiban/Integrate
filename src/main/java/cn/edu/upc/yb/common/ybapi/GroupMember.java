@@ -23,7 +23,7 @@ public class GroupMember {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/group_member接口封装
      *
      * @param token upcyiban token
      * @return

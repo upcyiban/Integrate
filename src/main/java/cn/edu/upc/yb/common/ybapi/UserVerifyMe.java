@@ -23,7 +23,7 @@ public class UserVerifyMe {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/user/verify_me接口封装
      *
      * @param token upcyiban token
      * @return

@@ -21,7 +21,7 @@ public class SendComment {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/send_comment接口封装
      *
      * @param token upcyiban token
      * @return
