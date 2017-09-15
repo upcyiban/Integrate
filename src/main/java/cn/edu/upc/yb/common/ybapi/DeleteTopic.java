@@ -21,7 +21,7 @@ public class DeleteTopic {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/delete_topic接口封装
      *
      * @param token upcyiban token
      * @return

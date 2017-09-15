@@ -8,13 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
-/**
- * Created by idea on 2017/7/5.
- */
 @Service
-public class IsReal {
-
+public class MeList {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -22,42 +17,34 @@ public class IsReal {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/is_real接口封装
+     * 易班https://openapi.yiban.cn/share/me_list接口封装
      *
      * @param token upcyiban token
      * @return
      */
-
-    public Object  getIsReal(String  token ) throws IOException {
-
+    public Object getMeList(String token , String group_id,String topic_id) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String yb_userid = jwtTokenUtil.getYBidFromTocken(token);
-        String queryString = "access_token=" + ybtoken + "&yb_userid=" + yb_userid;
-        String result = queryService.getYbApi("user/is_real", queryString);
+        String queryString = "access_token=" + ybtoken + "&group_id=" + group_id + "&topic_id=" + topic_id;
+        String result = queryService.getYbApi("group/delete_topic", queryString);
         Gson gson = new Gson();
         System.out.println(result);
-
         try {
-        Check check    = gson.fromJson(result,Check.class);
-            return check;
+            DeleteTopic.DeleteTopicList deleteTopicList = gson.fromJson(result,DeleteTopic.DeleteTopicList.class);
+            return deleteTopicList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
-
-
-
     }
 
-    class Check {
-        String  status;
-        String info;
-    }
-/*
-{
-  "status":"success",
-  "info":"验证结果"
-}
-//返回状态说明：true-是、false-否
- */
 
+    class DeleteTopicList {
+
+        public String status;
+
+        public class Info {
+            String status;
+
+        }
+
+    }
 }

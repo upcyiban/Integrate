@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-/**
- * Created by idea on 2017/7/5.
- */
 @Service
-public class IsReal {
+public class SendShare {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -22,24 +19,20 @@ public class IsReal {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/is_real接口封装
+     * 易班https://openapi.yiban.cn/share/send_share接口封装
      *
      * @param token upcyiban token
      * @return
      */
-
-    public Object  getIsReal(String  token ) throws IOException {
-
+    public Object getSendShare(String token,String content,String share_title,String share_url) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String yb_userid = jwtTokenUtil.getYBidFromTocken(token);
-        String queryString = "access_token=" + ybtoken + "&yb_userid=" + yb_userid;
-        String result = queryService.getYbApi("user/is_real", queryString);
+        String queryString = "access_token=" + ybtoken + "content=" + content + "share_title" + share_title + "share_url" + share_url ;
+        String result = queryService.getYbApi("share/send_share", queryString);
         Gson gson = new Gson();
         System.out.println(result);
-
         try {
-        Check check    = gson.fromJson(result,Check.class);
-            return check;
+            SendShare.SendShareList sendShareList = gson.fromJson(result,SendShare.SendShareList.class);
+            return sendShareList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
@@ -47,17 +40,10 @@ public class IsReal {
 
 
     }
-
-    class Check {
-        String  status;
-        String info;
+    class SendShareList{
+        public String status;
+           String info;
     }
-/*
-{
-  "status":"success",
-  "info":"验证结果"
-}
-//返回状态说明：true-是、false-否
- */
+
 
 }

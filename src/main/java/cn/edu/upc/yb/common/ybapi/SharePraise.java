@@ -8,13 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-/**
- * Created by idea on 2017/7/5.
- */
 @Service
-public class IsReal {
-
+public class SharePraise {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -22,42 +19,26 @@ public class IsReal {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/is_real接口封装
+     * 易班https://openapi.yiban.cn/share/praise接口封装
      *
      * @param token upcyiban token
      * @return
      */
-
-    public Object  getIsReal(String  token ) throws IOException {
-
+    public Object getSharePraise(String token , String feeds_id,String action) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String yb_userid = jwtTokenUtil.getYBidFromTocken(token);
-        String queryString = "access_token=" + ybtoken + "&yb_userid=" + yb_userid;
-        String result = queryService.getYbApi("user/is_real", queryString);
+        String queryString = "access_token=" + ybtoken + "feeds_id" + feeds_id + "action" + action;
+        String result = queryService.getYbApi("share/praise", queryString);
         Gson gson = new Gson();
         System.out.println(result);
-
         try {
-        Check check    = gson.fromJson(result,Check.class);
-            return check;
+            SharePraise.SharePraiseList sharePraiseList = gson.fromJson(result,SharePraise.SharePraiseList.class);
+            return sharePraiseList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
-
-
-
     }
-
-    class Check {
-        String  status;
+    class SharePraiseList{
+        public String status;
         String info;
     }
-/*
-{
-  "status":"success",
-  "info":"验证结果"
-}
-//返回状态说明：true-是、false-否
- */
-
 }
