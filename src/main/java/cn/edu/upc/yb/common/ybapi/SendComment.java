@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 /**
- * Created by lylllcc on 2017/6/22.
+ * Created by zxshane on 2017/7/8.
  */
 @Service
-public class UserMe {
-
-
+public class SendComment {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -23,43 +21,34 @@ public class UserMe {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/send_comment接口封装
      *
      * @param token upcyiban token
      * @return
      */
-    public Object getUserMe(String token) throws IOException {
+    public Object getSendComment(String token, String topic_id,String comment_content) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("user/me", queryString);
+        String queryString = "access_token=" + ybtoken + "&topic_id=" + topic_id + "&comment_content=" + comment_content;
+        String result = queryService.postYbApi("group/send_comment", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserInfo userInfo = gson.fromJson(result,UserInfo.class);
-            return userInfo;
+            SendComment.SendCommentList sendCommentList = gson.fromJson(result,SendComment.SendCommentList.class);
+            return sendCommentList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
     }
 
 
-     class UserInfo {
+    class SendCommentList {
 
         public String status;
 
         public class Info {
-            String yb_userid;
-            String yb_username;
-            String yb_usernick;
-            String yb_sex;
-            String yb_money;
-            String yb_exp;
-            String yb_userhead;
-            String yb_schoolid;
-            String yb_schoolname;
+            String status;
+
         }
 
     }
 }
-
-

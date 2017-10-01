@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * Created by idea on 2017/7/2.
+ * Created by zxshane on 2017/7/8.
  */
 @Service
-public class UserVerifyMe {
-
-
+public class HotTopic {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -23,38 +22,41 @@ public class UserVerifyMe {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/verify_me接口封装
+     * 易班https://openapi.yiban.cn/group/hot_topic接口封装
      *
      * @param token upcyiban token
      * @return
      */
-    public Object getUserVerifyMe(String token) throws IOException {
+    public Object getHotTopic(String token) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("user/verify_me", queryString);
+        String result = queryService.getYbApi("group/hot_topic", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserVerifyMeInfo userVerifyMeInfo = gson.fromJson(result,UserVerifyMeInfo.class);
-            return userVerifyMeInfo;
+            HotTopic.TopicsList topicsList = gson.fromJson(result, HotTopic.TopicsList.class);
+            return topicsList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
     }
 
-    class UserVerifyMeInfo{
 
-        public  String status;
-        public class Info{
-            String yb_userid;
-            String yb_realname;
-            String yb_schoolid;
-            String yb_schoolname;
-            String yb_studentid;
-            String yb_examid;
-            String yb_admissionid;
-            String yb_employid;
+    class TopicsList {
+        public String status;
+        public ArrayList<TopicInfo> info;
+        public class TopicInfo {
+            String topic_id;
+            String topic_title;
+            String pub_uid;
+            String pub_nic;
+            String  pub_head;
+            String reply_count;
+            String reply_content;
+            String create_time;
+            String reply_time;
         }
+        public String num;
     }
 
 

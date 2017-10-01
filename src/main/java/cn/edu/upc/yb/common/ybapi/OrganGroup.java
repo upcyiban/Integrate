@@ -13,7 +13,7 @@ import java.io.IOException;
  * Created by fang on 2017/7/8.
  */
 @Service
-public class PublicGroup {
+public class OrganGroup {
 
 
     @Autowired
@@ -23,32 +23,34 @@ public class PublicGroup {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/group/public_group接口封装
+     * 易班https://openapi.yiban.cn/group/organ_group接口封装
      *
      * @param token upcyiban token
      * @return
      */
-
-    public  Object getPublicGroup(String   token)  throws IOException{
-
-
-
+    public Object getOrganGroup(String token) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("group/public_group", queryString);
+        String result = queryService.getYbApi("group/organ_group", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-           PublicGroupInfo publicGroupInfo = gson.fromJson(result,PublicGroupInfo.class);
-            return publicGroupInfo;
+            OrganGroupInfo organGroupInfo = gson.fromJson(result,OrganGroupInfo.class);
+            return organGroupInfo;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
-
-
     }
 
-    class PublicGroupInfo{
+    private static OrganGroup ourInstance = new OrganGroup();
+
+    public static OrganGroup getInstance() {
+        return ourInstance;
+    }
+
+    private OrganGroup() {
+    }
+    class OrganGroupInfo{
 
         String status;
         public class info {
@@ -70,7 +72,7 @@ public class PublicGroup {
 {
   "status":"success",
   "info":{
-    "public_group":[
+    "organ_group":[
       {
         "group_id":"群ID",
         "group_name":"群名称",
@@ -84,6 +86,7 @@ public class PublicGroup {
     ],
     "num":"群总数"
   }
+}
 }
  */
 

@@ -27,7 +27,7 @@ public class FeedBackService {
     public Object doFeedBack(HttpServletRequest request,String message, String appname){
 
         //从请求头中获取token
-        String authToken = request.getHeader(this.tokenHeader);
+        String authToken = request.getParameter(this.tokenHeader);
 
         //从token中获取id
         String ybid = jwtTokenUtil.getYBidFromTocken(authToken);

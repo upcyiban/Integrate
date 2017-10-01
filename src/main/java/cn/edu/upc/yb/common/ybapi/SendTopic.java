@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 /**
- * Created by lylllcc on 2017/6/22.
+ * Created by zxshane on 2017/7/8.
  */
 @Service
-public class UserMe {
-
-
+public class SendTopic {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -23,43 +21,35 @@ public class UserMe {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/send_topic接口封装
      *
      * @param token upcyiban token
      * @return
      */
-    public Object getUserMe(String token) throws IOException {
+    public Object getSendTopic(String token , String group_id, String topic_title, String topic_content) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("user/me", queryString);
+        String queryString = "access_token=" + ybtoken + "&group_id=" + group_id + "&topic_title=" + topic_title + "topic_content" +topic_content;
+        String result = queryService.postYbApi("group/send_topic", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserInfo userInfo = gson.fromJson(result,UserInfo.class);
-            return userInfo;
+            SendTopic.SendTopicList sendTopicList = gson.fromJson(result,SendTopic.SendTopicList.class);
+
+            return sendTopicList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
     }
 
 
-     class UserInfo {
+    class SendTopicList {
 
         public String status;
 
         public class Info {
-            String yb_userid;
-            String yb_username;
-            String yb_usernick;
-            String yb_sex;
-            String yb_money;
-            String yb_exp;
-            String yb_userhead;
-            String yb_schoolid;
-            String yb_schoolname;
+            String status;
+
         }
 
     }
 }
-
-

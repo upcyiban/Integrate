@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 /**
- * Created by lylllcc on 2017/6/22.
+ * Created by zxshane on 2017/7/8.
  */
 @Service
-public class UserMe {
-
-
+public class DeleteComment {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -23,43 +21,34 @@ public class UserMe {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/user/me接口封装
+     * 易班https://openapi.yiban.cn/group/delete_comment接口封装
      *
      * @param token upcyiban token
      * @return
      */
-    public Object getUserMe(String token) throws IOException {
+    public Object getDeleteComment(String token,String group_id,String organ_id, String topic_id,String comment_id) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("user/me", queryString);
+        String queryString = "access_token=" + ybtoken + "&group_id=" + group_id + "&topic_id=" + topic_id + "&comment_id=" + comment_id;
+        String result = queryService.getYbApi("group/delete_comment", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserInfo userInfo = gson.fromJson(result,UserInfo.class);
-            return userInfo;
+            DeleteComment.DeleteCommentList deleteCommentList = gson.fromJson(result,DeleteComment.DeleteCommentList.class);
+            return deleteCommentList;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
     }
 
 
-     class UserInfo {
+    class DeleteCommentList{
 
         public String status;
 
         public class Info {
-            String yb_userid;
-            String yb_username;
-            String yb_usernick;
-            String yb_sex;
-            String yb_money;
-            String yb_exp;
-            String yb_userhead;
-            String yb_schoolid;
-            String yb_schoolname;
+            String status;
+
         }
 
     }
 }
-
-

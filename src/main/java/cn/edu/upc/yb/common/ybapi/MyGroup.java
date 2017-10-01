@@ -13,8 +13,7 @@ import java.io.IOException;
  * Created by fang on 2017/7/8.
  */
 @Service
-public class PublicGroup {
-
+public class MyGroup {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -23,32 +22,31 @@ public class PublicGroup {
     private QueryService queryService;
 
     /**
-     * 易班https://openapi.yiban.cn/group/public_group接口封装
+     * 易班https://openapi.yiban.cn/group/my_group接口封装
      *
      * @param token upcyiban token
      * @return
      */
 
-    public  Object getPublicGroup(String   token)  throws IOException{
-
-
-
+    public Object getMyGroup(String token) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken;
-        String result = queryService.getYbApi("group/public_group", queryString);
+        String result = queryService.getYbApi("group/my_group", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
-           PublicGroupInfo publicGroupInfo = gson.fromJson(result,PublicGroupInfo.class);
-            return publicGroupInfo;
+            MyGroupInfo myGroupInfo = gson.fromJson(result,MyGroupInfo.class);
+            return myGroupInfo;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
-
-
     }
 
-    class PublicGroupInfo{
+    public void getGroupTopic(String token) {
+    }
+
+
+    class MyGroupInfo{
 
         String status;
         public class info {
@@ -86,5 +84,4 @@ public class PublicGroup {
   }
 }
  */
-
 }
