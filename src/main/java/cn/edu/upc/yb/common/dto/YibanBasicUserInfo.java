@@ -4,6 +4,7 @@ package cn.edu.upc.yb.common.dto;
  * Created by skyADMIN on 16/7/8.
  */
 public class YibanBasicUserInfo {
+
     public int visit_time;
     public VisitUser visit_user;
     public VisitOauth visit_oauth;

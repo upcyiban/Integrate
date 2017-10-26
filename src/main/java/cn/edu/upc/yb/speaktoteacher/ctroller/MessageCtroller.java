@@ -40,6 +40,7 @@ public class MessageCtroller {
 return teacherRepository.findFirstByYibanId(yibanId);
 
 }
+
 @ApiImplicitParams({
         @ApiImplicitParam(paramType = "query" ,name = SwaggerParameter.Authorization,dataType = "String"),
         @ApiImplicitParam(paramType = "query",name = SwaggerParameter.AppName,dataType = "String"),
@@ -51,7 +52,7 @@ return teacherRepository.findFirstByYibanId(yibanId);
     public Object test(String content,@RequestParam(value = "teacherYBId",defaultValue = "123")int teacherYBId){
 
 
-return  content;
+return  "hello world";
 }
 
 @ApiImplicitParams({
@@ -88,8 +89,6 @@ return teacherRepository.save(teacher);
         return teacher ;
 
     }
-
-
 
 
 

@@ -19,10 +19,7 @@ import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -86,6 +83,13 @@ public class AuthenticationRestController {
         } else {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @GetMapping("/token")
+    public String genToken(Device device){
+        final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername("5831449");
+        final String token = jwtTokenUtil.generateToken(userDetails, "","commit", device);
+        return token;
     }
 
 }

@@ -74,9 +74,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources",
                         "/v2/api-docs",
                         "/speaktoteacher/**",
-                        "/configuration/**"
+
+                        "/configuration/**",
+                        "/token"
+
                 ).permitAll()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers(
+                        "/auth/**",
+                        "/feedback/**"
+
+                ).permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter

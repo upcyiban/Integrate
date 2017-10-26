@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.access.method.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @SpringBootTest
 public class FriendTest {
 
-    String tocken = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiIwZjZhYTI3NjZhMmJmMDYxZWQxZTA0YjU1MDU1MTExY2MwYjE0M2Q4IiwiYXBwbmFtZSI6InRlc3QiLCJjcmVhdGVkIjoxNDk5MjU3NjgzNDY1LCJ5YmlkIjo1ODMxNDQ5LCJleHAiOjE0OTk4NjI0ODN9.3yvec-l_g48ghIjZ-DfR6JRclJvYnaRfg2-LsclrsQhoBZhzzyQ7Zcxq4szpwmfjLe-JhWgK30Pu6xOxjimrpg";
+    String tocken = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiI3OGQ5ZmYxYjIyZmI3ODBlZjkwNDhhODQ3MTRiZTJiOTJkYWM0YTc4NmJjOTg0MzY1ZGM5NzdkMWQ5N2Y1NDFlNzU3OGZkMGY3NWY3YTJkYTYwMDQwMzQ3Y2M4OGRlMjg1NmMwNDg0ZTM4MDc4MWUwYWU4ODZjNzkwOGQ4MDRkOWQ2YTg5MDI1MGZhMmI0ZWM2ZTQ0NzdhYTUzMzgxNzc3IiwiYXBwbmFtZSI6ImNvbW1pdCIsImNyZWF0ZWQiOjE1MDg5OTg4MTQ2NzAsInliaWQiOjU4MzE0NDksImV4cCI6MTUwOTYwMzYxNH0.nW2sf4ttoDzs-Vh2sxnKjCzgAzSigL8QEwgT2aGIMuSwgdYFxaIX_OGp46qHKZf-I8tafDz7mCeSNCCnkX45kA";
 
 
     @Autowired
@@ -36,6 +37,8 @@ public class FriendTest {
     @Autowired
     private FriendRecommend friendRecommend;
 
+    @Autowired
+    private PayYBwx payYBwx;
 
 
     @Test
@@ -62,6 +65,11 @@ public class FriendTest {
     @Test
     public void recommend() throws IOException {
         friendRecommend.getFriendRecommend(tocken,10);
+    }
+    @Test
+    public void pay() throws IOException{
+        payYBwx.getYBwx(tocken,1);
+
     }
 
 }

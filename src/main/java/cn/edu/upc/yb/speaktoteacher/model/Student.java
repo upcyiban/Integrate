@@ -30,11 +30,13 @@ public class Student {
     }
 
 
-    public static void main(String arg[]) {
+    public static void main(String args[]) {
+
 
 
         Student student = new Student("鄢红霞", "170cm", "56kg");
         student.setAge("18");student.out();
+
 
     }
 
