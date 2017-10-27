@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.common.security.controller;
 
 import cn.edu.upc.yb.common.dto.ErrorReporter;
+import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.auth.YibanOAuth;
 import cn.edu.upc.yb.common.security.model.App;
 import cn.edu.upc.yb.common.security.model.AppRepository;
@@ -9,6 +10,8 @@ import cn.edu.upc.yb.common.security.service.JwtAuthenticationRequest;
 import cn.edu.upc.yb.common.security.service.JwtAuthenticationResponse;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.security.service.JwtUser;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,6 +47,12 @@ public class AuthenticationRestController {
     private UPCYbUserFactory upcYbUserFactory;
 
     @ApiOperation(value = "授权", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "appName", value = "应用的名字", required = true,dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "vq",value = "vq",required = true,dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "device",value = "设备的名字",required = true,dataType = "String")})
+
+
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(String appName,String vq, Device device) throws AuthenticationException {
 
@@ -89,7 +98,9 @@ public class AuthenticationRestController {
     public String genToken(Device device){
         final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername("5831449");
         final String token = jwtTokenUtil.generateToken(userDetails, "","commit", device);
+
         return token;
+
     }
 
 }

@@ -77,8 +77,6 @@ public class FeedBackService {
             return new ErrorReporter(1, "error");
         }
         return feedbackMessage;
-
-
     }
 
     public Object modtify(String message, String appname, int id) {
