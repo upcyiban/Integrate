@@ -15,7 +15,6 @@ import java.io.IOException;
 @Service
 public class MyTopic {
 
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 

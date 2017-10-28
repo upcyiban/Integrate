@@ -29,5 +29,4 @@ public class CORSFilter implements Filter {
     public void destroy() {
     }
 
-
 }
