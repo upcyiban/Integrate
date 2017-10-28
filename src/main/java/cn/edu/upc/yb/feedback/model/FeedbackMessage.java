@@ -6,8 +6,10 @@ import java.sql.Timestamp;
 /**
  * Created by lylll on 2017/6/4.
  */
+
 @Entity
 @Table(name = "feedback")
+
 public class FeedbackMessage {
 
     @Id
@@ -22,6 +24,7 @@ public class FeedbackMessage {
 
     public FeedbackMessage() {
     }
+
 
     public FeedbackMessage(int ybid, String message, String appname) {
         this.ybid = ybid;

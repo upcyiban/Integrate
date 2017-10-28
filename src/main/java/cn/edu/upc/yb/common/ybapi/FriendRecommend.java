@@ -26,10 +26,11 @@ public class FriendRecommend {
 
     /**
      * 易班https://openapi.yiban.cn/friend/recommend接口封装
-     *
+     *  https://openapi.yiban.cn/pay/yb_wx
      * @param token upcyiban token
      * @return
      */
+
     public Object getFriendRecommend(String token,int count ) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken + "&count=" + count;

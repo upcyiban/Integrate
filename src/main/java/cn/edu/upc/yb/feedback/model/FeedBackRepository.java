@@ -6,4 +6,8 @@ import org.springframework.data.repository.CrudRepository;
  * Created by lylll on 2017/6/4.
  */
 public interface FeedBackRepository extends CrudRepository<FeedbackMessage,Integer>{
+
+     Iterable<FeedbackMessage>  findAllByAppname(String appname);
+     Iterable<FeedbackMessage>  findAll();
+
 }
