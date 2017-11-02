@@ -24,6 +24,8 @@ CREATE TABLE week_cp_user(
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE week_cp_user;
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE week_cp_user ADD yiban_id VARCHAR(32) UNIQUE NOT NULL ;
 SELECT *
 FROM week_cp_user;
 SELECT *

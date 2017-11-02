@@ -17,11 +17,12 @@
         <result column="header_image" property="headerImage" jdbcType="VARCHAR" />
         <result column="cp" property="cp" jdbcType="VARCHAR"/>
         <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+        <result column="yiban_id" property="yibanId" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="User_Column_List">
         user_id, name, qq, wei_xin, phone_number, email,
         major_class, sex, sexual_orientation, hobby, create_time,
-        update_time, header_image , cp , deleted
+        update_time, header_image , cp , deleted , yiban_id
     </sql>
 
     <select id="getUserList" resultMap="UserResultMap">
@@ -36,9 +37,9 @@
     <insert id="addUser" parameterType="cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser" >
         INSERT INTO yibantest_integrate.week_cp_user
         (name, qq, wei_xin, phone_number, email, major_class, sex,
-         sexual_orientation, hobby, update_time, header_image)
+         sexual_orientation, hobby, update_time, header_image,yiban_id)
                 VALUE (#{name},#{qq},#{weiXin},#{phoneNumber},#{email},#{majorClass},#{sex},
-        #{sexualOrientation},#{hobby},now(),#{headerImage})
+        #{sexualOrientation},#{hobby},now(),#{headerImage},#{yibanId})
     </insert>
 
     <update id="updateUserById">
@@ -65,5 +66,10 @@
     <select id="getNotCpUserList" resultMap="UserResultMap">
         SELECT <include refid="User_Column_List"/> FROM yibantest_integrate.week_cp_user
         WHERE deleted = 0  AND cp = 0
+    </select>
+
+    <select id="getUserByYibanId" resultMap="UserResultMap">
+        SELECT  <include refid="User_Column_List"/> FROM yibantest_integrate.week_cp_user
+        WHERE yiban_id = #{yibanId}
     </select>
 </mapper>

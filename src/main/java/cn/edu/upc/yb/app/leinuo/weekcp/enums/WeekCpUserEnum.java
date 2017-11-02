@@ -7,7 +7,9 @@ package cn.edu.upc.yb.app.leinuo.weekcp.enums;
 public enum WeekCpUserEnum {
     NOT_FOUND_USER_ID(1000,"userId不存在"),
     USER_IS_DELETED(10001,"用户已经被删除"),
-    USER_IS_NOT_DELETED(10002,"用户并未被删除");
+    USER_IS_NOT_DELETED(10002,"用户并未被删除"),
+    NOT_FOUND_YIBAN_ID(10003,"yibanId不存在")
+    ;
 
 
     private String message;

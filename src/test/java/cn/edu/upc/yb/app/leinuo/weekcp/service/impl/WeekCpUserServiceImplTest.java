@@ -16,6 +16,12 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class WeekCpUserServiceImplTest {
+    @Test
+    public void getUserByYibanId() throws Exception {
+        String yibanId = "123456";
+        WeekCpUser user = userService.getUserByYibanId(yibanId);
+        System.out.println(user);
+    }
 
     @Autowired
     private WeekCpUserServiceImpl userService;
@@ -30,14 +36,14 @@ public class WeekCpUserServiceImplTest {
     @Test
     public void addUser() throws Exception {
         for (int i = 0;i < 10;i++) {
-            WeekCpUser user = new WeekCpUser("李","1142908626@qq.com",1,0,"爱好");
+            WeekCpUser user = new WeekCpUser("雷诺","1142908626@qq.com","计算1501",1,0,"123456");
             userService.addUser(user);
         }
         for (int i = 0;i < 11;i++) {
-            WeekCpUser user = new WeekCpUser("李","1142908626@qq.com",0,1,"爱好");
+            WeekCpUser user = new WeekCpUser("雷诺","1142908626@qq.com","计算1501",0,1,"123456");
             userService.addUser(user);
         }
-//        WeekCpUser user = new WeekCpUser("李","1142908626@qq.com",1,0,"爱好");
+//        WeekCpUser user = new WeekCpUser("雷诺","1142908626@qq.com","计算1501",1,0,"123456");
 //        userService.addUser(user);
         this.getNotCpUserList();
     }
@@ -48,7 +54,7 @@ public class WeekCpUserServiceImplTest {
 
     @Test
     public void updateUserById() throws Exception {
-        WeekCpUser user = new WeekCpUser("类","1142908626@qq.com",1,0,"爱好");
+        WeekCpUser user = new WeekCpUser("雷诺12","1142908626@qq.com","计算1501",1,0,"123456");
         userService.updateUserById(10000,user);
     }
 

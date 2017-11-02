@@ -19,30 +19,39 @@ public class WeekCpUser {
     private Timestamp createTime;
     private Timestamp updateTime;
     private String headerImage = "http://yb.upc.edu.cn/static/media/college-logo.98b06d35.png";
-    private boolean cp = false;
-    private boolean deleted = false;
+    private Integer cp = 0;
+    private Integer deleted = 0;
+    private String yibanId;
+
 
     static {
 
     }
-    public WeekCpUser(String name, String email, Integer sex, Integer sexualOrientation, String Hobby) {
-        this.name = name;
-        this.email = email;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-    }
 
-    public WeekCpUser(String name, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby) {
+    public WeekCpUser( String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby,String headerImage,String yibanId) {
         this.name = name;
+        this.weiXin = weiXin;
+        this.qq = qq;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.majorClass = majorClass;
         this.sex = sex;
         this.sexualOrientation = sexualOrientation;
         this.hobby = hobby;
+        this.headerImage = headerImage;
+        this.yibanId = yibanId;
     }
 
-    public WeekCpUser(Integer userId, String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby, Timestamp createTime, Timestamp updateTime, String headerImage) {
+    public WeekCpUser(String name, String email, String majorClass, Integer sex, Integer sexualOrientation, String yibanId) {
+        this.name = name;
+        this.email = email;
+        this.majorClass = majorClass;
+        this.sex = sex;
+        this.sexualOrientation = sexualOrientation;
+        this.yibanId = yibanId;
+    }
+
+    public WeekCpUser(Integer userId, String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby, Timestamp createTime, Timestamp updateTime, String headerImage, Integer cp, Integer deleted, String yibanId) {
         this.userId = userId;
         this.name = name;
         this.weiXin = weiXin;
@@ -56,77 +65,24 @@ public class WeekCpUser {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.headerImage = headerImage;
+        this.cp = cp;
+        this.deleted = deleted;
+        this.yibanId = yibanId;
     }
 
-    public WeekCpUser(Integer userId, String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby, String headerImage) {
-        this.userId = userId;
-        this.name = name;
-        this.weiXin = weiXin;
-        this.qq = qq;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.majorClass = majorClass;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-        this.headerImage = headerImage;
-    }
-
-    public WeekCpUser( String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby) {
-        this.name = name;
-        this.weiXin = weiXin;
-        this.qq = qq;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.majorClass = majorClass;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-    }
-    public WeekCpUser( String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby,String headerImage) {
-        this.name = name;
-        this.weiXin = weiXin;
-        this.qq = qq;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.majorClass = majorClass;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-        this.headerImage = headerImage;
-    }
-
-    public WeekCpUser(Integer userId, String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby, Timestamp createTime, Timestamp updateTime, String headerImage, Integer cp, Integer deleted) {
-        this.userId = userId;
-        this.name = name;
-        this.weiXin = weiXin;
-        this.qq = qq;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.majorClass = majorClass;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.headerImage = headerImage;
-        this.cp = (cp == 1);
-        this.deleted = (deleted == 1);
-    }
-
-    public boolean isCp() {
+    public Integer getCp() {
         return cp;
     }
 
-    public void setCp(boolean cp) {
+    public void setCp(Integer cp) {
         this.cp = cp;
     }
 
-    public boolean isDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 
@@ -232,6 +188,14 @@ public class WeekCpUser {
 
     public void setHeaderImage(String headerImage) {
         this.headerImage = headerImage;
+    }
+
+    public String getYibanId() {
+        return yibanId;
+    }
+
+    public void setYibanId(String yibanId) {
+        this.yibanId = yibanId;
     }
 
     @Override

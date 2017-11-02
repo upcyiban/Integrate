@@ -62,4 +62,11 @@ public interface WeekCpUserDao {
      * @return
      */
     List<WeekCpUser> getNotCpUserList();
+
+    /**
+     * 根据易班的登陆账号查找一个用户实体
+     * @param yibanId
+     * @return
+     */
+    WeekCpUser getUserByYibanId(String yibanId);
 }

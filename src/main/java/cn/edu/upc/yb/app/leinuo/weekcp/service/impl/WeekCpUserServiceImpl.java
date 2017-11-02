@@ -86,7 +86,7 @@ public class WeekCpUserServiceImpl implements WeekCpUserService {
     public boolean deleteUserById(Integer userId) throws WeekCpUserException {
         WeekCpUser user = this.getUserById(userId);
         Integer flag = 1;
-        if (user.isDeleted()) {
+        if (user.getDeleted() == 1) {
             throw new WeekCpUserException(WeekCpUserEnum.USER_IS_DELETED.getMessage());
         } else {
             flag = userDao.deleteUserById(userId);
@@ -98,7 +98,7 @@ public class WeekCpUserServiceImpl implements WeekCpUserService {
     public boolean reliefUserById(Integer userId) throws WeekCpUserException {
         WeekCpUser user = this.getUserById(userId);
         Integer flag = 1;
-        if (user.isDeleted()) {
+        if (user.getDeleted() == 1) {
             throw new WeekCpUserException(WeekCpUserEnum.USER_IS_NOT_DELETED.getMessage());
         } else {
             flag = userDao.reliefUserById(userId);
@@ -109,5 +109,14 @@ public class WeekCpUserServiceImpl implements WeekCpUserService {
     @Override
     public List<WeekCpUser> getNotCpUserList() throws WeekCpUserException, WeekCpMatchException {
         return userDao.getNotCpUserList();
+    }
+
+    @Override
+    public WeekCpUser getUserByYibanId(String yibanId) throws WeekCpUserException {
+        WeekCpUser user = userDao.getUserByYibanId(yibanId);
+        if (user == null) {
+            throw new WeekCpUserException(WeekCpUserEnum.NOT_FOUND_YIBAN_ID.getMessage());
+        }
+        return user;
     }
 }

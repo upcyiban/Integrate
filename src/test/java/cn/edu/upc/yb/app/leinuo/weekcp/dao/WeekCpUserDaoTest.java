@@ -12,6 +12,11 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class WeekCpUserDaoTest {
+    @Test
+    public void getUserByYibanId() throws Exception {
+
+    }
+
     @Autowired
     private WeekCpUserDao userDao;
 
@@ -41,16 +46,16 @@ public class WeekCpUserDaoTest {
     }
     @Test
     public void addUserTest() throws Exception{
-        WeekCpUser weekCpUser = new WeekCpUser("雷诺","1142908626@qq.com","计算1501",1,0,"我也喜欢编程");
+        WeekCpUser weekCpUser = new WeekCpUser("雷诺","1142908626@qq.com","计算1501",1,0,"1234567");
         userDao.addUser(weekCpUser);
         this.getUserListTest();
     }
 
     @Test
     public void updateUserByIdTest() throws Exception {
-        WeekCpUser weekCpUser = new WeekCpUser("雷诺1","1142908126@qq.com","计算1501",1,0,"我不喜欢编程");
+        WeekCpUser weekCpUser = new WeekCpUser("雷诺1","1142908126@qq.com","计算1501",1,0,"1234567");
         weekCpUser.setUserId(1);
-        weekCpUser.setCp(true);
+        weekCpUser.setCp(1);
         userDao.updateUserById(weekCpUser.getUserId(), weekCpUser);
         this.getUserListTest();
     }

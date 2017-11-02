@@ -32,8 +32,8 @@ public class WeekCpMatchServiceImpl implements WeekCpMatchService {
         if (userLeft == null || userRight == null) {
             throw new WeekCpUserException(WeekCpUserEnum.NOT_FOUND_USER_ID.getMessage());
         }
-        userLeft.setCp(true);
-        userRight.setCp(true);
+        userLeft.setCp(1);
+        userRight.setCp(1);
         userDao.updateUserById(userLeft.getUserId(),userLeft);
         userDao.updateUserById(userRight.getUserId(),userRight);
         matchDao.addMatch(match.getCpIdLeft(),match.getCpIdRight());
