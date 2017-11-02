@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.upc.yb.app.leinuo.weekcp.dao.WeekCpUserDao">
+    <resultMap id="UserResultMap" type="cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR"/>
+        <result column="wei_xin" property="weiXin" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="major_class" property="majorClass" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="sexual_orientation" property="sexualOrientation" jdbcType="INTEGER" />
+        <result column="hobby" property="hobby" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="header_image" property="headerImage" jdbcType="VARCHAR" />
+        <result column="cp" property="cp" jdbcType="VARCHAR"/>
+        <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="User_Column_List">
+        user_id, name, qq, wei_xin, phone_number, email,
+        major_class, sex, sexual_orientation, hobby, create_time,
+        update_time, header_image , cp , deleted
+    </sql>
+
+    <select id="getUserList" resultMap="UserResultMap">
+        SELECT <include refid="User_Column_List"/> FROM week_cp_user
+    </select>
+
+    <select id="getUserById" parameterType="Integer" resultType="cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser">
+        SELECT <include refid="User_Column_List" /> FROM yibantest_integrate.week_cp_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <insert id="addUser" parameterType="cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser" >
+        INSERT INTO yibantest_integrate.week_cp_user
+        (name, qq, wei_xin, phone_number, email, major_class, sex,
+         sexual_orientation, hobby, update_time, header_image)
+                VALUE (#{name},#{qq},#{weiXin},#{phoneNumber},#{email},#{majorClass},#{sex},
+        #{sexualOrientation},#{hobby},now(),#{headerImage})
+    </insert>
+
+    <update id="updateUserById">
+        update yibantest_integrate.week_cp_user
+        set name = #{weekCpUser.name},qq = #{weekCpUser.qq},wei_xin = #{weekCpUser.weiXin},
+            phone_number = #{weekCpUser.phoneNumber},email = #{weekCpUser.email},major_class = #{weekCpUser.majorClass},
+            sex = #{weekCpUser.sex},sexual_orientation = #{weekCpUser.sexualOrientation},hobby = #{weekCpUser.hobby},
+            update_time=now(),header_image = #{weekCpUser.headerImage},cp = #{weekCpUser.cp}
+        where user_id = #{userId};
+    </update>
+    <update id="deleteUserById" parameterType="Integer">
+        update yibantest_integrate.week_cp_user
+        set deleted = TRUE,
+            update_time = now()
+        where user_id = #{userId};
+    </update>
+
+    <update id="reliefUserById" >
+        update yibantest_integrate.week_cp_user
+        set deleted = FALSE
+        where user_id = #{userId} and user_id = #{userId} ;
+    </update>
+
+    <select id="getNotCpUserList" resultMap="UserResultMap">
+        SELECT <include refid="User_Column_List"/> FROM yibantest_integrate.week_cp_user
+        WHERE deleted = 0  AND cp = 0
+    </select>
+</mapper>

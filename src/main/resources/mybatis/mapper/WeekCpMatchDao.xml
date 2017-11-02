@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.upc.yb.app.leinuo.weekcp.dao.WeekCpMatchDao">
+    <resultMap id="WeekCpMatch" type="cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpMatch">
+        <id column="match_id" property="matchId" jdbcType="INTEGER"/>
+        <result column="cp_id0" property="cpIdLeft" jdbcType="INTEGER" />
+        <result column="cp_id1" property="cpIdRight" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Match_Column_List">
+        match_id, cp_id0, cp_id1, create_time,
+        update_time, deleted
+    </sql>
+
+    <select id="getMatchList" resultMap="WeekCpMatch">
+        SELECT <include refid="Match_Column_List"/> FROM yibantest_integrate.week_cp_match
+    </select>
+
+    <select id="getMatchById" resultMap="WeekCpMatch">
+        SELECT <include refid="Match_Column_List"/> FROM yibantest_integrate.week_cp_match
+        WHERE match_id = #{matchId}
+    </select>
+
+    <insert id="addMatch">
+        insert into yibantest_integrate.week_cp_match
+        (cp_id0, cp_id1 , update_time) values (#{cpIdLeft},#{cpIdRight} , now());
+    </insert>
+
+    <update id="updateMatchById">
+        update yibantest_integrate.week_cp_match
+        set cp_id0 = #{match.cpIdLeft},
+            cp_id1 = #{match.cpIdRight},
+            update_time = #{match.updateTime}
+        where match_id = #{matchId};
+    </update>
+
+    <update id="deleteMatchById">
+        UPDATE yibantest_integrate.week_cp_match
+          SET deleted = TRUE ,
+              update_time = now()
+        WHERE match_id = #{matchId}
+    </update>
+
+    <update id="reliefMatchById">
+        UPDATE yibantest_integrate.week_cp_match
+            SET deleted = FALSE ,
+                update_time = now()
+        WHERE match_id = #{matchId}
+    </update>
+
+    <select id="getMatchByUser" resultMap="WeekCpMatch">
+        SELECT <include refid="Match_Column_List" /> FROM yibantest_integrate.week_cp_match
+        WHERE cp_id0 = #{userId} OR cp_id1 = #{userId}
+    </select>
+
+    <select id="getMatchByMatchMap" resultMap="WeekCpMatch">
+        SELECT <include refid="Match_Column_List"/> FROM yibantest_integrate.week_cp_match
+        WHERE (cp_id0 = #{match.cpIdLeft} AND cp_id1 = #{match.cpIdRight})
+            OR (cp_id0 = #{match.cpIdRight} AND cp_id1 = #{match.cpIdLeft})
+    </select>
+</mapper>
