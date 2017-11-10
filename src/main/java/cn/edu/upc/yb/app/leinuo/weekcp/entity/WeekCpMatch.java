@@ -1,16 +1,25 @@
 package cn.edu.upc.yb.app.leinuo.weekcp.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
  * @author leinuoleileinuo
  */
+@Entity
 public class WeekCpMatch {
+    @Id @GeneratedValue
     private Integer matchId;
+    @Column(nullable = false,unique = true)
     private Integer cpIdLeft;
+    @Column(nullable = false , unique = true)
     private Integer cpIdRight;
+    @Column(name = "create_time",columnDefinition = "TIMESTAMP default current_time")
     private Timestamp createTime;
-    private Timestamp updateTime;
+    private Timestamp updateTime = new Timestamp(System.currentTimeMillis());
     private Integer deleted;
 
 
@@ -25,6 +34,8 @@ public class WeekCpMatch {
                 ", deleted=" + deleted +
                 '}';
     }
+
+    public WeekCpMatch(){}
 
     public WeekCpMatch(Integer cpIdLeft, Integer cpIdRight) {
         this.cpIdLeft = cpIdLeft;

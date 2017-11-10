@@ -1,72 +1,35 @@
 package cn.edu.upc.yb.app.leinuo.weekcp.dao;
 
 import cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 /**
  * @author leinuo
  */
-@Component
-public interface WeekCpUserDao {
-
-
-    /**
-     * getUserList
-     * @return 返回所有用户的列表
-     */
-    List<WeekCpUser> getUserList();
+public interface WeekCpUserDao extends JpaRepository<WeekCpUser,Integer>{
 
     /**
      * 根据userId获取一个user
      * @param userId
      * @return
      */
-    WeekCpUser getUserById(Integer userId);
-    /**
-     * 插入一个用户
-     * @param weekCpUser
-     * @return boolean
-     */
-    Integer addUser(WeekCpUser weekCpUser);
+    WeekCpUser getWeekCpUserByUserId(Integer userId);
 
     /**
-     * 根据ID更新一个用户
-     * @param userId = user_id
-     * @param weekCpUser
-     * @return boolean
-     */
-    Integer updateUserById(@Param("userId") Integer userId , @Param("weekCpUser") WeekCpUser weekCpUser);
-
-    /**
-     * 删除一个用户，也就是将列deleted赋值为TRUE
-     * @param userId
-     * @return boolean
-     */
-    Integer deleteUserById(@Param("userId") Integer userId);
-
-    /**
-     * 恢复对userId对应实体额度删除操作
-     * 将deleted设置为false
-     * @param userId
-     * @return
-     */
-    Integer reliefUserById(@Param("userId")Integer userId);
-
-
-    /**
-     * 获取所有cp=0也就是没有被cp的实体
+     * 获取所有cp=0也就是没有被cp的实体（即没有搭档的实体）
      * 并且要求deleted=0表示没有被删除
-     * @return
+     * @return userList
+     * @param cp 一个整形的数字，如果数据表中该数字为0说明没有搭档
+     * @param deleted 一个整型数字，如果数据表中该数字为0表示没有被删除或者没有被禁言
      */
-    List<WeekCpUser> getNotCpUserList();
+    List<WeekCpUser> getAllByCpAndDeleted(Integer cp , Integer deleted);
 
     /**
      * 根据易班的登陆账号查找一个用户实体
      * @param yibanId
      * @return
      */
-    WeekCpUser getUserByYibanId(String yibanId);
+    WeekCpUser getWeekCpUserByYibanId(String yibanId);
 }

@@ -28,13 +28,10 @@ public class WeekCpUserController {
 
     @RequestMapping("/getNotCpUserList")
     public Result getNotCpUserList() {
-        System.out.println("getNotCpUserList");
         List<WeekCpUser> userList;
         try {
             userList = userService.getNotCpUserList();
-        } catch (WeekCpUserException e) {
-            return Result.getResultFail(e.getMessage());
-        } catch (WeekCpMatchException e) {
+        } catch (Exception e) {
             return Result.getResultFail(e.getMessage());
         }
         return Result.getResultSuccess(userList);
@@ -53,22 +50,18 @@ public class WeekCpUserController {
                                   @ModelAttribute("headerImage")String headImage,
                                   @ModelAttribute("yibanId")String yibanId) {
         WeekCpUser user;
-        System.out.println(name);
         try {
             user = new WeekCpUser(name,weiChat,qq,phoneNumber,
                     mail,majorWithClass,isMan,isLoveMan,hobby,headImage,yibanId);
         }catch (Exception e) {
             return Result.getResultFail("传入参数错误，请联系后端或查看接口文档");
         }
-        boolean flag;
         try {
-            flag = userService.addUser(user);
-        } catch (WeekCpUserException e) {
-            return Result.getResultFail(e.getMessage());
-        } catch (WeekCpMatchException e) {
+            userService.addUser(user);
+        } catch (Exception e) {
             return Result.getResultFail(e.getMessage());
         }
-        return Result.getResultSuccess("成功注册用户",flag);
+        return Result.getResultSuccess("成功注册用户");
     }
 
     @RequestMapping("/{userId}/getUserById")
@@ -87,7 +80,7 @@ public class WeekCpUserController {
         WeekCpUser user;
         try {
             user = userService.getUserByYibanId(yibanId);
-        } catch (WeekCpUserException e) {
+        } catch (Exception e) {
             return Result.getResultFail(e.getMessage());
         }
         return Result.getResultSuccess("成功",user);

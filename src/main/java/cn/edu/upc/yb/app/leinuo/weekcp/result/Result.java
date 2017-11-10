@@ -26,7 +26,7 @@ public class Result<T> {
         return new Result(msg , 0 , null);
     }
     public static<T> Result<T> getResultSuccess(T data) {
-        return new Result("" , 1 , data);
+        return new Result("成功" , 1 , data);
     }
 
     public T getData() {

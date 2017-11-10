@@ -25,12 +25,10 @@ public class WeekCpMatchController {
     @RequestMapping("/{userId}/getMatchByUserId")
     public Result<?> getMatchByUserId(@PathVariable("userId") Integer userId) {
         System.out.println(userId);
-        List<WeekCpMatch> match;
+        WeekCpMatch match;
         try {
             match = matchService.getMatchByUserId(userId);
-        } catch (WeekCpUserException e) {
-            return Result.getResultFail(e.getMessage());
-        } catch (WeekCpMatchException e) {
+        }  catch (WeekCpMatchException e) {
             return Result.getResultFail(e.getMessage());
         }
         return Result.getResultSuccess("请求成功",match);

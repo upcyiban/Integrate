@@ -1,46 +1,46 @@
 package cn.edu.upc.yb.app.leinuo.weekcp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
  * @author leinuoleileinuo
  */
+@Entity
 public class WeekCpUser {
+    @Id
+    @GeneratedValue
     private Integer userId;
+    @Column(nullable = false)
     private String name = "这个人很懒，没有名字";
     private String weiXin;
     private String qq;
     private String phoneNumber;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String majorClass;
+    @Column(nullable = false)
     private Integer sex;
+    @Column(nullable = false)
     private Integer sexualOrientation;
     private String hobby = "这个人没有填写兴趣爱好";
+    @Column(name = "create_time",columnDefinition = "TIMESTAMP default current_time")
     private Timestamp createTime;
-    private Timestamp updateTime;
+    @JsonIgnore
+    private Timestamp updateTime = new Timestamp(System.currentTimeMillis());
     private String headerImage = "http://yb.upc.edu.cn/static/media/college-logo.98b06d35.png";
     private Integer cp = 0;
     private Integer deleted = 0;
+    @Column(nullable = false,unique = true)
     private String yibanId;
 
-
-    static {
-
-    }
-
-    public WeekCpUser( String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby,String headerImage,String yibanId) {
-        this.name = name;
-        this.weiXin = weiXin;
-        this.qq = qq;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.majorClass = majorClass;
-        this.sex = sex;
-        this.sexualOrientation = sexualOrientation;
-        this.hobby = hobby;
-        this.headerImage = headerImage;
-        this.yibanId = yibanId;
-    }
+    public WeekCpUser(){}
 
     public WeekCpUser(String name, String email, String majorClass, Integer sex, Integer sexualOrientation, String yibanId) {
         this.name = name;
@@ -51,8 +51,7 @@ public class WeekCpUser {
         this.yibanId = yibanId;
     }
 
-    public WeekCpUser(Integer userId, String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby, Timestamp createTime, Timestamp updateTime, String headerImage, Integer cp, Integer deleted, String yibanId) {
-        this.userId = userId;
+    public WeekCpUser(String name, String weiXin, String qq, String phoneNumber, String email, String majorClass, Integer sex, Integer sexualOrientation, String hobby,String headerImage, String yibanId) {
         this.name = name;
         this.weiXin = weiXin;
         this.qq = qq;

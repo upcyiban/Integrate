@@ -6,24 +6,24 @@ import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpUserException;
 
 import java.util.List;
 
+/**
+ * @author UPCdevelopment
+ */
 public interface WeekCpMatchService {
 
     /**
      * 根据一个match的left和right增加到实体表中
      * 需要left和right互相不重复
-     * @param match
-     * @return
-     * @throws WeekCpUserException
-     * @throws WeekCpMatchException
+     * @param match 描述一个match实体
      */
-    void addMatchByMatchMap(WeekCpMatch match) throws WeekCpUserException,WeekCpMatchException;
+    void addMatchByMatchMap(WeekCpMatch match) throws WeekCpUserException;
+
 
     /**
-     * 根据一个userId获取一个cp对
-     * @param userId
-     * @return
-     * @throws WeekCpUserException
-     * @throws WeekCpMatchException
+     * 根据userId获取实体
+     * @param userId userId
+     * @return match
+     * @throws WeekCpMatchException match异常
      */
-    List<WeekCpMatch> getMatchByUserId(Integer userId) throws WeekCpUserException,WeekCpMatchException;
+    WeekCpMatch getMatchByUserId(Integer userId) throws WeekCpMatchException;
 }
