@@ -6,7 +6,7 @@ spring:
     test-while-idle: true
     validation-query: SELECT 1
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
@@ -24,3 +24,10 @@ jwt:
       refresh: refresh
 server:
   port: 8084
+
+#  雷诺需要的依赖
+
+
+WeekCp:
+#  只要超过20个以上的人不是cp那么就将其随机匹配出来
+  maxNumOfNotCp: 20
