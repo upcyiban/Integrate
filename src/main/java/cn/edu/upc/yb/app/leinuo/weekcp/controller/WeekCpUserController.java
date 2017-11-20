@@ -8,10 +8,7 @@ import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
 import cn.edu.upc.yb.app.leinuo.weekcp.service.WeekCpUserService;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ import java.util.List;
  * @author leinuo
  * TODO 增加自己的CP接口，增加注册用户接口
  */
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/leinuo/weekcp/user")
 public class WeekCpUserController {
