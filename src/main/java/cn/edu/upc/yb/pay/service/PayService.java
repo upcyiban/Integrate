@@ -16,15 +16,18 @@ import java.io.IOException;
 @Service
 public class PayService {
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
 
     private final Log logger = LogFactory.getLog(this.getClass());
 
-
-    public Object  doPay(String token ,int pay) throws IOException{
+    public Object doPay(String token, int pay) throws IOException {
         PayYBwx payYBwx = new PayYBwx();
-
-        return   payYBwx.getYBwx(token,pay);
-
+        String ybid = jwtTokenUtil.getYBidFromTocken(token);
+        logger.info("yibanid = "+ybid);
+       return payYBwx.getYBwx(token, pay);
+   //  return  ybid;
     }
 
 }

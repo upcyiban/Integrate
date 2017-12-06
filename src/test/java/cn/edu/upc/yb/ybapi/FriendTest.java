@@ -19,8 +19,7 @@ import java.io.IOException;
 @SpringBootTest
 public class FriendTest {
 
-    String tocken = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiI3ZTI5ZTRkMmYyMjk4MjZkZTY1NWFhZDA5ODZjYmFhMTM5YzQxZjQxIiwiYXBwbmFtZSI6ImZlZWRiYWNrIiwiY3JlYXRlZCI6MTUwOTExOTEwNDk1MCwieWJpZCI6ODU3NDAwMSwiZXhwIjoxNTA5NzIzOTA0fQ.nVrHOUo1X1-iSjJHxpUkfGFsTWZVxUp0-D9VkavS3xbGlMBueJRzKQChn9Cghlc7JCPBgQxvebpq_w58bFYLvw";
-
+    String tocken = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiJlMTgzZmE5Y2EzOGNlZWI4YThjMjhhMmY1NTI0ODgyZjMyZmYwNGY0IiwiYXBwbmFtZSI6ImNvbW1pdCIsImNyZWF0ZWQiOjE1MDkxNjY0MDQ2MTQsInliaWQiOjg1NzQwMDEsImV4cCI6MTUwOTc3MTIwNH0.sLRbNbhIPFIvuxDMJ7wCcg1rBJeaqk9gv753u5YBTyNt1bji71cjaoSzCpvjwE1tkKK-Q1zf-7pgA9Hem1W0aA";
 
     @Autowired
     private FriendApply friendapplay;
@@ -66,6 +65,7 @@ public class FriendTest {
     public void recommend() throws IOException {
         friendRecommend.getFriendRecommend(tocken,10);
     }
+
     @Test
     public void pay() throws IOException{
         payYBwx.getYBwx(tocken,1);

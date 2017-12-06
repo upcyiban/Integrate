@@ -62,7 +62,6 @@ public class AuthenticationRestController {
         if (app == null) {
             return ResponseEntity.ok(new ErrorReporter(1, "未找到应用" + appName));
         }
-
         YibanOAuth yibanOAuth = new YibanOAuth(vq, app);
         yibanOAuth.dealYibanOauth();
         if (yibanOAuth.isHasError() == false) {

@@ -32,6 +32,7 @@ public class IsReal {
 
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String yb_userid = jwtTokenUtil.getYBidFromTocken(token);
+
         String queryString = "access_token=" + ybtoken + "&yb_userid=" + yb_userid;
         String result = queryService.getYbApi("user/is_real", queryString);
         Gson gson = new Gson();

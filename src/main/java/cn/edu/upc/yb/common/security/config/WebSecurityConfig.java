@@ -73,8 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/swagger-resources",
                         "/v2/api-docs",
-                        "/speaktoteacher/**",
-
                         "/configuration/**",
                         "/token"
 

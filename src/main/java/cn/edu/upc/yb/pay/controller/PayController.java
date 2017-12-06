@@ -31,6 +31,7 @@ public class PayController {
     public ResponseEntity<?> usePay(String token, int pay ) throws IOException {
 
         return ResponseEntity.ok(payService.doPay(token,pay));
+
     }
 
 }

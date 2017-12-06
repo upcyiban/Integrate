@@ -26,6 +26,9 @@ public class UserController {
     })
     @GetMapping("/getStuId")
     public Object getId(HttpServletRequest request) throws IOException {
+
+
         return userService.getStuId(request);
+
     }
 }

@@ -22,6 +22,7 @@ public class ImgController {
 
     @GetMapping("/photo/img/{filename:.+}")
     @ResponseBody
+
     public ResponseEntity<Resource> showFile(@PathVariable String filename) {
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity
