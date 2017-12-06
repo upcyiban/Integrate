@@ -25,12 +25,12 @@ public class PayTest {
     @Test
     public void usePay() throws IOException {
 
-        payYBwx.getYBwx(token, 1);
+        payYBwx.getYBwx(token, 10);
 
     }
 
     @Test
     public void useTrade() throws IOException {
-        tradeWx.tradeWx(token, 1, "http://www.baidu.com", 5394432);
+        tradeWx.tradeWx(token, 100, "http://www.baidu.com", 8574001);
     }
 }

@@ -49,7 +49,7 @@ public class TradeWx {
 
         class Info {
             int trade_id;
-            String sign_href;
+            String sign_href;//返回的这个是确认支付的连接，需要访问这个连接，输入密码确认支付。
         }
 
     }
