@@ -1,7 +1,6 @@
 package cn.edu.upc.yb.app.leinuo.weekcp.exception;
 
-import cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser;
-import cn.edu.upc.yb.app.leinuo.weekcp.enums.WeekCpUserEnum;
+
 
 /**
  * @author leinuoleileinuo
