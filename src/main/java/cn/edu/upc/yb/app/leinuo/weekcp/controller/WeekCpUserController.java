@@ -6,25 +6,27 @@ import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpMatchException;
 import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpUserException;
 import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
 import cn.edu.upc.yb.app.leinuo.weekcp.service.WeekCpUserService;
+import cn.edu.upc.yb.common.ybapi.UserMe;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
  * @author leinuo
  * TODO 增加自己的CP接口，增加注册用户接口
  */
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/leinuo/weekcp/user")
 public class WeekCpUserController {
 
     @Autowired
     private WeekCpUserService userService;
+    @Autowired
+    private UserMe um;
 
     @RequestMapping("/getNotCpUserList")
     public Result getNotCpUserList() {
@@ -76,7 +78,7 @@ public class WeekCpUserController {
     }
 
     @RequestMapping("/{yibanId}/getUserByYibanId")
-    public Result getUserByYibanId(@PathVariable("yibanId")String yibanId) {
+    public Result getUserByYianId(@PathVariable("yibanId")String yibanId) {
         WeekCpUser user;
         try {
             user = userService.getUserByYibanId(yibanId);
@@ -86,8 +88,19 @@ public class WeekCpUserController {
         return Result.getResultSuccess("成功",user);
     }
 
+    @RequestMapping("/getYiMeByToken")
+    public Result getMe(@ModelAttribute("vq")String token) {
+        UserMe.UserInfo userInfo;
+        try {
+            userInfo = (UserMe.UserInfo) um.getUserMe(token);
+        }catch (Exception e) {
+            return Result.getResultFail(e.getMessage());
+        }
+        return Result.getResultSuccess("success" , userInfo.info.toString());
+    }
     @RequestMapping("/")
     public WeekCpMatch hello(){
         return new WeekCpMatch(10,20);
     }
+
 }

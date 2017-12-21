@@ -7,6 +7,7 @@ import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
 import cn.edu.upc.yb.app.leinuo.weekcp.service.WeekCpMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * @author leinuoleileinuo
  */
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/leinuo/weekcp/match")
 public class WeekCpMatchController {
