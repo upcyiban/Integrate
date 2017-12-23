@@ -13,19 +13,19 @@ public class Result<T> {
         this.success = success;
         this.msg = msg;
     }
-    public static<T> Result<T> getResultSuccess(String msg, T data) {
+    public static<T> Result<T> success(String msg, T data) {
         return new Result(msg , 1 , data);
     }
-    public static<T> Result<T> getResultFail(String msg , T data) {
+    public static<T> Result<T> fail(String msg , T data) {
         return new Result(msg , 0 , data);
     }
-    public static<T> Result<T> getResultSuccess(String msg) {
+    public static<T> Result<T> success(String msg) {
         return new Result(msg , 1 , null);
     }
-    public static<T> Result<T> getResultFail(String msg ) {
+    public static<T> Result<T> fail(String msg ) {
         return new Result(msg , 0 , null);
     }
-    public static<T> Result<T> getResultSuccess(T data) {
+    public static<T> Result<T> success(T data) {
         return new Result("成功" , 1 , data);
     }
 

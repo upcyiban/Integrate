@@ -61,16 +61,16 @@ public class UserMe {
 
             @Override
             public String toString() {
-                return "Info{" +
-                        "yb_userid='" + yb_userid + '\'' +
-                        ", yb_username='" + yb_username + '\'' +
-                        ", yb_usernick='" + yb_usernick + '\'' +
-                        ", yb_sex='" + yb_sex + '\'' +
-                        ", yb_money='" + yb_money + '\'' +
-                        ", yb_exp='" + yb_exp + '\'' +
-                        ", yb_userhead='" + yb_userhead + '\'' +
-                        ", yb_schoolid='" + yb_schoolid + '\'' +
-                        ", yb_schoolname='" + yb_schoolname + '\'' +
+                return "{" +
+                        " \"yb_userid\":\"" + yb_userid + "\"" +
+                        ", \"yb_username\":\"" + yb_username + "\"" +
+                        ", \"yb_usernick\":\"" + yb_usernick + "\"" +
+                        ", \"yb_sex\":\"" + yb_sex + "\"" +
+                        ", \"yb_money\":\"" + yb_money + "\"" +
+                        ", \"yb_exp\":\"" + yb_exp + "\"" +
+                        ", \"yb_userhead\":\"" + yb_userhead + "\"" +
+                        ", \"yb_schoolid\":\"" + yb_schoolid + "\"" +
+                        ", \"yb_schoolname\":\"" + yb_schoolname + "\"" +
                         '}';
             }
         }
