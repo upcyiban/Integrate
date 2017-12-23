@@ -2,17 +2,13 @@ package cn.edu.upc.yb.app.leinuo.weekcp.controller;
 
 import cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpMatch;
 import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpMatchException;
-import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpUserException;
 import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
 import cn.edu.upc.yb.app.leinuo.weekcp.service.WeekCpMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author leinuoleileinuo
@@ -31,8 +27,8 @@ public class WeekCpMatchController {
         try {
             match = matchService.getMatchByUserId(userId);
         }  catch (WeekCpMatchException e) {
-            return Result.getResultFail(e.getMessage());
+            return Result.fail(e.getMessage());
         }
-        return Result.getResultSuccess("请求成功",match);
+        return Result.success("请求成功",match);
     }
 }
