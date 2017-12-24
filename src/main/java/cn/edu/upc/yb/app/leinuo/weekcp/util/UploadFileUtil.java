@@ -30,6 +30,8 @@ public class UploadFileUtil {
     private String textList;
     @Value("${upload.videoList}")
     private String videoList;
+    @Value("${linux}")
+    private boolean flag;
 
     @Value("${upload.filePath}")
     private String filePath;
@@ -55,11 +57,13 @@ public class UploadFileUtil {
     }
 
     public File createFile(String fileName) throws Exception {
-        String path = this.getPath(fileName);
-        File file = new File(path+fileName);
-        logger.info(path,file);
-        logger.info("完整的路径{}" ,path+file);
-        logger.info(path+file);
+        String path = this.getPath(fileName)+fileName;
+        if(flag) {
+            path = path.replace('\\','/');
+        }
+        System.out.println(path.replace('\\','/'));
+        File file = new File(path);
+        logger.info("完整的路径{}" ,path);
         if (file.exists()) {
             throw new Exception(FileEnum.REPEATED_FILE_PATH);
         }
