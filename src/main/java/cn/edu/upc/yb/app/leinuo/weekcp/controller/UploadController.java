@@ -29,10 +29,9 @@ public class UploadController {
     public Result uploadImage(@ModelAttribute("file")MultipartFile file,
                               @ModelAttribute("input-text")String text) throws IOException {
         logger.info(file.getOriginalFilename());
-        logger.info(file.getContentType());
-        logger.info(text);
         Long code = System.currentTimeMillis();
         try {
+            logger.info(code+"-"+file.getOriginalFilename());
             file.transferTo(fileUtil.createFile(code+"-"+file.getOriginalFilename()));
         } catch (Exception e) {
             e.printStackTrace();
