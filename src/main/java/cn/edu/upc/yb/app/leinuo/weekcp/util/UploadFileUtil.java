@@ -1,6 +1,8 @@
 package cn.edu.upc.yb.app.leinuo.weekcp.util;
 
 import cn.edu.upc.yb.app.leinuo.weekcp.enums.FileEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,7 @@ public class UploadFileUtil {
 
     @Value("${upload.filePath}")
     private String filePath;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private String getPath(String fileName) {
         String fileType = fileName.substring(fileName.lastIndexOf('.')+1,fileName.length());
@@ -54,6 +57,9 @@ public class UploadFileUtil {
     public File createFile(String fileName) throws Exception {
         String path = this.getPath(fileName);
         File file = new File(path+fileName);
+        logger.info(path,file);
+        logger.info("完整的路径{}" ,path+file);
+        logger.info(path+file);
         if (file.exists()) {
             throw new Exception(FileEnum.REPEATED_FILE_PATH);
         }

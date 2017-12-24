@@ -37,7 +37,7 @@ upload:
   imagePath: file\image
   textPath: file\text
   videoPath: file\video
-  imageList: jpg,png,bmp,gif
+  imageList: jpg,png,bmp,gif,jpeg
   textList: md,html,txt,js,java,cpp,py,css,doc,pdf
   videoList: avi,mp4,mp3,rmvb,mvb,mkv
 
