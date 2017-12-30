@@ -10,6 +10,7 @@ public class WeekCpUserException extends Exception {
     public WeekCpUserException() {
     }
 
+    
     public WeekCpUserException(String message) {
         this.message = message;
     }

@@ -38,25 +38,23 @@ public class WeekCpUserServiceImpl implements WeekCpUserService {
 
     private void setCp() throws WeekCpUserException {
         //设置CP
-        System.out.println("cpList");
         List<WeekCpUser> notCpList = this.getNotCpUserList();
+        //boyList 和 gilList保存的是性取向，并非性别
         List<WeekCpUser> boyList = new ArrayList<>();
         List<WeekCpUser> girlList = new ArrayList<>();
         for (WeekCpUser user : notCpList) {
-            if (user.getSex() == 1) {
+            if (user.getSexualOrientation() == 1) {
                 boyList.add(user);
             } else {
                 girlList.add(user);
             }
         }
-        System.out.println(notCpList.size()+" "+boyList.size()+" "+girlList.size());
-        for (WeekCpUser boy : boyList) {
-            int randomNum = (int)(Math.random()*girlList.size());
-            WeekCpUser girl = girlList.get(randomNum);
-            if (boy.getSexualOrientation() == 0 && girl.getSexualOrientation() == 1) {
-                matchService.addMatchByMatchMap(new WeekCpMatch(girl.getUserId(),boy.getUserId()));
-                girlList.remove(randomNum);
-            }
+        List<WeekCpUser> smallerUserList = boyList.size() > girlList.size()? girlList:boyList;
+        List<WeekCpUser> biggerUserList = boyList.size() <= girlList.size()? girlList:boyList;
+        int k = 0;
+        for (WeekCpUser item : smallerUserList) {
+            matchService.addMatchByMatchMap(new WeekCpMatch(item.getUserId() , biggerUserList.get(k).getUserId()));
+            k++;
         }
     }
     @Override
@@ -67,7 +65,10 @@ public class WeekCpUserServiceImpl implements WeekCpUserService {
             throw new WeekCpUserException(WeekCpUserConst.HAVE_YIBAN_ID);
         }
         userDao.save(user);
-        this.setCp();
+        //如果没有搭档的玩家多于配置文件的人数，例如很有可能是4或者20
+        if(this.getNotCpUserList().size() >= Integer.parseInt(maxNumOfNotCp)) {
+            this.setCp();
+        }
     }
 
     @Override
