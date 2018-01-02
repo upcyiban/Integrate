@@ -96,8 +96,8 @@ public class WeekCpUserController {
         return Result.success("success" , userInfo.info.toString());
     }
     @RequestMapping("/")
-    public WeekCpMatch hello(){
-        return new WeekCpMatch(10,20);
+    public String hello(){
+        return "Hello World";
     }
 
 }
