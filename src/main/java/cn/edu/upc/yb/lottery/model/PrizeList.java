@@ -1,6 +1,5 @@
 package cn.edu.upc.yb.lottery.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 

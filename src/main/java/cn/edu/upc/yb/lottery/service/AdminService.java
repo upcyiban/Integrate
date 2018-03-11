@@ -1,13 +1,11 @@
 package cn.edu.upc.yb.lottery.service;
 
 import cn.edu.upc.yb.lottery.model.LotteryList;
-import cn.edu.upc.yb.lottery.model.PrizeList;
 import cn.edu.upc.yb.lottery.repository.LotteryListRepository;
 import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.ServiceMode;
 import java.sql.Date;
 import java.util.List;
 

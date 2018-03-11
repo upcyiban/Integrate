@@ -1,6 +1,5 @@
 package cn.edu.upc.yb.lottery.controller;
 
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import cn.edu.upc.yb.lottery.service.AdminService;
 import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,5 @@
 package cn.edu.upc.yb.lottery.utils;
 
-import cn.edu.upc.yb.lottery.config.AdminConfig;
-import com.google.common.io.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
@@ -14,9 +11,6 @@ import java.security.NoSuchAlgorithmException;
  * @date 2018/3/6  20:41
  */
 public class MD5 {
-
-    @Autowired
-   private AdminConfig adminConfig;
 
 
     public static final String EncoderByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {

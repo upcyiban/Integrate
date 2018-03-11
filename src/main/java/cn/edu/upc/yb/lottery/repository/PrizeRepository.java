@@ -1,7 +1,6 @@
 package cn.edu.upc.yb.lottery.repository;
 
 import cn.edu.upc.yb.lottery.model.Prize;
-import cn.edu.upc.yb.lottery.model.PrizeList;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

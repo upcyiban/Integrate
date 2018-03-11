@@ -1,8 +1,6 @@
 package cn.edu.upc.yb.lottery.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 
 import javax.persistence.*;
 
