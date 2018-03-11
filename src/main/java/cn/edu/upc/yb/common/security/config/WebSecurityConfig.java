@@ -78,7 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 ).permitAll()
                 .antMatchers(
-                        "/auth/**"
+                        "/auth/**",
+                        "/lottery/admin/**"
 
                 ).permitAll()
                 .anyRequest().authenticated();
