@@ -6,6 +6,7 @@ import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -15,9 +16,9 @@ import javax.servlet.http.HttpSession;
  * @date 2018/3/6  20:33
  */
 
-@RestController("/lottery/admin")
+@RestController
+@RequestMapping("/lottery/admin")
 public class AdminController {
-
 
     @Autowired
     private AdminService adminService;
@@ -34,7 +35,7 @@ public class AdminController {
     }
 
     @PostMapping("/dochoice")
-    public Object dochoice(String lotteryid, int ispass ,  String feedback) {
+    public Object dochoice(String lotteryid, int ispass , String feedback) {
         if (httpSession.getAttribute("lotteryAdmin")==null){
             return new ResponseBean(-1,"没有登陆",null);
         }

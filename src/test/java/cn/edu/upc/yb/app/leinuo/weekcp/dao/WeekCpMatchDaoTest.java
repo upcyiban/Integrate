@@ -23,6 +23,8 @@ public class WeekCpMatchDaoTest {
         System.out.println(matchDao.getWeekCpMatchByCpIdRight(2));
         System.out.println(matchDao.getWeekCpMatchByCpIdLeftAndCpIdRight(1,2));
     }
+
+
     @Test
     public void insert() throws Exception{
         WeekCpMatch match = new WeekCpMatch(4,2);

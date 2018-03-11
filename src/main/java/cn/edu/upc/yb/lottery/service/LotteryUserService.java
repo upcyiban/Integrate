@@ -23,8 +23,6 @@ import java.util.Map;
  */
 @Service
 public class LotteryUserService {
-
-
     @Autowired
     private LotteryListRepository lotteryListRepository;
 

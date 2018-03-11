@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AdminConfig {
-    @Value("${lottery.adminUsername}")
+    @Value("${lottery.adminUserName}")
     public String adminUsername;
 
-    @Value("${lottery.password}")
+    @Value("${lottery.adminPassword}")
     public String adminPassword;
 
     @Value("${lottery.adminSalt}")

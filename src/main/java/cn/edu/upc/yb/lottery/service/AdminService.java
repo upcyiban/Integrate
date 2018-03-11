@@ -33,7 +33,7 @@ public class AdminService {
 //假设ispass=1，就是通过。ispass = 0；就是被举报的。。。。。
         //没有ispass = 2；
 
-        LotteryList lottery = lotteryListRepository.findById(Long.valueOf(lotteryid));
+           LotteryList lottery = lotteryListRepository.findById(Long.valueOf(lotteryid));
 
             lottery.setIspass(ispass);
             lottery.setFeedback(feedback);

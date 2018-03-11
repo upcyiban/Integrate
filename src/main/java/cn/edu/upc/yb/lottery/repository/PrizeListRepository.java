@@ -16,4 +16,6 @@ public interface PrizeListRepository extends CrudRepository<PrizeList,Long> {
     List<PrizeList> findByYibanid(long yibanId );
     PrizeList findByYibanidAndLotteryid(long yibanId,long lotteryid);
 
+
+
 }

@@ -21,8 +21,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/lottery/user")
 public class LotteryUserController {
-
-
     @Autowired
     private LotteryUserService lotteryUserService;
     @GetMapping("/pass")
@@ -34,18 +32,20 @@ public class LotteryUserController {
 
     @GetMapping("/notPass")
     public Object lotteryNotPass(HttpServletRequest request){
-
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
         return listMap.get("notPass");
     }
 
-    @PostMapping("/cover")
-
+   /* @PostMapping("/cover")
     public Object lotterycover(long lotteryid, String lotteryname, String lotteryintro, Timestamp timebegin,Timestamp timeend){
 
         return lotteryUserService.recover(lotteryid,lotteryname,lotteryintro,timebegin,timeend);
+
     }
-
-
+*/
+    @PostMapping
+    public Object warning(long lotteryId,String feedback){
+        return lotteryUserService.warning(lotteryId,feedback);
+    }
 
 }
