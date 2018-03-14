@@ -1,7 +1,10 @@
 package cn.edu.upc.yb.lottery.controller;
 
+import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.lottery.model.LotteryList;
 import cn.edu.upc.yb.lottery.service.LotteryUserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +25,12 @@ import java.util.Map;
 public class LotteryUserController {
     @Autowired
     private LotteryUserService lotteryUserService;
+
     @GetMapping("/pass")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
+
+    })
     public Object lotteryPass(HttpServletRequest request) throws IOException{
 
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
@@ -30,6 +38,9 @@ public class LotteryUserController {
     }
 
     @GetMapping("/notPass")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
+    })
     public Object lotteryNotPass(HttpServletRequest request){
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
         return listMap.get("notPass");
@@ -37,6 +48,11 @@ public class LotteryUserController {
 
 
     @PostMapping
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryId", value = "lotteryId", dataType = "Long"),
+            @ApiImplicitParam(paramType = "query", name = "feedback", value = "反馈信息", dataType = "String"),
+    })
     public Object warning(long lotteryId,String feedback){
         return lotteryUserService.warning(lotteryId,feedback);
     }

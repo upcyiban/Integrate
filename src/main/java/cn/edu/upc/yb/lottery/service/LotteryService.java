@@ -165,6 +165,7 @@ public class LotteryService {
         String authToken = request.getParameter(tokenHeader);
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
         String username = (String) userService.getStuName(request);
+
         if(!LotteryCondition2(Long.valueOf(yibanId))){
 
             return new ResponseBean(-1,"你已经抽过奖了",false);
