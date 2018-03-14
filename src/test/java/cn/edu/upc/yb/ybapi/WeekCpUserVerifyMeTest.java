@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserVerifyMeTest {
+public class WeekCpUserVerifyMeTest {
 
 
   private String token = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiIwZjZhYTI3NjZhMmJmMDYxZWQxZTA0YjU1MDU1MTExY2MwYjE0M2Q4IiwiYXBwbmFtZSI6InRlc3QiLCJjcmVhdGVkIjoxNDk5MzUwMjM2NTcwLCJ5YmlkIjo1ODMxNDQ5LCJleHAiOjE0OTk5NTUwMzZ9.-qloz_hwbRmLV8Fh1IX7_PLafOvDutSDWbZs7M1mQzyLV7QOyXN-Q4EsnxXvuAZu6ZmrmlUVRyNYViuLakpmog";

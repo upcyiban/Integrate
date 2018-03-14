@@ -33,7 +33,6 @@ public class UserMe {
         String queryString = "access_token=" + ybtoken;
         String result = queryService.getYbApi("user/me", queryString);
         Gson gson = new Gson();
-        System.out.println(result);
         try {
             UserInfo userInfo = gson.fromJson(result,UserInfo.class);
             return userInfo;
@@ -43,9 +42,11 @@ public class UserMe {
     }
 
 
-     class UserInfo {
+     public class UserInfo {
 
         public String status;
+
+        public Info info;
 
         public class Info {
             String yb_userid;
@@ -57,8 +58,22 @@ public class UserMe {
             String yb_userhead;
             String yb_schoolid;
             String yb_schoolname;
-        }
 
+            @Override
+            public String toString() {
+                return "{" +
+                        " \"yb_userid\":\"" + yb_userid + "\"" +
+                        ", \"yb_username\":\"" + yb_username + "\"" +
+                        ", \"yb_usernick\":\"" + yb_usernick + "\"" +
+                        ", \"yb_sex\":\"" + yb_sex + "\"" +
+                        ", \"yb_money\":\"" + yb_money + "\"" +
+                        ", \"yb_exp\":\"" + yb_exp + "\"" +
+                        ", \"yb_userhead\":\"" + yb_userhead + "\"" +
+                        ", \"yb_schoolid\":\"" + yb_schoolid + "\"" +
+                        ", \"yb_schoolname\":\"" + yb_schoolname + "\"" +
+                        '}';
+            }
+        }
     }
 }
 

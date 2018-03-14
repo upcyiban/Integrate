@@ -6,7 +6,7 @@ spring:
     test-while-idle: true
     validation-query: SELECT 1
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
@@ -22,5 +22,31 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
+#  上传文件最大SIZE
+  http:
+      multipart:
+        max-file-size: 100MB
 server:
   port: 8084
+
+#  一周CP需要的依赖
+
+#filePath表示文件的根路径。***Path与***List属性不解释
+linux: true
+upload:
+  filePath: C:\yiban_web\WebAfter\002websoket\
+  imagePath: file\image
+  textPath: file\text
+  videoPath: file\video
+  imageList: jpg,png,bmp,gif,jpeg
+  textList: md,html,txt,js,java,cpp,py,css,doc,pdf
+  videoList: avi,mp4,mp3,rmvb,mvb,mkv
+
+WeekCp:
+#  只要超过20个以上的人不是cp那么就将其随机匹配出来
+  maxNumOfNotCp: 4
+
+lottery:
+ adminUserName: admin
+ adminPassword: ICzJsDg7F1JNwQhhE+QsVQ==
+ adminSalt: admin

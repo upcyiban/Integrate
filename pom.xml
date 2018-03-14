@@ -81,7 +81,8 @@
 			<artifactId>json-path</artifactId>
 			<version>RELEASE</version>
 		</dependency>
-	</dependencies>
+
+    </dependencies>
 
 	<build>
 		<plugins>

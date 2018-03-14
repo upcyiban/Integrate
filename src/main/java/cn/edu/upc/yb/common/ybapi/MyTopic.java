@@ -15,8 +15,6 @@ import java.io.IOException;
 @Service
 public class MyTopic {
 
-
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -31,8 +29,6 @@ public class MyTopic {
      */
 
     public  Object getMyTopic(String   token,String groupId)  throws IOException {
-
-
 
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken+  "&group_id=" + groupId;
