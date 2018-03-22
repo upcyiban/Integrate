@@ -42,6 +42,7 @@ upload:
   textList: md,html,txt,js,java,cpp,py,css,doc,pdf
   videoList: avi,mp4,mp3,rmvb,mvb,mkv
 
+
 WeekCp:
 #  只要超过20个以上的人不是cp那么就将其随机匹配出来
   maxNumOfNotCp: 4
@@ -50,4 +51,7 @@ lottery:
  adminUserName: admin
  adminPassword: ICzJsDg7F1JNwQhhE+QsVQ==
  adminSalt: admin
-# adminPassword: 123456
+ fonturl: yb.upc.edu.cn/pojescy
+
+
+

@@ -4,7 +4,6 @@ import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.feedback.service.FeedBackService;
 
 
-
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
@@ -28,8 +27,6 @@ public class FeedBackController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization,value = "token",dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "message",  dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "message", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "appname", dataType = "String"),
@@ -51,8 +48,8 @@ public class FeedBackController {
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.AppName, dataType = "String")})
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String")
+    })
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Object showAll() {
         return ResponseEntity.ok(feedBackService.showAll());
@@ -61,23 +58,20 @@ public class FeedBackController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.AppName, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "message", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "appname", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "id", value = "该条数据的id", required = true, dataType = "String")
     })
 
-  @RequestMapping(value = "/modify",method = RequestMethod.POST)
-    public Object modify(String message,String appname,int id) {
-       return ResponseEntity.ok(feedBackService.modtify(message, appname, id));
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public Object modify(String message, String appname, int id) {
+        return ResponseEntity.ok(feedBackService.modtify(message, appname, id));
 
     }
 
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.AppName, dataType = "String"),
-
-    @ApiImplicitParam(paramType = "query", name = "id", value = "该条数据的id", dataType = "String")})
+            @ApiImplicitParam(paramType = "query", name = "id", value = "该条数据的id", dataType = "String")})
     @RequestMapping(value = "/findOne", method = RequestMethod.GET)
     public Object find(int id) {
 
