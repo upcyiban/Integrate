@@ -47,7 +47,7 @@ public class LotteryUserController {
     }
 
 
-    @PostMapping
+    @PostMapping("/warning")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "lotteryId", value = "lotteryId", dataType = "Long"),
