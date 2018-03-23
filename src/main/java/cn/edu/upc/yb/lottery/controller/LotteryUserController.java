@@ -3,6 +3,7 @@ package cn.edu.upc.yb.lottery.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.lottery.model.LotteryList;
 import cn.edu.upc.yb.lottery.service.LotteryUserService;
+import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class LotteryUserController {
     public Object lotteryPass(HttpServletRequest request) throws IOException{
 
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
-        return listMap.get("pass");
+        return new ResponseBean(1,"所有过的抽奖",listMap.get("pass")) ;
     }
 
     @GetMapping("/notPass")
@@ -43,7 +44,7 @@ public class LotteryUserController {
     })
     public Object lotteryNotPass(HttpServletRequest request){
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
-        return listMap.get("notPass");
+        return new ResponseBean(1,"没有过的",listMap.get("notPass")) ;
     }
 
 

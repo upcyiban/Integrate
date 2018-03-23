@@ -103,7 +103,8 @@ public class LotteryController {
             @ApiImplicitParam(paramType = "query", name = "lotteryId", value = "抽奖Id", dataType = "long")
     })
     public Object prizeList(long lotteryId) {
-        return lotteryService.message(lotteryId);
+
+        return  new ResponseBean(1,"抽奖列表",lotteryService.message(lotteryId));
     }
 
     @PostMapping("/fuzzy")
@@ -114,7 +115,7 @@ public class LotteryController {
     })
     public Object findall(int passcode) {
 
-        return lotteryService.findbycode(passcode);
+        return new ResponseBean(1,"通过passscode查找", lotteryService.findbycode(passcode));
     }
 
 
