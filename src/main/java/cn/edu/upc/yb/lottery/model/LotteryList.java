@@ -14,8 +14,9 @@ import java.util.List;
  */
 
 
+;
 @Entity
-@Table(name = "lotteryList")
+@Table(name = "lotteryListNew")
 public class LotteryList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
