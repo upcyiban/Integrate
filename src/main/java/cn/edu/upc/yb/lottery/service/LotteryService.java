@@ -188,7 +188,7 @@ public class LotteryService {
 
         } else {
 
-            return new ResponseBean(-1, "验证码有问题，请重新输入", false);
+            return new ResponseBean(-2, "验证码有问题，请重新输入", false);
         }
 
 
