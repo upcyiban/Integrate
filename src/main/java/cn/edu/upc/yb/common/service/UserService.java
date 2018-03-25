@@ -29,6 +29,7 @@ public class UserService {
 
 
     public Object getStuName(HttpServletRequest request) throws IOException {
+
         String authToken = request.getParameter(this.tokenHeader);
         UserRealMe.UserRealMeInfo userRealMeInfo = (UserRealMe.UserRealMeInfo) userRealMe.getUserRealMe(authToken);
         return userRealMeInfo.info.yb_realname;

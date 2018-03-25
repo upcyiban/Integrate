@@ -1,6 +1,5 @@
 package cn.edu.upc.yb.lottery.controller;
 
-import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.lottery.service.AdminService;
 import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import io.swagger.annotations.ApiImplicitParam;

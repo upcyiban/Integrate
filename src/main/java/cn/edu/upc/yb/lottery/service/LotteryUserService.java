@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,39 +50,39 @@ public class LotteryUserService {
         String ybId = jwtTokenUtil.getYBidFromTocken(authtoken);
 
 
-        Creator creator = creatorRepository.findByYibanid(ybId);
+        Creator creator = creatorRepository.findByYibanid(Long.valueOf(ybId));
 
         if (creator == null) {
             System.out.println("没有查找到该用户");
 
             System.out.println("正在往数据库插入该用户");
-
-            creator.setYibanid(Long.valueOf(ybId));
-            creator.setYibanname((String) userService.getStuName(request));
-            creatorRepository.save(creator);
+            Creator creator1 = new Creator();
+            creator1.setYibanid(Long.valueOf(ybId));
+            creator1.setYibanname((String) userService.getStuName(request));
+            creatorRepository.save(creator1);
 
         }
 
-        creator = creatorRepository.findByYibanid(ybId);
+        creator = creatorRepository.findByYibanid(Long.valueOf(ybId));
 
 
         List<LotteryList> lotteryLists = lotteryListRepository.findAllByCreatorid(creator.getId());
-
 
         List<LotteryList> lotteryNotpass = null;
         for (LotteryList lottery : lotteryLists) {
 
             if (lottery.getIspass() == 0) {
                 lotteryNotpass.add(lottery);
-                lotteryLists.remove(lottery);
             }
         }
 
 
         Map<String, List<LotteryList>> listMap = new HashMap<>();
+        lotteryLists.remove(lotteryNotpass);
         listMap.put("pass", lotteryLists);
         listMap.put("notPass", lotteryNotpass);
         return listMap;
+
     }
 
     public Object recover(long lotteryId, String lotteryname, String lotteryintro, Timestamp timebegin, Timestamp timeend) {

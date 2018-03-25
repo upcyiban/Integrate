@@ -30,7 +30,6 @@ public class LotteryUserController {
     @GetMapping("/pass")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
-
     })
     public Object lotteryPass(HttpServletRequest request) throws IOException{
 

@@ -8,7 +8,6 @@ import cn.edu.upc.yb.lottery.utils.ResponseBean;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.Swagger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +27,7 @@ public class LotteryController {
 
     @Autowired
     private LotteryService lotteryService;
+
     @Autowired
     private LotteryListRepository lotteryListRepository;
 
@@ -37,6 +37,7 @@ public class LotteryController {
     @GetMapping("")
     @ApiOperation(value = "", notes = "获取抽奖的列表")
     @ApiImplicitParams({
+
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String")
     })
     public Object lotteryIndex(HttpServletRequest request) {
@@ -46,11 +47,9 @@ public class LotteryController {
 
     @PostMapping("/userInfo")
     @ResponseBody
-
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String")
     })
-
     public Object userInfo(HttpServletRequest request) throws IOException {
 
         return lotteryService.getUserInfo(request);

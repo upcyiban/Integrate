@@ -5,6 +5,7 @@ import cn.edu.upc.yb.lottery.model.Prize;
 import cn.edu.upc.yb.lottery.repository.LotteryListRepository;
 import cn.edu.upc.yb.lottery.repository.PrizeRepository;
 import cn.edu.upc.yb.lottery.service.LotteryService;
+import cn.edu.upc.yb.lottery.service.LotteryUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class LotteryTest {
 
     @Autowired
     PrizeRepository prizeRepository;
+
+    @Autowired
+    LotteryUserService userService;
 
     @Test
     public void ff() {
@@ -75,13 +79,16 @@ public class LotteryTest {
         lotteryList.setPasscode(123456);
         lotteryList.setIspass(1);
 
+        Prize prize = new Prize();
+        prize.setTotalNumber(33);
+        prize.setPrizeName("fsdjkfhd");
         lotteryListRepository.save(lotteryList);
 
-      try {
-          lotteryService.getLotteryList();
-      }catch (Exception e){
-          e.getMessage();
-      }
+        prize.setLotteryId(lotteryList.getId());
+        System.out.println("  该抽奖的ID是"+ lotteryList.getId());
+
+        lotteryService.getLotteryList();
+
 
     }
 
@@ -91,11 +98,8 @@ public class LotteryTest {
 
         LotteryService.Create create = lotteryService.new Create();
         create.token = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiIiLCJhcHBuYW1lIjoiY29tbWl0IiwiY3JlYXRlZCI6MTUyMDc1NTgwOTU1OCwieWJpZCI6NTgzMTQ0OSwiZXhwIjoxNTIxMzYwNjA5fQ.-WeE2TQ3NeuEs1Du6Yd2JTuebXxsegJxJ_lc2yKgim1rg635HpmyxqXW6Kpmopmmni2rLqH4-HrG78WzJS-ISQ";
-
-
         Prize prize = new Prize();
         List<Prize> prizes = new ArrayList<>();
-
         prize.setPrizeName("hfhfhhfh");
         prize.setCreatorId(22222);
         prize.setTotalNumber(22);
@@ -107,7 +111,6 @@ public class LotteryTest {
             prizes.add(prize);
 
         }
-
         create.prizes = prizes;
         create.lotteryintro = "dfhnasdhfuiayhsdf";
         create.lotteryname = "kfjhdsjfhajs";
@@ -115,4 +118,11 @@ public class LotteryTest {
 
         lotteryService.createLottery(create);
     }
+
+    @Test
+    public void okfj() {
+
+        lotteryService.getLotteryList();
+    }
+
 }
