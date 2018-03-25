@@ -4,6 +4,8 @@ import cn.edu.upc.yb.common.dto.ErrorReporter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.service.QueryService;
 import com.google.gson.Gson;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ public class UserRealMe {
     @Autowired
     private QueryService queryService;
 
+    private final Log logger = LogFactory.getLog(this.getClass());
+
     /**
      * 易班https://openapi.yiban.cn/user/real_me接口封装
      *
@@ -30,6 +34,7 @@ public class UserRealMe {
      */
     public Object getUserRealMe(String token) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
+        logger.info("ybtoken: " + ybtoken);
         String queryString = "access_token=" + ybtoken;
         String result = queryService.getYbApi("user/real_me", queryString);
         Gson gson = new Gson();
@@ -43,26 +48,24 @@ public class UserRealMe {
     }
 
 
-    class UserRealMeInfo {
-        public  String status;
+    public  class UserRealMeInfo {
+        public   String status;
 
-        public class info{
+        public Info info;
 
-
-
-
-            String yb_userid;
-            String yb_username;
-            String yb_usernick;
-            String yb_sex;
-            String yb_money;
-            String yb_exp;
-            String yb_userhead;
-            String yb_schoolid;
-            String yb_schoolname;
-            String yb_realname;
-            String yb_studentid;
-            String yb_identity;
+        public   class Info{
+            public  String yb_userid;
+            public String yb_username;
+            public String yb_usernick;
+            public String yb_sex;
+            public String yb_money;
+            public String yb_exp;
+            public String yb_userhead;
+            public String yb_schoolid;
+            public String yb_schoolname;
+            public String yb_realname;
+            public  String yb_studentid;
+            public String yb_identity;
         }
     }
 

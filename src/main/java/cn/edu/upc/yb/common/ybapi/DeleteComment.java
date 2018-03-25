@@ -26,6 +26,7 @@ public class DeleteComment {
      * @param token upcyiban token
      * @return
      */
+
     public Object getDeleteComment(String token,String group_id,String organ_id, String topic_id,String comment_id) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken + "&group_id=" + group_id + "&topic_id=" + topic_id + "&comment_id=" + comment_id;

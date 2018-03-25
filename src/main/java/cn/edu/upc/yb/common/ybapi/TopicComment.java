@@ -34,8 +34,8 @@ public class TopicComment {
         Gson gson = new Gson();
         System.out.println(result);
         try {
-            UserMe.UserInfor userInfor = gson.fromJson(result,UserMe.UserInfor.class);
-            return userInfor;
+            UserMe.UserInfo userInfo = gson.fromJson(result,UserMe.UserInfo.class);
+            return userInfo;
         }catch (Exception e){
             return new ErrorReporter(1,"请求失败");
         }
