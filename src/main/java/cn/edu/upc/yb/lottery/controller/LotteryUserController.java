@@ -42,7 +42,7 @@ public class LotteryUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
     })
-    public Object lotteryNotPass(HttpServletRequest request){
+    public Object lotteryNotPass(HttpServletRequest request) throws Exception{
         Map<String , List<LotteryList>> listMap = lotteryUserService.getLotterylist(request);
         return new ResponseBean(1,"没有过的",listMap.get("notPass")) ;
     }

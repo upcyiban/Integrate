@@ -60,7 +60,6 @@ public class LotteryTest {
 
     @Test
     public void fffff() {
-/*
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println(timestamp.toString());
         System.out.println(timestamp.toString());
@@ -75,8 +74,14 @@ public class LotteryTest {
 
         lotteryList.setPasscode(123456);
         lotteryList.setIspass(1);
+
         lotteryListRepository.save(lotteryList);
-        lotteryService.getLotteryList();*/
+
+      try {
+          lotteryService.getLotteryList();
+      }catch (Exception e){
+          e.getMessage();
+      }
 
     }
 
