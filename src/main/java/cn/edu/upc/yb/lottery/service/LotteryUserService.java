@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.lottery.service;
 
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
+import cn.edu.upc.yb.common.service.UserService;
 import cn.edu.upc.yb.lottery.model.Creator;
 import cn.edu.upc.yb.lottery.model.LotteryList;
 import cn.edu.upc.yb.lottery.repository.CreatorRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -35,26 +37,46 @@ public class LotteryUserService {
     @Autowired
     private CreatorRepository creatorRepository;
 
+    @Autowired
+    private UserService userService;
+
+
     //把过了和没有过的待审核的都统统的搞进一个map里面。
 
-    public Map<String, List<LotteryList>> getLotterylist(HttpServletRequest request) {
+    public Map<String, List<LotteryList>> getLotterylist(HttpServletRequest request) throws IOException {
         String authtoken = request.getParameter(this.tokenHeader);
 
         String ybId = jwtTokenUtil.getYBidFromTocken(authtoken);
 
+
         Creator creator = creatorRepository.findByYibanid(ybId);
+
+        if (creator == null) {
+            System.out.println("没有查找到该用户");
+
+            System.out.println("正在往数据库插入该用户");
+
+            creator.setYibanid(Long.valueOf(ybId));
+            creator.setYibanname((String) userService.getStuName(request));
+            creatorRepository.save(creator);
+
+        }
+
+        creator = creatorRepository.findByYibanid(ybId);
+
 
         List<LotteryList> lotteryLists = lotteryListRepository.findAllByCreatorid(creator.getId());
 
+
         List<LotteryList> lotteryNotpass = null;
-        List<LotteryList> lotteryWait = null;
         for (LotteryList lottery : lotteryLists) {
 
             if (lottery.getIspass() == 0) {
-                lotteryWait.add(lottery);
+                lotteryNotpass.add(lottery);
                 lotteryLists.remove(lottery);
             }
         }
+
 
         Map<String, List<LotteryList>> listMap = new HashMap<>();
         listMap.put("pass", lotteryLists);
@@ -75,7 +97,7 @@ public class LotteryUserService {
         return new ResponseBean(1, "修改成功", null);
     }
 
-    public Object warning(long lotteryId,String  feedback){
+    public Object warning(long lotteryId, String feedback) {
 
 
         LotteryList lotteryList = lotteryListRepository.findById(lotteryId);
@@ -84,6 +106,6 @@ public class LotteryUserService {
         lotteryList.setFeedback(feedback);
         lotteryList.setFeedbackTime(new Date(System.currentTimeMillis()));
         lotteryListRepository.save(lotteryList);
-        return new ResponseBean(1,"举报成功",null);
+        return new ResponseBean(1, "举报成功", null);
     }
 }
