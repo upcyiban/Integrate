@@ -1,13 +1,17 @@
 package cn.edu.upc.yb.lottery;
 
+import cn.edu.upc.yb.lottery.model.Creator;
 import cn.edu.upc.yb.lottery.model.LotteryList;
 import cn.edu.upc.yb.lottery.model.Prize;
+import cn.edu.upc.yb.lottery.repository.CreatorRepository;
 import cn.edu.upc.yb.lottery.repository.LotteryListRepository;
 import cn.edu.upc.yb.lottery.repository.PrizeRepository;
 import cn.edu.upc.yb.lottery.service.LotteryService;
 import cn.edu.upc.yb.lottery.service.LotteryUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,6 +28,8 @@ import java.util.List;
 @SpringBootTest
 public class LotteryTest {
 
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     String token = "eyJhbGciOiJIUzUxMiJ9.eyJhdWRpZW5jZSI6IndlYiIsInlidG9rZW4iOiIiLCJhcHBuYW1lIjoiY29tbWl0IiwiY3JlYXRlZCI6MTUyMDY4MzIyNTU3MSwieWJpZCI6NTgzMTQ0OSwiZXhwIjoxNTIxMjg4MDI1fQ.6ev1MzzN6vm6QjIeQMMQoI8-JoqE8zQMFs8jv83pDN_bLZIabn_T-7xUuS9zj_KOLCRdWHcRCL1yckOKdJVLDw";
 
 
@@ -40,6 +46,8 @@ public class LotteryTest {
     @Autowired
     LotteryUserService userService;
 
+    @Autowired
+    private CreatorRepository creatorRepository;
     @Test
     public void ff() {
 
@@ -123,6 +131,17 @@ public class LotteryTest {
     public void okfj() {
 
         lotteryService.getLotteryList();
+    }
+
+    @Test
+    public void mai(){
+        Creator creator = new Creator();
+        creator.setId(23);
+        creator.setYibanid(222222);
+        creator.setYibanname("fsddfsgf");
+
+        creatorRepository.save(creator);
+        System.out.println(creator.getId());
     }
 
 }
