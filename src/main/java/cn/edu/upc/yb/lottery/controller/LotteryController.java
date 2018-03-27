@@ -140,8 +140,8 @@ public class LotteryController {
     public Object pic(long lotteryId) {
 
         QRcode qRcode = new QRcode();
-        fonturl = fonturl + "?id=" + lotteryId;
-                String url = qRcode.generateUrl(fonturl);
+
+                String url = qRcode.generateUrl( fonturl + "?id=" + lotteryId);
                 return new ResponseBean(1,"分享成功",url);
     }
 

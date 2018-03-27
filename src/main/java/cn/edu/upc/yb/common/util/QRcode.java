@@ -16,8 +16,8 @@ public  class QRcode {
     private static String URL = "http://qr.liantu.com/api.php?text=";
 
     public String generateUrl(String messages) {
-        URL = URL + messages;
-        return URL;
+
+        return URL + messages;
     }
 
 }
