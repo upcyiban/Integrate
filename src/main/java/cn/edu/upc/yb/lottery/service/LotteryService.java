@@ -187,7 +187,7 @@ public class LotteryService {
 
         LotteryList lotteryList = lotteryListRepository.findOne(lotteryId);
         //传过来一个抽奖
-        List<Prize> prizes = prizeRepository.findAllByCreatorId(lotteryList.getCreatorid());
+        List<Prize> prizes = prizeRepository.findAllByLotteryId(lotteryList.getId());
         return dealLottery(prizes, Long.valueOf(yibanId), username, lotteryId);
 
     }
@@ -297,6 +297,11 @@ public class LotteryService {
 
     }
 
+
+    public Object prizes(long lotteryId){
+
+        return prizeRepository.findAllByLotteryId(lotteryId);
+    }
     public class Create {
         public String token;
         public String username;//realname

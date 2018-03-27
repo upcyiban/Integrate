@@ -257,4 +257,16 @@
     - 描述　：　用户发现抽奖不好，进行举报的接口。
     
     - 返回　：new ResponseBean(1,"举报成功",null);
+    
+#### /lottery/prizes
+
+post方法
+参数：
+token:
+lotteryId   //通过抽奖的ID获取和这个抽奖有关系的奖项
+
+返回：
+ResponseBean(1,"奖项列表",lotteryService.prizes(lotteryId));
+
+
    　

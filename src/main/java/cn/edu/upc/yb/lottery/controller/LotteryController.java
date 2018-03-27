@@ -106,12 +106,26 @@ public class LotteryController {
         return  new ResponseBean(1,"抽奖列表",lotteryService.message(lotteryId));
     }
 
+
+    @PostMapping("/prizes")
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "抽奖Id", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryId", value = "抽奖Id", dataType = "long")
+    })
+    public Object prizes(long lotteryId) {
+
+        return  new ResponseBean(1,"奖项列表",lotteryService.prizes(lotteryId));
+    }
+
     @PostMapping("/fuzzy")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "抽奖Id", dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "passcode", value = "passcode", dataType = "long")
 
     })
+
+
     public Object findall(int passcode) {
 
         return new ResponseBean(1,"通过passscode查找", lotteryService.findbycode(passcode));
