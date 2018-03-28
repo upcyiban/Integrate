@@ -73,17 +73,10 @@ public class LotteryService {
 
 
     //需要前台传过来的参数强制转换成Create类型的数据
-    public Object createLottery(Create create) {
-        String authToken = create.token;
-        String lotteryname = create.lotteryname;
-        String lotteryintro = create.lotteryintro;
-        Timestamp timeStart = create.lotterytimebegin;
-        Timestamp timeEnd = create.lotterytimeend;
-        String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
+    public Object createLottery(String Authorization,String userName, String lotteryName, String lotteryIntro, Timestamp lotteryTimeBegin,Timestamp lotteryTimeEnd) {
+
+        String yibanId = jwtTokenUtil.getYBidFromTocken(Authorization);
         try {
-
-            String userName = create.username;
-
             Creator creator = creatorRepository.findByYibanid(Long.valueOf(yibanId));
             if (creator == null) {
                 creator = new Creator();
@@ -91,37 +84,46 @@ public class LotteryService {
                 creator.setYibanname(userName);
                 creatorRepository.save(creator);
             }
+
             LotteryList lotteryList = new LotteryList();
             lotteryList.setCreatorid(creator.getId());
-            lotteryList.setLotteryname(lotteryname);
-            lotteryList.setLotteryintro(lotteryintro);
-            lotteryList.setLotterytimebegin(timeStart);
-            lotteryList.setLotterytimeend(timeEnd);
+            lotteryList.setLotteryname(lotteryName);
+            lotteryList.setLotteryintro(lotteryIntro);
+            lotteryList.setLotterytimebegin(lotteryTimeBegin);
+            lotteryList.setLotterytimeend(lotteryTimeEnd);
             lotteryList.setIspass(1);
             lotteryList.setCreatetime(new java.sql.Date(System.currentTimeMillis()));
             int passcode = (int) (Math.random() * 9 + 1) * 100000;
             lotteryList.setPasscode(passcode);
             lotteryListRepository.save(lotteryList);
 
-            if (create.prizes != null) {
-                for (Prize prize : create.prizes) {
-                    prize.setLotteryId(lotteryList.getId());
-                    prize.setCreatorId(creator.getId());
-                    prizeRepository.save(prize);
-                }
-            }
+
            int lotteryListId  =(int) lotteryList.getId();
             List<Integer> list = new ArrayList<>();
             list.add(lotteryListId);
             list.add(passcode);
-
+            list.add((int)creator.getId());
             return new ResponseBean(1, "success", list);
 
         } catch (Exception e) {
             return new ResponseBean(-1, "未知错误", e.getMessage());
         }
-
     }
+
+//当我们创建抽奖成功后返回lotteryId，和creatorId。最后再是创建该抽奖的奖项
+    public Object createPrizes(String prizeName,String prizeIntro,String prizePercentage,long prizeTotalNumber,long creatorId,long lotteryId){
+
+         Prize prize = new Prize();
+         prize.setLotteryId(lotteryId);
+         prize.setPrizeName(prizeName);
+         prize.setCreatorId(creatorId);
+         prize.setPrizeIntro(prizeIntro);
+         prize.setTotalNumber(prizeTotalNumber);
+         prize.setPrizePercentage(prizePercentage);
+         prizeRepository.save(prize);
+         return new ResponseBean(1,"success",true);
+    }
+
 
     public Object getUserInfo(HttpServletRequest request) throws IOException {
         String authToken = request.getParameter(tokenHeader);

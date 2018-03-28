@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 /**
  * @author liliangbin dumpling1520@gmail.com
@@ -55,20 +56,37 @@ public class LotteryController {
         return lotteryService.getUserInfo(request);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createLottery")
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "lotteryname", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "lotteryintro", dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "timeStart", dataType = "Timestamp"),
-            @ApiImplicitParam(paramType = "query", name = "timeEnd", dataType = "Timestamp"),
-            @ApiImplicitParam(paramType = "query", name = "list<Prizes>", dataType = "Prizes  的一个数组"),
-    })
-    public Object createLottery(@RequestBody LotteryService.Create create) {
+            @ApiImplicitParam(paramType = "query", name = "userName", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryName", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryIntro", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryTimeBegin", dataType = "Timestamp"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryTimeEnd", dataType = "Timestamp")
 
-        return lotteryService.createLottery(create);
+    })
+    public Object createLottery(String Authorization,String userName, String lotteryName, String lotteryIntro, Timestamp lotteryTimeBegin,Timestamp lotteryTimeEnd) {
+
+        return lotteryService.createLottery(Authorization,userName,lotteryName,lotteryIntro,lotteryTimeBegin,lotteryTimeEnd);
+    }
+
+    @PostMapping("/createPrizes")
+    @ResponseBody
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, value = "token", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "prizeName", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "prizeIntro", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "prizePercentage", dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "prizeTotalNumber", dataType = "long"),
+            @ApiImplicitParam(paramType = "query", name = "creatorId", dataType = "long"),
+            @ApiImplicitParam(paramType = "query", name = "lotteryId", dataType = "long")
+
+    })
+    public Object createPrizes(String prizeName,String prizeIntro,String prizePercentage,long prizeTotalNumber,long creatorId,long lotteryId) {
+
+        return lotteryService.createPrizes(prizeName,prizeIntro,prizePercentage,prizeTotalNumber,creatorId,lotteryId);
     }
 
     @PostMapping("/ispass")
