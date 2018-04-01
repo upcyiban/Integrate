@@ -4,6 +4,8 @@ import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.service.UserService;
 import cn.edu.upc.yb.lottery.model.Creator;
 import cn.edu.upc.yb.lottery.model.LotteryList;
+import cn.edu.upc.yb.lottery.model.Prize;
+import cn.edu.upc.yb.lottery.model.PrizeList;
 import cn.edu.upc.yb.lottery.repository.CreatorRepository;
 import cn.edu.upc.yb.lottery.repository.LotteryListRepository;
 import cn.edu.upc.yb.lottery.utils.ResponseBean;
@@ -41,6 +43,8 @@ public class LotteryUserService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LotteryService lotteryService;
 
     //把过了和没有过的待审核的都统统的搞进一个map里面。
 
@@ -48,7 +52,6 @@ public class LotteryUserService {
         String authtoken = request.getParameter(this.tokenHeader);
 
         String ybId = jwtTokenUtil.getYBidFromTocken(authtoken);
-
 
         Creator creator = creatorRepository.findByYibanid(Long.valueOf(ybId));
 
@@ -60,7 +63,6 @@ public class LotteryUserService {
             creator1.setYibanid(Long.valueOf(ybId));
             creator1.setYibanname((String) userService.getStuName(request));
             creatorRepository.save(creator1);
-
         }
 
         creator = creatorRepository.findByYibanid(Long.valueOf(ybId));
@@ -68,21 +70,33 @@ public class LotteryUserService {
 
         List<LotteryList> lotteryLists = lotteryListRepository.findAllByCreatorid(creator.getId());
 
-        List<LotteryList> lotteryNotpass = null;
+        for (LotteryList lotteryList : lotteryLists) {
+
+
+            List<PrizeList> prizeLists = lotteryService.message(lotteryList.getId());
+            List<Prize> prizes = lotteryService.prizes(lotteryList.getId());
+
+            if (prizeLists != null) {
+                lotteryList.setPrizeLists(prizeLists);
+
+            }
+            if (prizes != null) {
+                lotteryList.setPrizes(prizes);
+            }
+        }
+        List<LotteryList> lotteryNotpass = new ArrayList<>();
         for (LotteryList lottery : lotteryLists) {
 
             if (lottery.getIspass() == 0) {
                 lotteryNotpass.add(lottery);
             }
         }
-
-
         Map<String, List<LotteryList>> listMap = new HashMap<>();
         lotteryLists.remove(lotteryNotpass);
+
         listMap.put("pass", lotteryLists);
         listMap.put("notPass", lotteryNotpass);
         return listMap;
-
     }
 
     public Object recover(long lotteryId, String lotteryname, String lotteryintro, Timestamp timebegin, Timestamp timeend) {

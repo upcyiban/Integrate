@@ -279,7 +279,7 @@ public class LotteryService {
 
     }
 
-    public Object message(long lotteryId) {
+    public List<PrizeList> message(long lotteryId) {
         List<PrizeList> prizeLists = prizeListRepository.
                 findAllByLotteryid(lotteryId);
         try {
@@ -293,14 +293,15 @@ public class LotteryService {
             return prizeLists;
         } catch (Exception e) {
 
-            return e.getMessage();
+           e.printStackTrace();
+           return null;
 
         }
 
     }
 
 
-    public Object prizes(long lotteryId){
+    public List<Prize> prizes(long lotteryId){
 
         return prizeRepository.findAllByLotteryId(lotteryId);
     }

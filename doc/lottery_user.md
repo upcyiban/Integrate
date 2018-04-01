@@ -21,7 +21,38 @@
                 "passcode":123456  , //抽奖验证用的
                 " feedback":"反馈信息",
                 "feedbackTime":"反馈的时间"
-                .
+                ."prizes":[
+                                {
+                                "id":id,
+                                "creatorId":creator,
+                                "prizeName":"nanf",
+                                "prizeInfo":"info",
+                                "prizePercentage":12121212,
+                                "totalNumber":该奖项的名字
+                                "lotteryId":抽奖的id
+                                }
+
+                ]
+                "prizes":[
+                    {
+                            "id":id,
+                            "lotteryid":id,
+                            "yibanid":"id",
+                            "yibanname":"真实名字",
+                            "prizeName":"几等奖",
+                            "prizeStage":"具体的奖品名字";
+                    },
+                    {
+
+
+                            "id":id,
+                            "lotteryid":id,
+                            "yibanid":"id",
+                            "yibanname":"真实名字",
+                            "prizeName":"几等奖",
+                            "prizeStage":"具体的奖品名字";
+                    }
+                ]
                 .
                 .
             },

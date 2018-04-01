@@ -33,7 +33,7 @@ public class LotteryList {
     private String feedback;//假设这个抽奖没有过的时候就会给用户一个反馈信息，，，
     private Date feedbackTime;
 
-    @ManyToOne(targetEntity = Creator.class)
+    @ManyToOne(targetEntity = Creator.class,fetch=FetchType.LAZY)
     @JoinColumn(name = "creator")
     @JsonBackReference
     private Creator creator;
@@ -46,9 +46,20 @@ public class LotteryList {
         this.creator = creator;
     }
 
-    @OneToMany(mappedBy = "lottery", fetch = FetchType.EAGER)
-    @JsonIgnore
+    @OneToMany(mappedBy = "lottery", fetch=FetchType.LAZY)
     private List<Prize> prizes;
+
+    public List<PrizeList> getPrizeLists() {
+        return prizeLists;
+    }
+
+    public void setPrizeLists(List<PrizeList> prizeLists) {
+        this.prizeLists = prizeLists;
+    }
+
+
+    @OneToMany(mappedBy = "lotteryPrize", fetch = FetchType.EAGER)
+    private List<PrizeList> prizeLists;
 
     public List<Prize> getPrizes() {
         return prizes;
