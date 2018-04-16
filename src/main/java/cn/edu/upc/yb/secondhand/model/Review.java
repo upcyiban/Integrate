@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secondhand_review")
-@JsonIgnoreProperties(value = {"isdelete", "createtime", "updatatime"})
 public class Review {
 
     @Id
@@ -15,7 +14,7 @@ public class Review {
     private int id;
 
     private int articleId;
-    private int reviewId;
+
     private String detail;
     private int ybid;
     private String ybname;
@@ -30,7 +29,6 @@ public class Review {
 
     public Review(int articleId, int reviewId, String detail, int ybid, String ybname, String ybhead, Date createtime) {
         this.articleId = articleId;
-        this.reviewId = reviewId;
         this.detail = detail;
         this.ybid = ybid;
         this.ybname = ybname;
@@ -48,14 +46,6 @@ public class Review {
 
     public void setArticleId(int articleId) {
         this.articleId = articleId;
-    }
-
-    public int getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
     }
 
     public String getDetail() {
@@ -106,7 +96,7 @@ public class Review {
         this.updatatime = updatatime;
     }
 
-    public int isIsdelete() {
+    public int getIsdelete() {
         return isdelete;
     }
 

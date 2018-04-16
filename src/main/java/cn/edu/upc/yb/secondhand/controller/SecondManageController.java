@@ -37,12 +37,22 @@ public class SecondManageController {
     @ApiOperation("删除非法用户")
     @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
     @RequestMapping(value = "/deleteuser",method = RequestMethod.GET)
-    public Object deleteUser(int userId){
-        User user = userRepository.findByUserid(userId);
+    public Object deleteUser(int userid){
+        User user = userRepository.findByUserid(userid);
         user.setIsdelete(true);
+        userRepository.save(user);
         return new Message(1,"delete user success");
     }
 
+    @ApiOperation("恢复已经删除用户")
+    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @RequestMapping(value = "/recoveruser",method = RequestMethod.GET)
+    public Object recoverUser(int userid){
+        User user = userRepository.findByUserid(userid);
+        user.setIsdelete(false);
+        userRepository.save(user);
+        return new Message(1,"recover user success");
+    }
     /*
     删除非法物品
      */
@@ -52,7 +62,18 @@ public class SecondManageController {
     public Object deleteArticle(int articleid){
         Article article=articleRepository.findOne(articleid);
         article.setIsdeal(-2);
+        articleRepository.save(article);
         return new Message(1,"delete article success");
+    }
+
+    @ApiOperation("恢复删除物品")
+    @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    @RequestMapping(value = "/recoverarticle",method = RequestMethod.GET)
+    public Object recover(int articleid){
+        Article article=articleRepository.findOne(articleid);
+        article.setIsdeal(0);
+        articleRepository.save(article);
+        return new Message(1,"recover article success");
     }
 
     /*
@@ -64,7 +85,18 @@ public class SecondManageController {
     public Object deleteReview(int reviewid){
         Review review=reviewRepository.findOne(reviewid);
         review.setIsdelete(-2);
+        reviewRepository.save(review);
         return new Message(1,"delete review success");
+    }
+
+    @ApiOperation("恢复已删除非法评论")
+    @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    @RequestMapping(value = "/recoverreview",method = RequestMethod.GET)
+    public Object recoverReview(int reviewid){
+        Review review=reviewRepository.findOne(reviewid);
+        review.setIsdelete(0);
+        reviewRepository.save(review);
+        return new Message(1,"recover review success");
     }
 
     /*

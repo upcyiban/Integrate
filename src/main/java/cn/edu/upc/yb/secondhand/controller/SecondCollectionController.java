@@ -3,8 +3,10 @@ package cn.edu.upc.yb.secondhand.controller;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Collection;
+import cn.edu.upc.yb.secondhand.model.User;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.CollectionRepository;
+import cn.edu.upc.yb.secondhand.repository.UserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +27,9 @@ public class SecondCollectionController {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /*
     用户的收藏记录
      */
@@ -32,7 +37,7 @@ public class SecondCollectionController {
     @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
     @RequestMapping(value = "/usercollection",method = RequestMethod.GET)
     public Object userCollection(int userid){
-        return collectionRepository.findByUserIdOrderByCreateTime(userid);
+        return collectionRepository.findByUserIdOrderByCreateTimeDesc(userid);
     }
 
     /*
@@ -45,15 +50,34 @@ public class SecondCollectionController {
     })
     @RequestMapping(value = "/createcollection",method = RequestMethod.GET)
     public Object createCollection(int userid,int articleid){
+        Article article=articleRepository.findOne(articleid);
+        if (article==null){
+            return new Message(0,"null article");
+        }
+        if (article.getIsdeal()==-1||article.getIsdeal()==-2){
+            return new Message(0,"error article");
+        }
+        User user=userRepository.findByUserid(userid);
+        if (user==null){
+            return new Message(0,"null user");
+        }
+        if (user.isIsdelete()){
+            return new Message(0,"error user");
+        }
 
         Collection collection=new Collection();
+        collection=collectionRepository.findByUserIdAndArticleId(userid,articleid);
+        if (collection!=null){
+            return new Message(0,"don't collect again");
+        }
+        collection=new Collection();
         collection.setArticleId(articleid);
         collection.setUserId(userid);
         Date time=new Date();
         collection.setCreateTime(time);
         collectionRepository.save(collection);
 
-        Article article=articleRepository.findOne(articleid);
+
         int collections=article.getCollections();
         collections++;
         article.setCollections(collections);
@@ -71,7 +95,9 @@ public class SecondCollectionController {
     public Object deleteCollection(int collectionid){
 
         Collection collection=collectionRepository.findOne(collectionid);
-
+        if (collection==null){
+            return new Message(0,"null collection");
+        }
         Article article=articleRepository.findOne(collection.getArticleId());
         int collections=article.getCollections();
         collections--;

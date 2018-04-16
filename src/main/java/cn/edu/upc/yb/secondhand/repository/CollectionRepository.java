@@ -5,7 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CollectionRepository extends CrudRepository<Collection,Integer>{
 
-    Iterable<Collection> findByArticleIdOrderByCreateTime(int articleId);
-    Iterable<Collection> findByUserIdOrderByCreateTime(int userId);
+    Iterable<Collection> findByArticleIdOrderByCreateTimeDesc(int articleId);
+    Iterable<Collection> findByUserIdOrderByCreateTimeDesc(int userId);
+    Collection findByUserIdAndArticleId(int userid,int articleid);
 
 }

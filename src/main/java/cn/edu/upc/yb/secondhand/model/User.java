@@ -17,7 +17,6 @@ public class User {
     private int userid;//用户易班id
     private String username;//用户易班昵称
     private String usernick;//用户性别
-    private char usersex;//用户性别
     private String ybhead;//用户头像
     private String qq=null;//qq
     private String wchat=null;//微信
@@ -54,14 +53,6 @@ public class User {
 
     public void setUsernick(String usernick) {
         this.usernick = usernick;
-    }
-
-    public char getUsersex() {
-        return usersex;
-    }
-
-    public void setUsersex(char usersex) {
-        this.usersex = usersex;
     }
 
     public String getYbhead() {

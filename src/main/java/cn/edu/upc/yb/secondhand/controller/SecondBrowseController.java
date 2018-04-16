@@ -1,5 +1,7 @@
 package cn.edu.upc.yb.secondhand.controller;
 
+import cn.edu.upc.yb.secondhand.dto.Message;
+import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Review;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.ws.ServiceMode;
+import java.util.Iterator;
+import java.util.List;
 
 @RestController
 @RequestMapping("/secondhand/browse")
@@ -36,14 +40,46 @@ public class SecondBrowseController {
         return articleRepository.findByIsdealOrderByCreatetimeDesc(0);
     }
     /*
+    用户浏览单个物品
+     */
+    @ApiOperation(value = "用户浏览单个物品")
+    @ApiImplicitParam(name = "articleid",value = "",dataType = "int",paramType = "query")
+    @RequestMapping(value = "/onearticle",method = RequestMethod.GET)
+    public Object oneArticleBrowse(int articleid){
+        Article article=articleRepository.findOne(articleid);
+        if (article==null){
+            return new Message(0,"null article");
+        }
+        if (article.getIsdeal()==-1){
+            return new Message(0,"user delete article");
+        }
+        if (article.getIsdeal()==-2){
+            return new Message(0,"admin delete article");
+        }
+        return article;
+    }
+    /*
     用户物品记录
      */
     @ApiOperation(value = "用户物品记录")
     @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
     @RequestMapping(value = "/historyArticle",method = RequestMethod.GET)
     public Object historyAricleBrowse(int userid){
+        List<Article> articleList=articleRepository.findByUseridOrderByCreatetimeDesc(userid);
+        int i;
+        int n=articleList.size();
+        System.out.println(n);
+        Article article=new Article();
+        for (i=0;i<n;i++){
+            article=articleList.get(i);
+            System.out.println(article.getId());
+            if (article.getIsdeal()==-1){
+                articleList.remove(article);
+                n--;
+            }
+        }
 
-        return articleRepository.findByUseridOrderByCreatetimeDesc(userid);
+        return articleList;
     }
 
     /*
@@ -53,7 +89,7 @@ public class SecondBrowseController {
     @ApiOperation(value = "某个物品的所有评论")
     @ApiImplicitParam(name = "articleid",value = "",dataType = "int",paramType = "query")
     @RequestMapping(value = "/review",method = RequestMethod.GET)
-    public Object oneArticleBrowse(int articleid){
+    public Object oneArticleReviewBrowse(int articleid){
         return reviewRepository.findByArticleIdAndIsdeleteOrderByCreatetimeDesc(articleid,0);
     }
 

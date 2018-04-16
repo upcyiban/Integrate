@@ -77,6 +77,9 @@ public class SecondPublishController {
     @RequestMapping(value = "/updatearticle",method = RequestMethod.GET)
     public Object updateArticle(int articleid,String name, String kind, String detail, String imgurl, String price, String degree){
         Article article=articleRepository.findOne(articleid);
+        if (article==null){
+            return new Message(0,"null article");
+        }
         Date updateTime=new Date();
 
         article.setName(name);
@@ -96,16 +99,20 @@ public class SecondPublishController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query"),
-            @ApiImplicitParam(name = "reviewid",value = "回复评论id",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "detail",value = "详情",dataType = "String",paramType = "query"),
     })
     @RequestMapping(value = "/review",method = RequestMethod.GET)
-    public Object createReview(int userid, int articleid, int reviewid, String detail){
+    public Object createReview(int userid, int articleid,  String detail){
+        Article article =articleRepository.findOne(articleid);
+        if (article==null){
+            return new Message(0,"null article");
+        }
+        /*
+        添加用户为null的情况
+         */
         Review review =new Review();
         Date createTime = new Date();
-
         review.setArticleId(articleid);
-        review.setReviewId(reviewid);
         review.setDetail(detail);
 
         review.setYbhead("head");
@@ -130,6 +137,8 @@ public class SecondPublishController {
         if (review==null){
             return new Message(0,"null review");
         }
+        Date date=new Date();
+        review.setUpdatatime(date);
         review.setDetail(detail);
         reviewRepository.save(review);
 
@@ -138,15 +147,36 @@ public class SecondPublishController {
 
     @ApiOperation("取消某物品的发布")
     @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
-    @RequestMapping(value = "dealarticle",method = RequestMethod.GET)
+    @RequestMapping(value = "/dealarticle",method = RequestMethod.GET)
     public Object dealarticle(int articleid){
         Article article=articleRepository.findOne(articleid);
         if (article==null){
             return new Message(0,"null article");
         }
+        if (article.getIsdeal()==1){
+            return new Message(0,"don't deal again");
+        }
         article.setIsdeal(1);
+        article.setUpdatetime(new Date());
         articleRepository.save(article);
         return new Message(1,"deal success");
+    }
+
+    @ApiOperation("删除某物品")
+    @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    @RequestMapping(value = "/deletearticle",method = RequestMethod.GET)
+    public Object deletearticle(int articleid){
+        Article article=articleRepository.findOne(articleid);
+        if (article==null){
+            return new Message(0,"null article");
+        }
+        if (article.getIsdeal()==-1){
+            return new Message(0,"don't delete again");
+        }
+        article.setIsdeal(-1);
+        article.setUpdatetime(new Date());
+        articleRepository.save(article);
+        return new Message(1,"delete success");
     }
 
 }
