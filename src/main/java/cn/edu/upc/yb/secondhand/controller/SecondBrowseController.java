@@ -1,5 +1,6 @@
 package cn.edu.upc.yb.secondhand.controller;
 
+import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Review;
@@ -97,9 +98,12 @@ public class SecondBrowseController {
     某用户的评论记录
      */
     @ApiOperation("某用户的评论记录")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/historyreview",method = RequestMethod.GET)
-    public Object historyReviewBrowse(int userid){
+    public Object historyReviewBrowse(String token,int userid){
 
         return reviewRepository.findByYbidAndIsdeleteOrderByCreatetimeDesc(userid,0);
     }
