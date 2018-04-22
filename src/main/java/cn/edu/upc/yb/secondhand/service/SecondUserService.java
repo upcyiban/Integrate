@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 
 @Service
-public class UserService {
+public class SecondUserService {
 
     @Value("${jwt.header}")
     private String tokenHeader;
