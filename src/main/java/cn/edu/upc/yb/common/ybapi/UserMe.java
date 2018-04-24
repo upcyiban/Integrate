@@ -29,8 +29,6 @@ public class UserMe {
      * @return
      */
     public Object getUserMe(String ybtoken) throws IOException {
-//        System.out.println("token:   "+token);
-//        String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         System.out.println("ybtoken:  "+ybtoken);
         String queryString = "access_token=" + ybtoken;
         String result = queryService.getYbApi("user/me", queryString);
