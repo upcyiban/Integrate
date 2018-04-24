@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface  PrizeRepository  extends CrudRepository<Prize,Long>{
     List<Prize> findAllByCreatorId(long creatorId);
+    List<Prize> findAllByLotteryId(long lotteryId);
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2018/2/21  16:22
  */
 @Entity
-@Table(name = "creator")
+@Table(name = "creatorNew")
 public class Creator {
 
     @Id

@@ -41,9 +41,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         // String authToken = header.substring(7);
         String ybid = jwtTokenUtil.getYBidFromTocken(authToken);
         String appname = jwtTokenUtil.getAppnameFromTocken(authToken);
-
+        logger.info(authToken  +  "获取用户的token");
         logger.info("checking authentication for user " + ybid);
 
+        String id = request.getParameter("passcode");
+        logger.info(id+ " 用户的pass code是");
         if (ybid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // It is not compelling necessary to load the use details from the database. You could also store the information
