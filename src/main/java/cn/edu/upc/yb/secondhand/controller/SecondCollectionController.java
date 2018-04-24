@@ -1,5 +1,7 @@
 package cn.edu.upc.yb.secondhand.controller;
 
+import cn.edu.upc.yb.common.dto.SwaggerParameter;
+import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Collection;
@@ -11,10 +13,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @RestController
@@ -30,13 +34,22 @@ public class SecondCollectionController {
     @Autowired
     private UserRepository userRepository;
 
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
     /*
     用户的收藏记录
      */
     @ApiOperation("用户的收藏记录")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/usercollection",method = RequestMethod.GET)
-    public Object userCollection(int userid){
+    public Object userCollection(HttpServletRequest request){
+        String token=request.getParameter(this.tokenHeader);
+        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         return collectionRepository.findByUserIdOrderByCreateTimeDesc(userid);
     }
 
@@ -45,11 +58,13 @@ public class SecondCollectionController {
      */
     @ApiOperation("添加一条收藏记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
     @RequestMapping(value = "/createcollection",method = RequestMethod.GET)
-    public Object createCollection(int userid,int articleid){
+    public Object createCollection(HttpServletRequest request,int articleid){
+        String token=request.getParameter(this.tokenHeader);
+        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         Article article=articleRepository.findOne(articleid);
         if (article==null){
             return new Message(0,"null article");
@@ -90,9 +105,12 @@ public class SecondCollectionController {
     删除收藏记录
      */
     @ApiOperation("删除收藏记录")
-    @ApiImplicitParam(name = "collectionid",value = "收藏记录id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "collectionid",value = "收藏记录id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/deletecollection",method = RequestMethod.GET)
-    public Object deleteCollection(int collectionid){
+    public Object deleteCollection(HttpServletRequest request,int collectionid){
 
         Collection collection=collectionRepository.findOne(collectionid);
         if (collection==null){

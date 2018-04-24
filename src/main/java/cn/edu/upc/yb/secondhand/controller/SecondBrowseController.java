@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.secondhand.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
+import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Review;
@@ -11,10 +12,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.ServiceMode;
 import java.util.Iterator;
 import java.util.List;
@@ -29,13 +32,19 @@ public class SecondBrowseController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
     @Autowired
-    private UserRepository userRepository;
+    private JwtTokenUtil jwtTokenUtil;
 
     /*
     用户浏览已经发布物品
      */
     @ApiOperation(value = "用户浏览已经发布物品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/article",method = RequestMethod.GET)
     public Object allArticleBrowse(){
         return articleRepository.findByIsdealOrderByCreatetimeDesc(0);
@@ -44,9 +53,12 @@ public class SecondBrowseController {
     用户浏览单个物品
      */
     @ApiOperation(value = "用户浏览单个物品")
-    @ApiImplicitParam(name = "articleid",value = "",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/onearticle",method = RequestMethod.GET)
-    public Object oneArticleBrowse(int articleid){
+    public Object oneArticleBrowse(HttpServletRequest request,int articleid){
         Article article=articleRepository.findOne(articleid);
         if (article==null){
             return new Message(0,"null article");
@@ -63,9 +75,11 @@ public class SecondBrowseController {
     用户物品记录
      */
     @ApiOperation(value = "用户物品记录")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
     @RequestMapping(value = "/historyArticle",method = RequestMethod.GET)
-    public Object historyAricleBrowse(int userid){
+    public Object historyAricleBrowse(HttpServletRequest request){
+        String token=request.getParameter(this.tokenHeader);
+        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         List<Article> articleList=articleRepository.findByUseridOrderByCreatetimeDesc(userid);
         int i;
         int n=articleList.size();
@@ -79,7 +93,6 @@ public class SecondBrowseController {
                 n--;
             }
         }
-
         return articleList;
     }
 
@@ -88,7 +101,10 @@ public class SecondBrowseController {
      */
 
     @ApiOperation(value = "某个物品的所有评论")
-    @ApiImplicitParam(name = "articleid",value = "",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "articleid",value = "",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/review",method = RequestMethod.GET)
     public Object oneArticleReviewBrowse(int articleid){
         return reviewRepository.findByArticleIdAndIsdeleteOrderByCreatetimeDesc(articleid,0);
@@ -99,23 +115,13 @@ public class SecondBrowseController {
      */
     @ApiOperation("某用户的评论记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String")
     })
     @RequestMapping(value = "/historyreview",method = RequestMethod.GET)
-    public Object historyReviewBrowse(String token,int userid){
-
+    public Object historyReviewBrowse(HttpServletRequest request){
+        String token=request.getParameter(this.tokenHeader);
+        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         return reviewRepository.findByYbidAndIsdeleteOrderByCreatetimeDesc(userid,0);
-    }
-
-    /*
-    用户的个人信息获取
-     */
-    @ApiOperation("用户的个人信息获取")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
-    @RequestMapping(value = "/user",method = RequestMethod.GET)
-    public Object user(int userid){
-        return userRepository.findByUserid(userid);
     }
 
 }

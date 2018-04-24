@@ -1,5 +1,6 @@
 package cn.edu.upc.yb.secondhand.controller;
 
+import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Review;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -35,9 +37,12 @@ public class SecondManageController {
     删除非法用户
      */
     @ApiOperation("删除非法用户")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+    })
     @RequestMapping(value = "/deleteuser",method = RequestMethod.GET)
-    public Object deleteUser(int userid){
+    public Object deleteUser(HttpServletRequest request,int userid){
         User user = userRepository.findByUserid(userid);
         user.setIsdelete(true);
         userRepository.save(user);
@@ -45,9 +50,12 @@ public class SecondManageController {
     }
 
     @ApiOperation("恢复已经删除用户")
-    @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "userid",value = "用户id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/recoveruser",method = RequestMethod.GET)
-    public Object recoverUser(int userid){
+    public Object recoverUser(HttpServletRequest request,int userid){
         User user = userRepository.findByUserid(userid);
         user.setIsdelete(false);
         userRepository.save(user);
@@ -57,9 +65,12 @@ public class SecondManageController {
     删除非法物品
      */
     @ApiOperation("删除非法物品")
-    @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/deletearticle",method = RequestMethod.GET)
-    public Object deleteArticle(int articleid){
+    public Object deleteArticle(HttpServletRequest request,int articleid){
         Article article=articleRepository.findOne(articleid);
         article.setIsdeal(-2);
         articleRepository.save(article);
@@ -67,9 +78,12 @@ public class SecondManageController {
     }
 
     @ApiOperation("恢复删除物品")
-    @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/recoverarticle",method = RequestMethod.GET)
-    public Object recover(int articleid){
+    public Object recover(HttpServletRequest request,int articleid){
         Article article=articleRepository.findOne(articleid);
         article.setIsdeal(0);
         articleRepository.save(article);
@@ -80,9 +94,12 @@ public class SecondManageController {
     删除非法评论
      */
     @ApiOperation("删除非法评论")
-    @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/deletereview",method = RequestMethod.GET)
-    public Object deleteReview(int reviewid){
+    public Object deleteReview(HttpServletRequest request,int reviewid){
         Review review=reviewRepository.findOne(reviewid);
         review.setIsdelete(-2);
         reviewRepository.save(review);
@@ -90,9 +107,12 @@ public class SecondManageController {
     }
 
     @ApiOperation("恢复已删除非法评论")
-    @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    })
     @RequestMapping(value = "/recoverreview",method = RequestMethod.GET)
-    public Object recoverReview(int reviewid){
+    public Object recoverReview(HttpServletRequest request,int reviewid){
         Review review=reviewRepository.findOne(reviewid);
         review.setIsdelete(0);
         reviewRepository.save(review);
@@ -103,8 +123,11 @@ public class SecondManageController {
     查看所有用户信息
      */
     @ApiOperation("查看所有用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/alluser",method = RequestMethod.GET)
-    public Object allUser(){
+    public Object allUser(HttpServletRequest request){
         return userRepository.findAll();
     }
 
@@ -112,8 +135,11 @@ public class SecondManageController {
     查看所有物品
      */
     @ApiOperation("查看所有物品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/allarticle",method = RequestMethod.GET)
-    public Object allArticle(){
+    public Object allArticle(HttpServletRequest request){
         return articleRepository.findAll();
     }
 
@@ -121,8 +147,11 @@ public class SecondManageController {
     查看所有评论
      */
     @ApiOperation("查看所有评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
     @RequestMapping(value = "/allreview",method = RequestMethod.GET)
-    public Object allReview(){
+    public Object allReview(HttpServletRequest request){
         return reviewRepository.findAll();
     }
 }
