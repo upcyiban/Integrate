@@ -74,17 +74,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources",
                         "/v2/api-docs",
                         "/configuration/**",
-                        "/token"
-
+                        "/token",
+                        "/secondhand/**"
                 ).permitAll()
                 .antMatchers(
                         "/auth/**",
                         "/lottery/admin/**",
+                        "/secondhand/**"
                         "/match/apply",
-                       "/match/showAll",
-                        "/lottery/admin/**"
-
-
+                       "/match/showAll"
                 ).permitAll()
                 .anyRequest().authenticated();
 

@@ -27,7 +27,7 @@ jwt:
       multipart:
         max-file-size: 100MB
 server:
-  port: 8084
+  port: 8085
 
 #  一周CP需要的依赖
 

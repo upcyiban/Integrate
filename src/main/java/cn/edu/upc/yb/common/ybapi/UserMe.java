@@ -25,11 +25,11 @@ public class UserMe {
     /**
      * 易班https://openapi.yiban.cn/user/me接口封装
      *
-     * @param token upcyiban token
+     * @param ybtoken upcyiban token
      * @return
      */
-    public Object getUserMe(String token) throws IOException {
-        String ybtoken = jwtTokenUtil.getYbaccessToken(token);
+    public Object getUserMe(String ybtoken) throws IOException {
+        System.out.println("ybtoken:  "+ybtoken);
         String queryString = "access_token=" + ybtoken;
         String result = queryService.getYbApi("user/me", queryString);
         Gson gson = new Gson();
@@ -49,15 +49,15 @@ public class UserMe {
         public Info info;
 
         public class Info {
-            String yb_userid;
-            String yb_username;
-            String yb_usernick;
-            String yb_sex;
-            String yb_money;
-            String yb_exp;
-            String yb_userhead;
-            String yb_schoolid;
-            String yb_schoolname;
+            public String yb_userid;
+            public String yb_username;
+            public String yb_usernick;
+            public String yb_sex;
+            public String yb_money;
+            public String yb_exp;
+            public String yb_userhead;
+            public String yb_schoolid;
+            public String yb_schoolname;
 
             @Override
             public String toString() {
