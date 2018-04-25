@@ -1,45 +1,51 @@
-package cn.edu.upc.yb.secondhand.model;
+package cn.edu.upc.yb.secondhand.dto;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
-@Table(name = "secondhand_article")
-public class Article {
+public class ArticleAndUser {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
+    private String articleId;
     private String name;//物品名字
     private String kind;//物品种类
     private String detail;//物品详细描述
     private String imgurl;//物品图片
     private String price;//物品价格
     private String degree;//崭新度
-    private int isdeal=0;//物品是否处理 0为对外发布状态 1为不发布状态 -1为用户删除状态 -2为管理员删除
     private Date createtime;//创建时间
     private Date updatetime;//更新时间
-    private int collections=0;//收藏数目
-    private int reviews=0;
+    private int collections;//收藏数目
+    private int reviews;
+    private String username;//用户易班昵称
+    private String ybhead;//用户头像
 
-    private int userid;//易班id
-
-    public Article() {
+    public ArticleAndUser() {
     }
 
-    public Article(String name, String kind, String detail, String imgurl, String price, String degree) {
+    public ArticleAndUser(String articleId, String name, String kind, String detail, String imgurl, String price, String degree, Date createtime, Date updatetime, int collections, int reviews, String username, String ybhead) {
+        this.articleId = articleId;
         this.name = name;
         this.kind = kind;
         this.detail = detail;
         this.imgurl = imgurl;
         this.price = price;
         this.degree = degree;
+        this.createtime = createtime;
+        this.updatetime = updatetime;
+        this.collections = collections;
+        this.reviews = reviews;
+        this.username = username;
+        this.ybhead = ybhead;
     }
 
-    public int getId() {
-        return id;
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     public String getName() {
@@ -90,14 +96,6 @@ public class Article {
         this.degree = degree;
     }
 
-    public int getIsdeal() {
-        return isdeal;
-    }
-
-    public void setIsdeal(int isdeal) {
-        this.isdeal = isdeal;
-    }
-
     public Date getCreatetime() {
         return createtime;
     }
@@ -114,14 +112,6 @@ public class Article {
         this.updatetime = updatetime;
     }
 
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
-    }
-
     public int getCollections() {
         return collections;
     }
@@ -136,5 +126,21 @@ public class Article {
 
     public void setReviews(int reviews) {
         this.reviews = reviews;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getYbhead() {
+        return ybhead;
+    }
+
+    public void setYbhead(String ybhead) {
+        this.ybhead = ybhead;
     }
 }

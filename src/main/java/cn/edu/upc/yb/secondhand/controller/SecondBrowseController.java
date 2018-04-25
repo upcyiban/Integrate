@@ -38,6 +38,17 @@ public class SecondBrowseController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @ApiOperation(value = "用户根据物品名称进行模糊查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "name",value = "物品名称",dataType = "String",paramType = "query")
+    })
+    @RequestMapping(value = "/findbyarticlename",method = RequestMethod.GET)
+    public Object findByArticleName(HttpServletRequest request,String name){
+        return articleRepository.findByNameLike(name);
+    }
+
+
     /*
     用户浏览已经发布物品
      */

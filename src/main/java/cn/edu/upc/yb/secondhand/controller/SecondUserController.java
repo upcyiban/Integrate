@@ -43,6 +43,15 @@ public class SecondUserController {
         return secondUserService.userInfo(request);
     }
 
+    @ApiOperation("获取其他用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "userId",value = "用户易班id",dataType = "String")
+    })
+    @RequestMapping(value = "/otherinfo",method = RequestMethod.GET)
+    public Object otherUserInfo(HttpServletRequest request,int userid){
+        return userRepository.findByUserid(userid);
+    }
 
     @ApiOperation("注册用户信息")
     @ApiImplicitParams({

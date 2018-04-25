@@ -5,6 +5,7 @@ import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.Article;
 import cn.edu.upc.yb.secondhand.model.Review;
+import cn.edu.upc.yb.secondhand.model.User;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
@@ -67,7 +68,6 @@ public class SecondPublishController {
         article.setDegree(degree);
         article.setCreatetime(createTime);
         article.setUserid(userid);
-        article.setCollections(0);
 
         articleRepository.save(article);
 
@@ -116,26 +116,25 @@ public class SecondPublishController {
     public Object createReview(HttpServletRequest request, int articleid,  String detail){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        User user=userRepository.findByUserid(userid);
         Article article =articleRepository.findOne(articleid);
         if (article==null){
             return new Message(0,"null article");
         }
-        /*
-        添加用户为null的情况
-         */
+        if (user==null){
+            return new Message(0,"null user");
+        }
         Review review =new Review();
         Date createTime = new Date();
         review.setArticleId(articleid);
         review.setDetail(detail);
-
-        review.setYbhead("head");
+        review.setYbhead(user.getYbhead());
         review.setYbid(userid);
-        review.setYbname("name");
-
+        review.setYbname(user.getUsername());
         review.setCreatetime(createTime);
-
-        review.setIsdelete(0);
         reviewRepository.save(review);
+        article.setReviews(article.getReviews()+1);
+        articleRepository.save(article);
         return new Message(1,"create review success");
     }
 
