@@ -9,6 +9,7 @@ import cn.edu.upc.yb.secondhand.model.User;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.CollectionRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
+import cn.edu.upc.yb.secondhand.service.CollectionService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,9 @@ public class SecondCollectionController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CollectionService collectionService;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -48,9 +52,7 @@ public class SecondCollectionController {
     })
     @RequestMapping(value = "/usercollection",method = RequestMethod.GET)
     public Object userCollection(HttpServletRequest request){
-        String token=request.getParameter(this.tokenHeader);
-        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        return collectionRepository.findByUserIdOrderByCreateTimeDesc(userid);
+        return collectionService.getCollectionInfo(request);
     }
 
     /*

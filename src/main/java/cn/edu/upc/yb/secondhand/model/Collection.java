@@ -13,6 +13,7 @@ public class Collection {
 
     private int userId;
     private int articleId;
+
     private Date createTime;
 
     public Collection() {

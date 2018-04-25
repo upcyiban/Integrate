@@ -25,6 +25,8 @@ public class Article {
     private int reviews=0;
 
     private int userid;//易班id
+    private String ybhead;
+    private String ybname;
 
     public Article() {
     }
@@ -136,5 +138,21 @@ public class Article {
 
     public void setReviews(int reviews) {
         this.reviews = reviews;
+    }
+
+    public String getYbhead() {
+        return ybhead;
+    }
+
+    public void setYbhead(String ybhead) {
+        this.ybhead = ybhead;
+    }
+
+    public String getYbname() {
+        return ybname;
+    }
+
+    public void setYbname(String ybname) {
+        this.ybname = ybname;
     }
 }

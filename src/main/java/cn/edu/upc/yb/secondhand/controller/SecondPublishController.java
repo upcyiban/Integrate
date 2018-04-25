@@ -56,6 +56,7 @@ public class SecondPublishController {
     public Object createArticle(HttpServletRequest request, String name, String kind, String detail, String imgurl, String price, String degree){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        User user=userRepository.findByUserid(userid);
         Article article=new Article();
         Date createTime=new Date();
 
@@ -68,6 +69,9 @@ public class SecondPublishController {
         article.setDegree(degree);
         article.setCreatetime(createTime);
         article.setUserid(userid);
+
+        article.setYbhead(user.getYbhead());
+        article.setYbname(user.getUsername());
 
         articleRepository.save(article);
 
