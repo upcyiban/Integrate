@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface CreatorRepository extends CrudRepository<Creator, Long> {
 
-    Creator findByYibanid(String yibanId);
+    Creator findByYibanid(long yibanId);
 
 }

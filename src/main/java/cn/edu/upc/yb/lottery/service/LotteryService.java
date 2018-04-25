@@ -12,6 +12,8 @@ import cn.edu.upc.yb.lottery.repository.LotteryListRepository;
 import cn.edu.upc.yb.lottery.repository.PrizeListRepository;
 import cn.edu.upc.yb.lottery.repository.PrizeRepository;
 import cn.edu.upc.yb.lottery.utils.ResponseBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.Timestamp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +31,7 @@ import java.util.List;
  */
 @Service
 public class LotteryService {
+
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -51,6 +55,8 @@ public class LotteryService {
 
 //时间上是不是能够满足抽奖
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public boolean canLottery(Timestamp lotterytimebegin, Timestamp lotterytimeend) {
         Timestamp date = new Timestamp(System.currentTimeMillis());
         if (date.after(lotterytimebegin) && date.before(lotterytimeend)) {
@@ -67,18 +73,11 @@ public class LotteryService {
 
 
     //需要前台传过来的参数强制转换成Create类型的数据
-    public Object createLottery(Create create) {
-        String authToken = create.token;
-        String lotteryname = create.lotteryname;
-        String lotteryintro = create.lotteryintro;
-        Timestamp timeStart = create.lotterytimebegin;
-        Timestamp timeEnd = create.lotterytimeend;
-        String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
+    public Object createLottery(String Authorization,String userName, String lotteryName, String lotteryIntro, Timestamp lotteryTimeBegin,Timestamp lotteryTimeEnd) {
+
+        String yibanId = jwtTokenUtil.getYBidFromTocken(Authorization);
         try {
-
-            String userName = create.username;
-
-            Creator creator = creatorRepository.findByYibanid(yibanId);
+            Creator creator = creatorRepository.findByYibanid(Long.valueOf(yibanId));
             if (creator == null) {
                 creator = new Creator();
                 creator.setYibanid(Long.valueOf(yibanId));
@@ -86,108 +85,127 @@ public class LotteryService {
                 creatorRepository.save(creator);
             }
 
-            creator = creatorRepository.findByYibanid(yibanId);
-
-            if (creator == null) {
-
-                return new ResponseBean(-1, "未知用户", null);
-            }
-
             LotteryList lotteryList = new LotteryList();
             lotteryList.setCreatorid(creator.getId());
-            lotteryList.setLotteryname(lotteryname);
-            lotteryList.setLotteryintro(lotteryintro);
-            lotteryList.setLotterytimebegin(timeStart);
-            lotteryList.setLotterytimeend(timeEnd);
+            lotteryList.setLotteryname(lotteryName);
+            lotteryList.setLotteryintro(lotteryIntro);
+            lotteryList.setLotterytimebegin(lotteryTimeBegin);
+            lotteryList.setLotterytimeend(lotteryTimeEnd);
             lotteryList.setIspass(1);
             lotteryList.setCreatetime(new java.sql.Date(System.currentTimeMillis()));
-
-            if (create.prizes != null) {
-                for (Prize prize : create.prizes) {
-
-                    prizeRepository.save(prize);
-                }
-            }
-
             int passcode = (int) (Math.random() * 9 + 1) * 100000;
             lotteryList.setPasscode(passcode);
             lotteryListRepository.save(lotteryList);
-            return new ResponseBean(1, "success", passcode);
+
+
+           int lotteryListId  =(int) lotteryList.getId();
+            List<Integer> list = new ArrayList<>();
+            list.add(lotteryListId);
+            list.add(passcode);
+            list.add((int)creator.getId());
+            return new ResponseBean(1, "success", list);
 
         } catch (Exception e) {
             return new ResponseBean(-1, "未知错误", e.getMessage());
         }
-
     }
+
+//当我们创建抽奖成功后返回lotteryId，和creatorId。最后再是创建该抽奖的奖项
+    public Object createPrizes(String prizeName,String prizeIntro,String prizePercentage,long prizeTotalNumber,long creatorId,long lotteryId){
+
+         Prize prize = new Prize();
+         prize.setLotteryId(lotteryId);
+         prize.setPrizeName(prizeName);
+         prize.setCreatorId(creatorId);
+         prize.setPrizeIntro(prizeIntro);
+         prize.setTotalNumber(prizeTotalNumber);
+         prize.setPrizePercentage(prizePercentage);
+         prizeRepository.save(prize);
+         return new ResponseBean(1,"success",true);
+    }
+
 
     public Object getUserInfo(HttpServletRequest request) throws IOException {
         String authToken = request.getParameter(tokenHeader);
+        System.out.println("你得token是" + authToken);
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
+        System.out.println("你的一般ID是" + yibanId);
         Creator creator = new Creator();
-        creator.setYibanid(Long.getLong(yibanId));
+        creator.setYibanid(Long.valueOf(yibanId));
+
         creator.setYibanname((String) userService.getStuName(request));
         return new ResponseBean(1, "登陆用户的信息", creator);
 
     }
 
     public Object getLotteryList() {
-        List<LotteryList> lotteryListLists = lotteryListRepository.findAll();
 
+
+        List<LotteryList> lists = new ArrayList<>();
+        List<LotteryList> lotteryListLists = lotteryListRepository.findAll();
         if (lotteryListLists.isEmpty()) {
 
             return new ResponseBean(-1, "暂时没有抽奖", null);
         }
+
         for (LotteryList lotteryList : lotteryListLists) {
             Timestamp begin = lotteryList.getLotterytimebegin();
             Timestamp end = lotteryList.getLotterytimeend();
 
-            if (begin==null||end==null){
-                lotteryListLists.remove(lotteryList);
-
+            System.out.println("进入循环了");
+            if (begin == null || end == null) {
+                lists.add(lotteryList);
                 System.out.println("直接的时间上为null'的不允许参加抽奖");
                 break;
             }
             if (!canLottery(begin, end)) {
-                lotteryListLists.remove(lotteryList);
+
+                lists.add(lotteryList);
             }
         }
+        lotteryListLists.remove(lists);
         return new ResponseBean(1, "获取所有满足时间要求的抽奖", lotteryListLists);
+
 
     }
 
 
-    public Object doLottery(HttpServletRequest request) throws IOException{
-        String tmp = request.getParameter("lotteyId");
-        if (tmp==null){
-            return new ResponseBean(-1,"非法请求",false);
+    public Object doLottery(HttpServletRequest request) throws IOException {
+        String tmp = request.getParameter("lotteryId");
+
+        if (tmp == null) {
+            return new ResponseBean(0, "非法请求", false);
         }
+
         long lotteryId = Long.valueOf(tmp);
         String authToken = request.getParameter(tokenHeader);
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
         String username = (String) userService.getStuName(request);
-        if(!LotteryCondition2(Long.valueOf(yibanId))){
 
-            return new ResponseBean(-1,"你已经抽过奖了",false);
+        if (!LotteryCondition2(Long.valueOf(yibanId))) {
+
+            return new ResponseBean(-1, "你已经抽过奖了", false);
         }
 
         LotteryList lotteryList = lotteryListRepository.findOne(lotteryId);
         //传过来一个抽奖
-        List<Prize> prizes = prizeRepository.findAllByCreatorId(lotteryList.getCreatorid());
+        List<Prize> prizes = prizeRepository.findAllByLotteryId(lotteryList.getId());
         return dealLottery(prizes, Long.valueOf(yibanId), username, lotteryId);
 
     }
-    public Object isPass(long lotteryId,int passcode)  {
+
+    public Object isPass(long lotteryId, int passcode) {
         LotteryList lotteryList = lotteryListRepository.findOne(lotteryId);
         if (lotteryList == null) {
             return new ResponseBean(-1, "没有该抽奖", false);
         }
         if (lotteryList.getPasscode() == passcode) {
             //这个时候就是验证了验证码是否正确后。
-           return new ResponseBean(1,"验证码正确",true);
+            return new ResponseBean(1, "验证码正确", true);
 
         } else {
 
-            return new ResponseBean(-1, "验证码有问题，请重新输入", false);
+            return new ResponseBean(-2, "验证码有问题，请重新输入", false);
         }
 
 
@@ -205,25 +223,27 @@ public class LotteryService {
 
         }
 
+        System.out.println(lotteryId + "抽奖得ID");
         Prize prize = randomPrize(prizes);
         if (prize == null) {
 
-            prizeList.setLotteryid(lotteryId);
-            prizeList.setYibanid(yibanid);
-            prizeList.setYibanname(username);
-            prizeListRepository.save(prizeList);
-            return new ResponseBean(-1, "很遗憾你没有中奖", null);
-
+            PrizeList prizeList1 = new PrizeList();
+            prizeList1.setLotteryid(lotteryId);
+            System.out.println("村粗");
+            prizeList1.setYibanid(yibanid);
+            prizeList1.setYibanname(username);
+            prizeListRepository.save(prizeList1);
+            return new ResponseBean(-2, "很遗憾你没有中奖", null);
         } else {
             prize.setTotalNumber(prize.getTotalNumber() - 1);
-
+            PrizeList prizeList1 = new PrizeList();
             prizeRepository.save(prize);
             //.这个时候需要我把数据保存下来
-            prizeList.setLotteryid(lotteryId);
-            prizeList.setYibanid(yibanid);
-            prizeList.setYibanname(username);
-            prizeList.setPrizeName(prize.getPrizeName());
-            prizeListRepository.save(prizeList);
+            prizeList1.setLotteryid(lotteryId);
+            prizeList1.setYibanid(yibanid);
+            prizeList1.setYibanname(username);
+            prizeList1.setPrizeName(prize.getPrizeName());
+            prizeListRepository.save(prizeList1);
             return new ResponseBean(1, "恭喜你获奖了", prize);
 
         }
@@ -232,10 +252,11 @@ public class LotteryService {
     }
 
 
-    public Object findbycode(int passcode){
+    public Object findbycode(int passcode) {
 
-       return lotteryListRepository.findAllByPasscode(passcode);
+        return lotteryListRepository.findAllByPasscode(passcode);
     }
+
     //用于检测随机数。
     public Prize randomPrize(List<Prize> prizes) {
 
@@ -258,21 +279,32 @@ public class LotteryService {
 
     }
 
-    public Object message(long lotteryId){
-        List<PrizeList>  prizeLists = prizeListRepository.
+    public List<PrizeList> message(long lotteryId) {
+        List<PrizeList> prizeLists = prizeListRepository.
                 findAllByLotteryid(lotteryId);
+        try {
+            for (PrizeList prizeList : prizeLists) {
 
-        for (PrizeList prizeList : prizeLists){
-
-            if (prizeList.getPrizeName()==null){
-                prizeLists.remove(prizeList);
+                if (prizeList.getPrizeName() == null) {
+                    prizeLists.remove(prizeList);
+                }
             }
-        }
 
-        return prizeLists;
+            return prizeLists;
+        } catch (Exception e) {
+
+           e.printStackTrace();
+           return null;
+
+        }
 
     }
 
+
+    public List<Prize> prizes(long lotteryId){
+
+        return prizeRepository.findAllByLotteryId(lotteryId);
+    }
     public class Create {
         public String token;
         public String username;//realname

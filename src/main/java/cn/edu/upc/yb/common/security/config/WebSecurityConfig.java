@@ -81,6 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/auth/**",
                         "/lottery/admin/**",
                         "/secondhand/**"
+                        "/match/apply",
+                       "/match/showAll"
                 ).permitAll()
                 .anyRequest().authenticated();
 

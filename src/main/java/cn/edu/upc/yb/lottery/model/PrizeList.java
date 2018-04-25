@@ -1,6 +1,8 @@
 package cn.edu.upc.yb.lottery.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -8,7 +10,7 @@ import javax.persistence.*;
  * @date 2018/2/21  17:03
  */
 @Entity
-@Table(name = "prizeList")
+@Table(name = "prizeListNew")
 public class PrizeList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +21,19 @@ public class PrizeList {
     private String yibanname;
     private String prizeName;
     private String prizeStage;
+
+    @ManyToOne(targetEntity = LotteryList.class)
+    @JoinColumn(name = "lotteryPrize")
+    @JsonBackReference
+    private LotteryList lotteryPrize;
+
+    public LotteryList getLotteryPrize() {
+        return lotteryPrize;
+    }
+
+    public void setLotteryPrize(LotteryList lotteryPrize) {
+        this.lotteryPrize = lotteryPrize;
+    }
 
     public String getPrizeName() {
         return prizeName;
