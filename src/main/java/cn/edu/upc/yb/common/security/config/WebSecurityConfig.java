@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/auth/**",
                         "/lottery/admin/**",
-                        "/secondhand/**"
+                        "/secondhand/**",
                         "/match/apply",
                        "/match/showAll"
                 ).permitAll()
