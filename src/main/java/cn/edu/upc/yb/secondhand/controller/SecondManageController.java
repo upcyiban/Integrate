@@ -2,9 +2,9 @@ package cn.edu.upc.yb.secondhand.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.secondhand.dto.Message;
-import cn.edu.upc.yb.secondhand.model.Article;
-import cn.edu.upc.yb.secondhand.model.Review;
-import cn.edu.upc.yb.secondhand.model.User;
+import cn.edu.upc.yb.secondhand.model.SecondArticle;
+import cn.edu.upc.yb.secondhand.model.SecondReview;
+import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
@@ -43,7 +43,7 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/deleteuser",method = RequestMethod.GET)
     public Object deleteUser(HttpServletRequest request,int userid){
-        User user = userRepository.findByUserid(userid);
+        SecondUser user = userRepository.findByUserid(userid);
         user.setIsdelete(true);
         userRepository.save(user);
         return new Message(1,"delete user success");
@@ -56,7 +56,7 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/recoveruser",method = RequestMethod.GET)
     public Object recoverUser(HttpServletRequest request,int userid){
-        User user = userRepository.findByUserid(userid);
+        SecondUser user = userRepository.findByUserid(userid);
         user.setIsdelete(false);
         userRepository.save(user);
         return new Message(1,"recover user success");
@@ -71,10 +71,10 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/deletearticle",method = RequestMethod.GET)
     public Object deleteArticle(HttpServletRequest request,int articleid){
-        Article article=articleRepository.findOne(articleid);
-        article.setIsdeal(-2);
-        articleRepository.save(article);
-        return new Message(1,"delete article success");
+        SecondArticle secondArticle =articleRepository.findOne(articleid);
+        secondArticle.setIsdeal(-2);
+        articleRepository.save(secondArticle);
+        return new Message(1,"delete secondArticle success");
     }
 
     @ApiOperation("恢复删除物品")
@@ -84,10 +84,10 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/recoverarticle",method = RequestMethod.GET)
     public Object recover(HttpServletRequest request,int articleid){
-        Article article=articleRepository.findOne(articleid);
-        article.setIsdeal(0);
-        articleRepository.save(article);
-        return new Message(1,"recover article success");
+        SecondArticle secondArticle =articleRepository.findOne(articleid);
+        secondArticle.setIsdeal(0);
+        articleRepository.save(secondArticle);
+        return new Message(1,"recover secondArticle success");
     }
 
     /*
@@ -100,10 +100,10 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/deletereview",method = RequestMethod.GET)
     public Object deleteReview(HttpServletRequest request,int reviewid){
-        Review review=reviewRepository.findOne(reviewid);
-        review.setIsdelete(-2);
-        reviewRepository.save(review);
-        return new Message(1,"delete review success");
+        SecondReview secondReview =reviewRepository.findOne(reviewid);
+        secondReview.setIsdelete(-2);
+        reviewRepository.save(secondReview);
+        return new Message(1,"delete secondReview success");
     }
 
     @ApiOperation("恢复已删除非法评论")
@@ -113,10 +113,10 @@ public class SecondManageController {
     })
     @RequestMapping(value = "/recoverreview",method = RequestMethod.GET)
     public Object recoverReview(HttpServletRequest request,int reviewid){
-        Review review=reviewRepository.findOne(reviewid);
-        review.setIsdelete(0);
-        reviewRepository.save(review);
-        return new Message(1,"recover review success");
+        SecondReview secondReview =reviewRepository.findOne(reviewid);
+        secondReview.setIsdelete(0);
+        reviewRepository.save(secondReview);
+        return new Message(1,"recover secondReview success");
     }
 
     /*

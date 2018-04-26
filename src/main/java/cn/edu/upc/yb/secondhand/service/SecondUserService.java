@@ -4,9 +4,8 @@ import cn.edu.upc.yb.common.ybapi.UserMe;
 
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
-import cn.edu.upc.yb.secondhand.model.User;
+import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
-import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class SecondUserService {
     public Boolean isExist(HttpServletRequest request){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        User user=userRepository.findByUserid(yibanId);
+        SecondUser user=userRepository.findByUserid(yibanId);
         return (user!=null);
     }
 
@@ -44,7 +43,7 @@ public class SecondUserService {
     public Object userInfo(HttpServletRequest request){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        User user=userRepository.findByUserid(yibanId);
+        SecondUser user=userRepository.findByUserid(yibanId);
         if (user==null){
             return new Message(0,"null user");
         }
@@ -55,11 +54,11 @@ public class SecondUserService {
     注册用户信息
      */
     public Object addUser(HttpServletRequest request,String Qq){
-        User user =new User();
+        SecondUser user =new SecondUser();
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         if (userRepository.findByUserid(yibanId)!=null){
-            return new Message(0,"User already exists");
+            return new Message(0,"SecondUser already exists");
         }
         String access_token=jwtTokenUtil.getYbaccessToken(token);
         UserMe.UserInfo userInfo;
@@ -83,9 +82,9 @@ public class SecondUserService {
     public Object addphone(HttpServletRequest request,String phone){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        User user=userRepository.findByUserid(yibanId);
+        SecondUser user=userRepository.findByUserid(yibanId);
         if (user==null){
-            return new Message(0,"User null");
+            return new Message(0,"SecondUser null");
         }
         user.setPhone(phone);
         return userRepository.save(user);
@@ -97,9 +96,9 @@ public class SecondUserService {
     public Object addwchat(HttpServletRequest request,String wchat){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        User user=userRepository.findByUserid(yibanId);
+        SecondUser user=userRepository.findByUserid(yibanId);
         if (user==null){
-            return new Message(0,"User null");
+            return new Message(0,"SecondUser null");
         }
         user.setWchat(wchat);
         return userRepository.save(user);
@@ -111,9 +110,9 @@ public class SecondUserService {
     public Object addemail(HttpServletRequest request,String email){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        User user=userRepository.findByUserid(yibanId);
+        SecondUser user=userRepository.findByUserid(yibanId);
         if (user==null){
-            return new Message(0,"User null");
+            return new Message(0,"SecondUser null");
         }
         user.setEmail(email);
         return userRepository.save(user);

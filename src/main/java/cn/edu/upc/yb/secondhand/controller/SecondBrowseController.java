@@ -3,11 +3,9 @@ package cn.edu.upc.yb.secondhand.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
-import cn.edu.upc.yb.secondhand.model.Article;
-import cn.edu.upc.yb.secondhand.model.Review;
+import cn.edu.upc.yb.secondhand.model.SecondArticle;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
-import cn.edu.upc.yb.secondhand.repository.UserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.ServiceMode;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -70,17 +66,17 @@ public class SecondBrowseController {
     })
     @RequestMapping(value = "/onearticle",method = RequestMethod.GET)
     public Object oneArticleBrowse(HttpServletRequest request,int articleid){
-        Article article=articleRepository.findOne(articleid);
-        if (article==null){
-            return new Message(0,"null article");
+        SecondArticle secondArticle =articleRepository.findOne(articleid);
+        if (secondArticle ==null){
+            return new Message(0,"null secondArticle");
         }
-        if (article.getIsdeal()==-1){
-            return new Message(0,"user delete article");
+        if (secondArticle.getIsdeal()==-1){
+            return new Message(0,"user delete secondArticle");
         }
-        if (article.getIsdeal()==-2){
-            return new Message(0,"admin delete article");
+        if (secondArticle.getIsdeal()==-2){
+            return new Message(0,"admin delete secondArticle");
         }
-        return article;
+        return secondArticle;
     }
     /*
     用户物品记录
@@ -91,20 +87,20 @@ public class SecondBrowseController {
     public Object historyAricleBrowse(HttpServletRequest request){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        List<Article> articleList=articleRepository.findByUseridOrderByCreatetimeDesc(userid);
+        List<SecondArticle> secondArticleList =articleRepository.findByUseridOrderByCreatetimeDesc(userid);
         int i;
-        int n=articleList.size();
+        int n= secondArticleList.size();
         System.out.println(n);
-        Article article=new Article();
+        SecondArticle secondArticle =new SecondArticle();
         for (i=0;i<n;i++){
-            article=articleList.get(i);
-            System.out.println(article.getId());
-            if (article.getIsdeal()==-1){
-                articleList.remove(article);
+            secondArticle = secondArticleList.get(i);
+            System.out.println(secondArticle.getId());
+            if (secondArticle.getIsdeal()==-1){
+                secondArticleList.remove(secondArticle);
                 n--;
             }
         }
-        return articleList;
+        return secondArticleList;
     }
 
     /*

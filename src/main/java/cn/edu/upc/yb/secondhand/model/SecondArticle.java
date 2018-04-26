@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secondhand_article")
-public class Article {
+public class SecondArticle {
 
 
     @Id
@@ -28,10 +28,10 @@ public class Article {
     private String ybhead;
     private String ybname;
 
-    public Article() {
+    public SecondArticle() {
     }
 
-    public Article(String name, String kind, String detail, String imgurl, String price, String degree) {
+    public SecondArticle(String name, String kind, String detail, String imgurl, String price, String degree) {
         this.name = name;
         this.kind = kind;
         this.detail = detail;

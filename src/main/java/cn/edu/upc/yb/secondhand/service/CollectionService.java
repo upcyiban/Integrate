@@ -2,8 +2,8 @@ package cn.edu.upc.yb.secondhand.service;
 
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.CollectionInfo;
-import cn.edu.upc.yb.secondhand.model.Article;
-import cn.edu.upc.yb.secondhand.model.Collection;
+import cn.edu.upc.yb.secondhand.model.SecondArticle;
+import cn.edu.upc.yb.secondhand.model.SecondCollection;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.CollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +30,22 @@ public class CollectionService {
 
     public List<CollectionInfo> getCollectionInfo(HttpServletRequest request){
         String token=request.getParameter(this.tokenHeader);
-        Article article=new Article();
+        SecondArticle secondArticle =new SecondArticle();
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        List<Collection> collections=collectionRepository.findByUserIdOrderByCreateTimeDesc(yibanId);
+        List<SecondCollection> secondCollections =collectionRepository.findByUserIdOrderByCreateTimeDesc(yibanId);
         List<CollectionInfo> collectionInfos = new ArrayList<>();
-        for (Collection collection:collections){
+        for (SecondCollection secondCollection : secondCollections){
             CollectionInfo collectionInfo=new CollectionInfo();
-            article=articleRepository.findOne(collection.getArticleId());
-            collectionInfo.setId(collection.getId());
-            collectionInfo.setUserId(collection.getUserId());
-            collectionInfo.setArticleId(collection.getArticleId());
-            collectionInfo.setArticleDetail(article.getDetail());
-            collectionInfo.setArticleName(article.getName());
-            collectionInfo.setArticleKind(article.getKind());
-            collectionInfo.setArticlePrice(article.getPrice());
-            collectionInfo.setArticleUserYBhead(article.getYbhead());
-            collectionInfo.setArticleUserYBName(article.getYbname());
+            secondArticle =articleRepository.findOne(secondCollection.getArticleId());
+            collectionInfo.setId(secondCollection.getId());
+            collectionInfo.setUserId(secondCollection.getUserId());
+            collectionInfo.setArticleId(secondCollection.getArticleId());
+            collectionInfo.setArticleDetail(secondArticle.getDetail());
+            collectionInfo.setArticleName(secondArticle.getName());
+            collectionInfo.setArticleKind(secondArticle.getKind());
+            collectionInfo.setArticlePrice(secondArticle.getPrice());
+            collectionInfo.setArticleUserYBhead(secondArticle.getYbhead());
+            collectionInfo.setArticleUserYBName(secondArticle.getYbname());
             collectionInfos.add(collectionInfo);
         }
 
