@@ -1,7 +1,7 @@
-package cn.edu.upc.yb.app.leinuo.weekcp.controller;
+package cn.edu.upc.yb.common.controller;
 
 import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
-import cn.edu.upc.yb.app.leinuo.weekcp.util.UploadFileUtil;
+import cn.edu.upc.yb.common.util.UploadFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +26,20 @@ public class UploadController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("/file")
-    public Result uploadImage(@ModelAttribute("file")MultipartFile file,
-                              @ModelAttribute("input-text")String text) throws IOException {
+    public Result uploadImage(@ModelAttribute("file")MultipartFile file) throws IOException {
         logger.info(file.getOriginalFilename());
+        String fileName = file.getOriginalFilename();
+        String fileType = fileUtil.getFileType(fileName);
         Long code = System.currentTimeMillis();
         try {
-            logger.info(code+"-"+file.getOriginalFilename());
-            file.transferTo(fileUtil.createFile(code+"-"+file.getOriginalFilename()));
+            logger.info(code.toString() + "." + fileType);
+            file.transferTo(fileUtil.createFile(code.toString() + "." + fileType));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Result.success("你成功了" , code+"-"+file.getOriginalFilename());
+        logger.info(file.getOriginalFilename());
+        return Result.success(
+                "你成功了" ,
+                fileUtil.getKey(fileName) + "\\" + code.toString() + "." + fileType);
     }
 }

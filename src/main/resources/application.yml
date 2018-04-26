@@ -32,9 +32,9 @@ server:
 #  一周CP需要的依赖
 
 #filePath表示文件的根路径。***Path与***List属性不解释
-linux: true
+linux: false
 upload:
-  filePath: C:\yiban_web\WebAfter\002websoket\
+  filePath: C:\yiban_web\WebAfter\001Integrate\Integrate\
   imagePath: file\image
   textPath: file\text
   videoPath: file\video
