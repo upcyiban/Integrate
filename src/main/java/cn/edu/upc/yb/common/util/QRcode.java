@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.common.util;
 
-/*
+/**
+ * @author UPCdevelopment
  * 二维码的一个小包
  * 最后返回一个ＵＲＬ给前端
  *下载图片 http://qr.liantu.com/api.php?text=x 进行引用

@@ -1,4 +1,4 @@
-package cn.edu.upc.yb.app.leinuo.weekcp.util;
+package cn.edu.upc.yb.common.util;
 
 import cn.edu.upc.yb.app.leinuo.weekcp.enums.FileEnum;
 import org.slf4j.Logger;
@@ -37,10 +37,10 @@ public class UploadFileUtil {
     private String filePath;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private String getPath(String fileName) {
-        String fileType = fileName.substring(fileName.lastIndexOf('.')+1,fileName.length());
-
+    public String getKey(String fileName) {
+        String fileType = getFileType(fileName);
         HashMap<String,List<String>> typeMap = new HashMap<>();
+        System.out.println(imageList);
         typeMap.put(imagePath, Arrays.asList(imageList.split(",")));
         typeMap.put(textPath,Arrays.asList(textList.split(",")));
         typeMap.put(videoPath,Arrays.asList(videoList.split(",")));
@@ -49,11 +49,21 @@ public class UploadFileUtil {
             List<String> item = typeMap.get(key);
             for (String s : item) {
                 if (s.equals(fileType)) {
-                    return this.filePath+key+"\\";
+                    return key;
                 }
             }
         }
-        return this.filePath+"file\\";
+        return null;
+    }
+    public String getFileType (String fileName) {
+        return fileName.substring(fileName.lastIndexOf('.')+1,fileName.length());
+    }
+    private String getPath(String fileName) {
+        String key = getKey(fileName);
+        if (key != null) {
+            return filePath + key + "\\";
+        }
+        return filePath+"file\\";
     }
 
     public File createFile(String fileName) throws Exception {
