@@ -40,12 +40,15 @@ public class CollectionService {
             collectionInfo.setId(secondCollection.getId());
             collectionInfo.setUserId(secondCollection.getUserId());
             collectionInfo.setArticleId(secondCollection.getArticleId());
+            collectionInfo.setCreatTime(secondCollection.getCreateTime());
             collectionInfo.setArticleDetail(secondArticle.getDetail());
             collectionInfo.setArticleName(secondArticle.getName());
             collectionInfo.setArticleKind(secondArticle.getKind());
             collectionInfo.setArticlePrice(secondArticle.getPrice());
             collectionInfo.setArticleUserYBhead(secondArticle.getYbhead());
             collectionInfo.setArticleUserYBName(secondArticle.getYbname());
+            collectionInfo.setArticleImg(secondArticle.getImgurl());
+            collectionInfo.setArticleDate(secondArticle.getCreatetime());
             collectionInfos.add(collectionInfo);
         }
 

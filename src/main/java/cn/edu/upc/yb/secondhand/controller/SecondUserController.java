@@ -58,7 +58,7 @@ public class SecondUserController {
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
             @ApiImplicitParam(paramType = "query", name = "Qq", dataType = "String",value = "用户qq")
     })
-    @RequestMapping(value = "/signup",method = RequestMethod.GET)
+    @RequestMapping(value = "/signup",method = RequestMethod.POST)
     public Object signup(HttpServletRequest request,String Qq){
         return secondUserService.addUser(request,Qq);
     }
@@ -75,7 +75,7 @@ public class SecondUserController {
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
             @ApiImplicitParam(name = "email",value = "邮箱",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/addemail",method = RequestMethod.GET)
+    @RequestMapping(value = "/addemail",method = RequestMethod.POST)
     public Object addEmail(HttpServletRequest request,String email){
         return secondUserService.addemail(request,email);
     }
@@ -85,7 +85,7 @@ public class SecondUserController {
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
             @ApiImplicitParam(name = "wchat",value = "微信",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/addwchat",method = RequestMethod.GET)
+    @RequestMapping(value = "/addwchat",method = RequestMethod.POST)
     public Object addWchat(HttpServletRequest request,String wchat){
         return secondUserService.addwchat(request,wchat);
     }
@@ -95,7 +95,7 @@ public class SecondUserController {
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
             @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/addphone",method = RequestMethod.GET)
+    @RequestMapping(value = "/addphone",method = RequestMethod.POST)
     public Object addPhone(HttpServletRequest request,String phone){
         return secondUserService.addphone(request,phone);
     }

@@ -10,6 +10,7 @@ public class CollectionInfo {
     private int id;
     private int userId;
     private int articleId;
+    private Date creatTime;
 
     private String articleUserYBhead;
     private String articleUserYBName;
@@ -17,6 +18,8 @@ public class CollectionInfo {
     private String articleDetail;
     private String articlePrice;
     private String articleKind;
+    private String articleImg;
+    private Date articleDate;
 
     public CollectionInfo() {
     }
@@ -103,5 +106,29 @@ public class CollectionInfo {
 
     public void setArticleKind(String articleKind) {
         this.articleKind = articleKind;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
+    }
+
+    public String getArticleImg() {
+        return articleImg;
+    }
+
+    public void setArticleImg(String articleImg) {
+        this.articleImg = articleImg;
+    }
+
+    public Date getArticleDate() {
+        return articleDate;
+    }
+
+    public void setArticleDate(Date articleDate) {
+        this.articleDate = articleDate;
     }
 }

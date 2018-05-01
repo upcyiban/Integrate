@@ -63,7 +63,7 @@ public class SecondCollectionController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/createcollection",method = RequestMethod.GET)
+    @RequestMapping(value = "/createcollection",method = RequestMethod.POST)
     public Object createCollection(HttpServletRequest request,int articleid){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
@@ -111,7 +111,7 @@ public class SecondCollectionController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "collectionid",value = "收藏记录id",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/deletecollection",method = RequestMethod.GET)
+    @RequestMapping(value = "/deletecollection",method = RequestMethod.POST)
     public Object deleteCollection(HttpServletRequest request,int collectionid){
 
         SecondCollection secondCollection =collectionRepository.findOne(collectionid);

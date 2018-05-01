@@ -4,7 +4,9 @@ import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.SecondArticle;
+import cn.edu.upc.yb.secondhand.model.SecondKind;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
+import cn.edu.upc.yb.secondhand.repository.KindRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,6 +35,9 @@ public class SecondBrowseController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private KindRepository kindRepository;
 
     @ApiOperation(value = "用户根据物品名称进行模糊查询")
     @ApiImplicitParams({
@@ -129,6 +134,15 @@ public class SecondBrowseController {
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         return reviewRepository.findByYbidAndIsdeleteOrderByCreatetimeDesc(userid,0);
+    }
+
+    @ApiOperation("查看所有种类")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
+    @RequestMapping(value = "/allkind",method = RequestMethod.GET)
+    public Object allKind(HttpServletRequest request){
+        return kindRepository.findAll();
     }
 
 }

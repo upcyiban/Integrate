@@ -51,7 +51,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "price",value = "物品价格",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "degree",value = "物品崭新度",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/article", method = RequestMethod.GET)
+    @RequestMapping(value = "/article", method = RequestMethod.POST)
     public Object createArticle(HttpServletRequest request, String name, String kind, String detail, String imgurl, String price, String degree){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
@@ -88,7 +88,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "price",value = "物品价格",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "degree",value = "物品崭新度",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/updatearticle",method = RequestMethod.GET)
+    @RequestMapping(value = "/updatearticle",method = RequestMethod.POST)
     public Object updateArticle(HttpServletRequest request,int articleid,String name, String kind, String detail, String imgurl, String price, String degree){
         SecondArticle secondArticle =articleRepository.findOne(articleid);
         if (secondArticle ==null){
@@ -115,7 +115,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "detail",value = "详情",dataType = "String",paramType = "query"),
     })
-    @RequestMapping(value = "/review",method = RequestMethod.GET)
+    @RequestMapping(value = "/review",method = RequestMethod.POST)
     public Object createReview(HttpServletRequest request, int articleid,  String detail){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
@@ -147,7 +147,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "reviewid",value = "回复评论id",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "detail",value = "详情",dataType = "String",paramType = "query"),
     })
-    @RequestMapping(value = "/updatereview",method = RequestMethod.GET)
+    @RequestMapping(value = "/updatereview",method = RequestMethod.POST)
     public Object updateReview(int reviewid,String detail){
 
         SecondReview secondReview = reviewRepository.findOne(reviewid);
@@ -168,7 +168,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
 
-    @RequestMapping(value = "/dealarticle",method = RequestMethod.GET)
+    @RequestMapping(value = "/dealarticle",method = RequestMethod.POST)
     public Object dealarticle(int articleid){
         SecondArticle secondArticle =articleRepository.findOne(articleid);
         if (secondArticle ==null){
@@ -188,7 +188,7 @@ public class SecondPublishController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/deletearticle",method = RequestMethod.GET)
+    @RequestMapping(value = "/deletearticle",method = RequestMethod.POST)
     public Object deletearticle(int articleid){
         SecondArticle secondArticle =articleRepository.findOne(articleid);
         if (secondArticle ==null){

@@ -3,15 +3,18 @@ package cn.edu.upc.yb.secondhand.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.SecondArticle;
+import cn.edu.upc.yb.secondhand.model.SecondKind;
 import cn.edu.upc.yb.secondhand.model.SecondReview;
 import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
+import cn.edu.upc.yb.secondhand.repository.KindRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/secondhand/manage")
+@PreAuthorize("hasRole('ROLE_SECOND_ADMIN')")
 public class SecondManageController {
 
     @Autowired
@@ -31,6 +35,9 @@ public class SecondManageController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private KindRepository kindRepository;
 
 
     /*
@@ -154,4 +161,45 @@ public class SecondManageController {
     public Object allReview(HttpServletRequest request){
         return reviewRepository.findAll();
     }
+
+
+    @ApiOperation("查看所有种类")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+    })
+    @RequestMapping(value = "/allkind",method = RequestMethod.GET)
+    public Object allKind(HttpServletRequest request){
+        return kindRepository.findAll();
+    }
+
+    @ApiOperation("添加种类")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "name",value = "种类名字",dataType = "String",paramType = "query")
+    })
+    @RequestMapping(value = "/addkind",method = RequestMethod.GET)
+    public Object addKind(HttpServletRequest request,String name){
+        SecondKind kind=new SecondKind();
+        kind.setName(name);
+        return kindRepository.save(kind);
+    }
+
+    @ApiOperation("删除种类")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "种类id",dataType = "String",paramType = "query")
+    })
+    @RequestMapping(value = "/deletekind",method = RequestMethod.GET)
+    public Object deleteKind(HttpServletRequest request,int id){
+        SecondKind kind=kindRepository.findOne(id);
+        if(kind==null){
+            return new Message(0,"null kind");
+        }
+        kindRepository.delete(id);
+        return new Message(1,"delete kind success");
+    }
+
+
+
+
 }
