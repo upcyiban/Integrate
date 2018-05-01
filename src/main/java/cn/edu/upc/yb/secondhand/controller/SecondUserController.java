@@ -70,34 +70,17 @@ public class SecondUserController {
         return secondUserService.isExist(request);
     }
 
-    @ApiOperation("增加用户email")
+
+    @ApiOperation("增加用户其他信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "wchat",value = "微信",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "email",value = "邮箱",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/addemail",method = RequestMethod.POST)
-    public Object addEmail(HttpServletRequest request,String email){
-        return secondUserService.addemail(request,email);
-    }
-
-    @ApiOperation("增加用户wcaht")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(name = "wchat",value = "微信",dataType = "String",paramType = "query")
-    })
-    @RequestMapping(value = "/addwchat",method = RequestMethod.POST)
-    public Object addWchat(HttpServletRequest request,String wchat){
-        return secondUserService.addwchat(request,wchat);
-    }
-
-    @ApiOperation("增加用户phone")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "query")
-    })
-    @RequestMapping(value = "/addphone",method = RequestMethod.POST)
-    public Object addPhone(HttpServletRequest request,String phone){
-        return secondUserService.addphone(request,phone);
+    @RequestMapping(value = "/addotherinfo",method = RequestMethod.POST)
+    public Object addPhone(HttpServletRequest request,String phone,String wchat,String email){
+         return secondUserService.addOtherInfo(request,phone,wchat,email);
     }
 
 }
