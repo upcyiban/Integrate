@@ -77,9 +77,9 @@ public class SecondUserService {
         return user;
     }
     /*
-    增加用户手机号
+    增加用户其他信息
      */
-    public Object addphone(HttpServletRequest request,String phone){
+    public Object addOtherInfo(HttpServletRequest request,String phone,String wchat,String email){
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         SecondUser user=userRepository.findByUserid(yibanId);
@@ -87,33 +87,7 @@ public class SecondUserService {
             return new Message(0,"SecondUser null");
         }
         user.setPhone(phone);
-        return userRepository.save(user);
-    }
-
-    /*
-    增加用户wchat
-     */
-    public Object addwchat(HttpServletRequest request,String wchat){
-        String token=request.getParameter(this.tokenHeader);
-        int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        SecondUser user=userRepository.findByUserid(yibanId);
-        if (user==null){
-            return new Message(0,"SecondUser null");
-        }
         user.setWchat(wchat);
-        return userRepository.save(user);
-    }
-
-    /*
-    增加用户email
-     */
-    public Object addemail(HttpServletRequest request,String email){
-        String token=request.getParameter(this.tokenHeader);
-        int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        SecondUser user=userRepository.findByUserid(yibanId);
-        if (user==null){
-            return new Message(0,"SecondUser null");
-        }
         user.setEmail(email);
         return userRepository.save(user);
     }
