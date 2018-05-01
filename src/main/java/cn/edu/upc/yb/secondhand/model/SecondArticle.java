@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secondhand_article")
-public class Article {
+public class SecondArticle {
 
 
     @Id
@@ -21,14 +21,17 @@ public class Article {
     private int isdeal=0;//物品是否处理 0为对外发布状态 1为不发布状态 -1为用户删除状态 -2为管理员删除
     private Date createtime;//创建时间
     private Date updatetime;//更新时间
-    private int collections;//收藏数目
+    private int collections=0;//收藏数目
+    private int reviews=0;
 
     private int userid;//易班id
+    private String ybhead;
+    private String ybname;
 
-    public Article() {
+    public SecondArticle() {
     }
 
-    public Article(String name, String kind, String detail, String imgurl, String price, String degree) {
+    public SecondArticle(String name, String kind, String detail, String imgurl, String price, String degree) {
         this.name = name;
         this.kind = kind;
         this.detail = detail;
@@ -127,5 +130,29 @@ public class Article {
 
     public void setCollections(int collections) {
         this.collections = collections;
+    }
+
+    public int getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(int reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getYbhead() {
+        return ybhead;
+    }
+
+    public void setYbhead(String ybhead) {
+        this.ybhead = ybhead;
+    }
+
+    public String getYbname() {
+        return ybname;
+    }
+
+    public void setYbname(String ybname) {
+        this.ybname = ybname;
     }
 }

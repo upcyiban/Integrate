@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secondhand_collection")
-public class Collection {
+public class SecondCollection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,9 +13,10 @@ public class Collection {
 
     private int userId;
     private int articleId;
+
     private Date createTime;
 
-    public Collection() {
+    public SecondCollection() {
     }
 
     public int getId() {

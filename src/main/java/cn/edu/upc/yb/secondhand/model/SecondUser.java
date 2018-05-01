@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "secondhand_user")
 @JsonIgnoreProperties(value = {"isdelete", "createtime", "updatatime"})
-public class User {
+public class SecondUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
