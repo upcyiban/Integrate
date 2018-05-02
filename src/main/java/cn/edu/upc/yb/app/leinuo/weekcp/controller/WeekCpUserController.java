@@ -15,7 +15,6 @@ import java.util.List;
  * @author leinuo
  * TODO 增加自己的CP接口，增加注册用户接口
  */
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/leinuo/weekcp/user")
 public class WeekCpUserController {
