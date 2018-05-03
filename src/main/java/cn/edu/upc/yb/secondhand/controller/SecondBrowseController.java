@@ -13,6 +13,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,11 +58,15 @@ public class SecondBrowseController {
      */
     @ApiOperation(value = "用户浏览已经发布物品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
     })
     @RequestMapping(value = "/article",method = RequestMethod.GET)
-    public Object allArticleBrowse(){
-        return articleRepository.findByIsdealOrderByCreatetimeDesc(0);
+    public Object allArticleBrowse(HttpServletRequest request,int page){
+        Pageable pageable=new PageRequest(page,10);
+        Page<SecondArticle> articles=articleRepository.findByIsdealOrderByCreatetimeDesc(0,pageable);
+        //return articles.iterator();
+        return articles;
     }
     /*
     用户浏览单个物品
