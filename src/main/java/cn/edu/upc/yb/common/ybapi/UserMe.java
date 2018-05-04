@@ -32,6 +32,7 @@ public class UserMe {
         System.out.println("ybtoken:  "+ybtoken);
         String queryString = "access_token=" + ybtoken;
         String result = queryService.getYbApi("user/me", queryString);
+        System.out.println(result);
         Gson gson = new Gson();
         try {
             UserInfo userInfo = gson.fromJson(result,UserInfo.class);
