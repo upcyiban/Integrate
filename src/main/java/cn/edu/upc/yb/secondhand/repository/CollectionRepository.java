@@ -1,12 +1,14 @@
 package cn.edu.upc.yb.secondhand.repository;
 
-import cn.edu.upc.yb.secondhand.model.Collection;
+import cn.edu.upc.yb.secondhand.model.SecondCollection;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CollectionRepository extends CrudRepository<Collection,Integer>{
+import java.util.List;
 
-    Iterable<Collection> findByArticleIdOrderByCreateTimeDesc(int articleId);
-    Iterable<Collection> findByUserIdOrderByCreateTimeDesc(int userId);
-    Collection findByUserIdAndArticleId(int userid,int articleid);
+public interface CollectionRepository extends CrudRepository<SecondCollection,Integer>{
+
+    Iterable<SecondCollection> findByArticleIdOrderByCreateTimeDesc(int articleId);
+    List<SecondCollection> findByUserIdOrderByCreateTimeDesc(int userId);
+    SecondCollection findByUserIdAndArticleId(int userid, int articleid);
 
 }

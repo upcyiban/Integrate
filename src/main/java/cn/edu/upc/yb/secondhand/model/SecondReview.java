@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "secondhand_review")
-public class Review {
+public class SecondReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +24,10 @@ public class Review {
     private Date updatatime;
     private int isdelete = 0; //0为正常显示 -1为用户删除 -2为管理员删除
 
-    public Review() {
+    public SecondReview() {
     }
 
-    public Review(int articleId, int reviewId, String detail, int ybid, String ybname, String ybhead, Date createtime) {
+    public SecondReview(int articleId, int reviewId, String detail, int ybid, String ybname, String ybhead, Date createtime) {
         this.articleId = articleId;
         this.detail = detail;
         this.ybid = ybid;

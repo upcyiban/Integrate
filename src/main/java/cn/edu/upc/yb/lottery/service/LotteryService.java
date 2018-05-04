@@ -93,7 +93,7 @@ public class LotteryService {
             lotteryList.setLotterytimeend(lotteryTimeEnd);
             lotteryList.setIspass(1);
             lotteryList.setCreatetime(new java.sql.Date(System.currentTimeMillis()));
-            int passcode = (int) (Math.random() * 9 + 1) * 100000;
+            int passcode = (int)( (Math.random() * 9 + 1) * 100000);
             lotteryList.setPasscode(passcode);
             lotteryListRepository.save(lotteryList);
 

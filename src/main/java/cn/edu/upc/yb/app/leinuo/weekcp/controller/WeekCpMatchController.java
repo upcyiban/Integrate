@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author leinuoleileinuo
  */
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/leinuo/weekcp/match")
 public class WeekCpMatchController {

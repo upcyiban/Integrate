@@ -3,12 +3,13 @@ package cn.edu.upc.yb.secondhand.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.secondhand.dto.Message;
-import cn.edu.upc.yb.secondhand.model.Article;
-import cn.edu.upc.yb.secondhand.model.Collection;
-import cn.edu.upc.yb.secondhand.model.User;
+import cn.edu.upc.yb.secondhand.model.SecondArticle;
+import cn.edu.upc.yb.secondhand.model.SecondCollection;
+import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.CollectionRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
+import cn.edu.upc.yb.secondhand.service.CollectionService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,9 @@ public class SecondCollectionController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CollectionService collectionService;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -48,9 +52,7 @@ public class SecondCollectionController {
     })
     @RequestMapping(value = "/usercollection",method = RequestMethod.GET)
     public Object userCollection(HttpServletRequest request){
-        String token=request.getParameter(this.tokenHeader);
-        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        return collectionRepository.findByUserIdOrderByCreateTimeDesc(userid);
+        return collectionService.getCollectionInfo(request);
     }
 
     /*
@@ -61,18 +63,18 @@ public class SecondCollectionController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/createcollection",method = RequestMethod.GET)
+    @RequestMapping(value = "/createcollection",method = RequestMethod.POST)
     public Object createCollection(HttpServletRequest request,int articleid){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        Article article=articleRepository.findOne(articleid);
-        if (article==null){
-            return new Message(0,"null article");
+        SecondArticle secondArticle =articleRepository.findOne(articleid);
+        if (secondArticle ==null){
+            return new Message(0,"null secondArticle");
         }
-        if (article.getIsdeal()==-1||article.getIsdeal()==-2){
-            return new Message(0,"error article");
+        if (secondArticle.getIsdeal()==-1|| secondArticle.getIsdeal()==-2){
+            return new Message(0,"error secondArticle");
         }
-        User user=userRepository.findByUserid(userid);
+        SecondUser user=userRepository.findByUserid(userid);
         if (user==null){
             return new Message(0,"null user");
         }
@@ -80,25 +82,25 @@ public class SecondCollectionController {
             return new Message(0,"error user");
         }
 
-        Collection collection=new Collection();
-        collection=collectionRepository.findByUserIdAndArticleId(userid,articleid);
-        if (collection!=null){
+        SecondCollection secondCollection =new SecondCollection();
+        secondCollection =collectionRepository.findByUserIdAndArticleId(userid,articleid);
+        if (secondCollection !=null){
             return new Message(0,"don't collect again");
         }
-        collection=new Collection();
-        collection.setArticleId(articleid);
-        collection.setUserId(userid);
+        secondCollection =new SecondCollection();
+        secondCollection.setArticleId(articleid);
+        secondCollection.setUserId(userid);
         Date time=new Date();
-        collection.setCreateTime(time);
-        collectionRepository.save(collection);
+        secondCollection.setCreateTime(time);
+        collectionRepository.save(secondCollection);
 
 
-        int collections=article.getCollections();
+        int collections= secondArticle.getCollections();
         collections++;
-        article.setCollections(collections);
-        articleRepository.save(article);
+        secondArticle.setCollections(collections);
+        articleRepository.save(secondArticle);
 
-        return new Message(1,"create collection seccess");
+        return new Message(1,"create secondCollection seccess");
     }
 
     /*
@@ -109,21 +111,21 @@ public class SecondCollectionController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "collectionid",value = "收藏记录id",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/deletecollection",method = RequestMethod.GET)
+    @RequestMapping(value = "/deletecollection",method = RequestMethod.POST)
     public Object deleteCollection(HttpServletRequest request,int collectionid){
 
-        Collection collection=collectionRepository.findOne(collectionid);
-        if (collection==null){
-            return new Message(0,"null collection");
+        SecondCollection secondCollection =collectionRepository.findOne(collectionid);
+        if (secondCollection ==null){
+            return new Message(0,"null secondCollection");
         }
-        Article article=articleRepository.findOne(collection.getArticleId());
-        int collections=article.getCollections();
+        SecondArticle secondArticle =articleRepository.findOne(secondCollection.getArticleId());
+        int collections= secondArticle.getCollections();
         collections--;
-        article.setCollections(collections);
-        articleRepository.save(article);
+        secondArticle.setCollections(collections);
+        articleRepository.save(secondArticle);
 
         collectionRepository.delete(collectionid);
-        return new Message(1,"delete collection seccess");
+        return new Message(1,"delete secondCollection seccess");
 
     }
 
