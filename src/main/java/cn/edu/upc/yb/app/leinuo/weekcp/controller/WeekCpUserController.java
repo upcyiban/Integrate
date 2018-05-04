@@ -90,7 +90,7 @@ public class WeekCpUserController {
     }
 
     @RequestMapping("/getYiMeByToken")
-    public Result getMe(@ModelAttribute("vq")String token) {
+    public Result getMe(@ModelAttribute("Authorization")String token) {
         UserMe.UserInfo userInfo;
         try {
             userInfo = (UserMe.UserInfo) um.getUserMe(tokenUtil.getYbaccessToken(token));
