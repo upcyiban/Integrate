@@ -5,6 +5,7 @@ import cn.edu.upc.yb.app.leinuo.weekcp.entity.WeekCpUser;
 import cn.edu.upc.yb.app.leinuo.weekcp.exception.WeekCpUserException;
 import cn.edu.upc.yb.app.leinuo.weekcp.result.Result;
 import cn.edu.upc.yb.app.leinuo.weekcp.service.WeekCpUserService;
+import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.ybapi.UserMe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,10 @@ public class WeekCpUserController {
 
     @Autowired
     private WeekCpUserService userService;
+
+    @Autowired
+    private JwtTokenUtil tokenUtil;
+
     @Autowired
     private UserMe um;
 
@@ -85,10 +90,10 @@ public class WeekCpUserController {
     }
 
     @RequestMapping("/getYiMeByToken")
-    public Result getMe(@ModelAttribute("vq")String token) {
+    public Result getMe(@ModelAttribute("Authorization")String token) {
         UserMe.UserInfo userInfo;
         try {
-            userInfo = (UserMe.UserInfo) um.getUserMe(token);
+            userInfo = (UserMe.UserInfo) um.getUserMe(tokenUtil.getYbaccessToken(token));
         }catch (Exception e) {
             return Result.fail(e.getMessage());
         }
