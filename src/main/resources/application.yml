@@ -13,6 +13,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+#  上传文件最大SIZE
+  http:
+      multipart:
+        max-file-size: 512MB
 jwt:
   header: Authorization
   secret: mySecret
@@ -22,10 +26,7 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
-#  上传文件最大SIZE
-  http:
-      multipart:
-        max-file-size: 100MB
+
 server:
   port: 8085
 
