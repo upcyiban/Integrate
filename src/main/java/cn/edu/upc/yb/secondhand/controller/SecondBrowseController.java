@@ -52,6 +52,15 @@ public class SecondBrowseController {
         return articleRepository.findByNameLike(name);
     }
 
+    @ApiOperation(value = "用户根据物品种类进行查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "kind",value = "物品种类",dataType = "String",paramType = "query")
+    })
+    @RequestMapping(value = "/findbyarticlekind",method = RequestMethod.GET)
+    public Object findByArtilceKind(HttpServletRequest request,String kind){
+        return articleRepository.findByKindOrderByCreatetimeDesc(kind);
+    }
 
     /*
     用户浏览已经发布物品
@@ -59,11 +68,12 @@ public class SecondBrowseController {
     @ApiOperation(value = "用户浏览已经发布物品")
     @ApiImplicitParams({
             @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "pagesize",value = "页大小",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
     })
     @RequestMapping(value = "/article",method = RequestMethod.GET)
-    public Object allArticleBrowse(HttpServletRequest request,int page){
-        Pageable pageable=new PageRequest(page,10);
+    public Object allArticleBrowse(HttpServletRequest request,int pagesize,int page){
+        Pageable pageable=new PageRequest(page,pagesize);
         Page<SecondArticle> articles=articleRepository.findByIsdealOrderByCreatetimeDesc(0,pageable);
         //return articles.iterator();
         return articles;

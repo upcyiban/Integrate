@@ -189,17 +189,48 @@ public class SecondPublishController {
             @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
     })
     @RequestMapping(value = "/deletearticle",method = RequestMethod.POST)
-    public Object deletearticle(int articleid){
+    public Object deletearticle(HttpServletRequest request,int articleid){
+        String token=request.getParameter(this.tokenHeader);
         SecondArticle secondArticle =articleRepository.findOne(articleid);
         if (secondArticle ==null){
             return new Message(0,"null secondArticle");
         }
-        if (secondArticle.getIsdeal()==-1){
+        int userId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        if (secondArticle.getUserid()!=userId){
+            return new Message(0,"not the user");
+        }
+        if (secondArticle.getIsdeal()!=0){
             return new Message(0,"don't delete again");
         }
         secondArticle.setIsdeal(-1);
         secondArticle.setUpdatetime(new Date());
         articleRepository.save(secondArticle);
+        return new Message(1,"delete success");
+    }
+
+    @ApiOperation("删除某评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "reviewid",value = "评论id",dataType = "int",paramType = "query")
+    })
+    @RequestMapping(value = "/deletereview",method = RequestMethod.POST)
+    public Object deleteReview(HttpServletRequest request,int reviewid){
+        String token=request.getParameter(this.tokenHeader);
+        SecondReview review=reviewRepository.findOne(reviewid);
+        if (review==null){
+            return new Message(0,"null secondReview");
+        }
+        int userId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        if (review.getYbid()!=userId){
+            return new Message(0,"not the user");
+        }
+        if (review.getIsdelete()!=0){
+            return new Message(0,"don't delete again");
+        }
+        review.setIsdelete(-1);
+        review.setUpdatatime(new Date());
+        reviewRepository.save(review);
+
         return new Message(1,"delete success");
     }
 
