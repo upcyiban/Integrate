@@ -124,6 +124,9 @@ public class SecondPublishController {
         if (secondArticle ==null){
             return new Message(0,"null secondArticle");
         }
+        if (secondArticle.getIsdeal()==-1|| secondArticle.getIsdeal()==-2){
+            return new Message(0,"error secondArticle");
+        }
         if (user==null){
             return new Message(0,"null user");
         }
@@ -135,10 +138,10 @@ public class SecondPublishController {
         secondReview.setYbid(userid);
         secondReview.setYbname(user.getUsername());
         secondReview.setCreatetime(createTime);
-        reviewRepository.save(secondReview);
+
         secondArticle.setReviews(secondArticle.getReviews()+1);
         articleRepository.save(secondArticle);
-        return new Message(1,"create secondReview success");
+        return   reviewRepository.save(secondReview);
     }
 
     @ApiOperation("更新评论")
@@ -157,9 +160,9 @@ public class SecondPublishController {
         Date date=new Date();
         secondReview.setUpdatatime(date);
         secondReview.setDetail(detail);
-        reviewRepository.save(secondReview);
 
-        return new Message(1,"update secondReview success");
+        return  reviewRepository.save(secondReview);
+
     }
 
     @ApiOperation("取消某物品的发布")
