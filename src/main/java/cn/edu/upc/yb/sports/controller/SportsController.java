@@ -1,0 +1,51 @@
+package cn.edu.upc.yb.sports.controller;
+
+import cn.edu.upc.yb.sports.reporistory.ProjectReporisorty;
+import cn.edu.upc.yb.sports.service.SportsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @author liliangbin dumpling1520@gmail.com
+ * @date 2018/5/12  18:44
+ */
+@RestController
+@RequestMapping("/sports")
+public class SportsController {
+
+    @Autowired
+    private SportsService sportsService;
+
+    @Autowired
+    private ProjectReporisorty projectReporisorty;
+
+    @PostMapping("/add")
+    public Object sportsAddUser(String project,String username,String ranking ,String score ,long scoreOrder ){
+
+       return sportsService.addUser(project,username,ranking,score,scoreOrder);
+
+    }
+
+    @PostMapping("/user_ranking")
+    public Object ranking(String username){
+        return sportsService.findByUsername(username);
+
+    }
+
+    @PostMapping("/all_ranking")
+    public Object rankingProject(String project){
+
+        return sportsService.findByProject(project);
+    }
+
+    @GetMapping("/project")
+    public Object getAllProject(){
+
+        return projectReporisorty.findAll();
+    }
+
+
+}
