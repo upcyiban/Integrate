@@ -15,21 +15,16 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private int id;
+
     private String projectName;
+
     private Date start;
-    private Date end;
 
-    public Project(String projectName, Date start, Date end) {
-        this.projectName = projectName;
-        this.start = start;
-        this.end = end;
-    }
+    private int groupId;
 
-    public Project() {
-    }
+    private int projectId;
 
     public int getId() {
-
         return id;
     }
 
@@ -53,11 +48,19 @@ public class Project {
         this.start = start;
     }
 
-    public Date getEnd() {
-        return end;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 }

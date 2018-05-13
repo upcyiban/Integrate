@@ -3,7 +3,7 @@ package cn.edu.upc.yb.sports.controller;
 import cn.edu.upc.yb.sports.reporistory.ProjectReporisorty;
 import cn.edu.upc.yb.sports.service.SportsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,10 +41,11 @@ public class SportsController {
         return sportsService.findByProject(project);
     }
 
-    @GetMapping("/project")
-    public Object getAllProject(){
 
-        return projectReporisorty.findAll();
+    @PostMapping("/project")
+    public Object getProject(int groupId){
+
+        return projectReporisorty.findAllByGroupId(groupId,new Sort(Sort.Direction.ASC,"projectId"));
     }
 
 
