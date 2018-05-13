@@ -18,7 +18,7 @@ public class Project {
 
     private String projectName;
 
-    private Date start;
+    private String start;
 
     private int groupId;
 
@@ -40,11 +40,11 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
