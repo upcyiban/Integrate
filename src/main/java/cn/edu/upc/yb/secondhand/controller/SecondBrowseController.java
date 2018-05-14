@@ -13,6 +13,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,17 +52,31 @@ public class SecondBrowseController {
         return articleRepository.findByNameLike(name);
     }
 
+    @ApiOperation(value = "用户根据物品种类进行查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "kind",value = "物品种类",dataType = "String",paramType = "query")
+    })
+    @RequestMapping(value = "/findbyarticlekind",method = RequestMethod.GET)
+    public Object findByArtilceKind(HttpServletRequest request,String kind){
+        return articleRepository.findByKindOrderByCreatetimeDesc(kind);
+    }
 
     /*
     用户浏览已经发布物品
      */
     @ApiOperation(value = "用户浏览已经发布物品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query")
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "pagesize",value = "页大小",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
     })
     @RequestMapping(value = "/article",method = RequestMethod.GET)
-    public Object allArticleBrowse(){
-        return articleRepository.findByIsdealOrderByCreatetimeDesc(0);
+    public Object allArticleBrowse(HttpServletRequest request,int pagesize,int page){
+        Pageable pageable=new PageRequest(page,pagesize);
+        Page<SecondArticle> articles=articleRepository.findByIsdealOrderByCreatetimeDesc(0,pageable);
+        //return articles.iterator();
+        return articles;
     }
     /*
     用户浏览单个物品

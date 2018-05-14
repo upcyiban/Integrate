@@ -92,7 +92,7 @@ public class SecondCollectionController {
         secondCollection.setUserId(userid);
         Date time=new Date();
         secondCollection.setCreateTime(time);
-        collectionRepository.save(secondCollection);
+        SecondCollection secondCollection1=collectionRepository.save(secondCollection);
 
 
         int collections= secondArticle.getCollections();
@@ -100,7 +100,8 @@ public class SecondCollectionController {
         secondArticle.setCollections(collections);
         articleRepository.save(secondArticle);
 
-        return new Message(1,"create secondCollection seccess");
+
+        return collectionService.getOneCollectionInfo(secondCollection1);
     }
 
     /*
