@@ -17,12 +17,13 @@ public class SportsServiceImp implements SportsService {
     private SportsReporistory sportsReporistory;
 
     @Override
-    public Object addUser(String project, String username, String ranking, String score, long ScoreOrder) {
+    public Object addUser(String project, String username, String ranking, String score, long ScoreOrder,boolean outRecord) {
         SportsUser sportsUser = new SportsUser();
         sportsUser.setOrd(ScoreOrder);
         sportsUser.setProject(project);
         sportsUser.setRanking(ranking);
         sportsUser.setUsername(username);
+        sportsUser.setOutRecord(outRecord);
         sportsReporistory.save(sportsUser);
         return "创建成功";
     }
@@ -38,6 +39,32 @@ public class SportsServiceImp implements SportsService {
     public Object findByProject(String project) {
 
         return sportsReporistory.findAllByProject(project, new Sort(Sort.Direction.ASC, "ord"));
+    }
+
+    @Override
+    public Object modifyUser(String project, String username, String ranking, String score, long scoreOrder, boolean outRecord) {
+
+        SportsUser sportsUser = sportsReporistory.findByUsernameAndAndProject(username,project);
+
+        sportsUser.setOrd(scoreOrder);
+        sportsUser.setOutRecord(outRecord);
+        sportsUser.setProject(project);
+        sportsUser.setUsername(username);
+        sportsUser.setRanking(ranking);
+        sportsUser.setScore(score);
+
+        sportsReporistory.save(sportsUser);
+        return null;
+    }
+
+    @Override
+    public Object deleteUser(String project, String username) {
+
+        SportsUser sportsUser = sportsReporistory.findByUsernameAndAndProject(username,project);
+
+
+        sportsReporistory.delete(sportsUser);
+        return "删除成功";
     }
 }
 

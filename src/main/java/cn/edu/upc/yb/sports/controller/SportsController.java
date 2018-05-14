@@ -23,9 +23,9 @@ public class SportsController {
     private ProjectReporisorty projectReporisorty;
 
     @PostMapping("/add")
-    public Object sportsAddUser(String project,String username,String ranking ,String score ,long scoreOrder ){
+    public Object sportsAddUser(String project,String username,String ranking ,String score ,long scoreOrder ,boolean outRecord){
 
-       return sportsService.addUser(project,username,ranking,score,scoreOrder);
+       return sportsService.addUser(project,username,ranking,score,scoreOrder,outRecord);
 
     }
 
@@ -46,6 +46,19 @@ public class SportsController {
     public Object getProject(int groupId){
 
         return projectReporisorty.findAllByGroupId(groupId,new Sort(Sort.Direction.ASC,"projectId"));
+    }
+
+    @PostMapping("/modify")
+    public Object modify(String project,String username,String ranking ,String score ,long scoreOrder ,boolean outRecord){
+
+        return sportsService.modifyUser(project,username,ranking,score,scoreOrder,outRecord);
+    }
+
+    @PostMapping("/delete_user")
+    public Object deleteuser (String project,String username){
+
+
+        return sportsService.deleteUser(project,username);
     }
 
 

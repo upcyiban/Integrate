@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.sports.reporistory;
 
 import cn.edu.upc.yb.sports.model.SportsUser;
+import cn.edu.upc.yb.sports.service.SportsService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,4 +14,6 @@ import java.util.List;
 public interface SportsReporistory extends CrudRepository<SportsUser,Integer> {
     List<SportsUser> findAllByUsername(String username,Sort sort);
     List<SportsUser> findAllByProject(String project,Sort sort);
+
+    SportsUser findByUsernameAndAndProject(String  username,String project);
 }
