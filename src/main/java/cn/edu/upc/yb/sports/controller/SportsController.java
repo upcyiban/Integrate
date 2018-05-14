@@ -55,7 +55,7 @@ public class SportsController {
     }
 
     @PostMapping("/delete_user")
-    public Object deleteuser (String project,String username){
+    public Object deleteUser (String project,String username){
 
 
         return sportsService.deleteUser(project,username);

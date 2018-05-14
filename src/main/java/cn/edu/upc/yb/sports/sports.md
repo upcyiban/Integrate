@@ -44,7 +44,33 @@ POST
         }
         ......
 ]
-#### yb.upc.edu.cn:8084/sports/project
+#### yb.upc.edu.cn:8084/sports/record
 
+GET
+获取所有的破纪录成绩
+
+返回：
+[
+{
+    private String username;//用户名
+    private String projectName;//项目名，，男子300米
+    private String score;//成绩
+    private String ranking;//排名
+    private String recordInfo;//记录的简介。。省级，，校级
+
+}
+......
+]
+
+
+##### yb.upc.edu.cn:8084/sports/add_record
 Post
+参数：username   projectName  score  ranking   recordInfo
 
+返回：
+    添加成功
+##### yb.upc.edu.cn:8084/sports/delete_one
+参数：id(某个数据的Id）
+方法： Post
+
+返回： "删除成功"

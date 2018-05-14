@@ -23,6 +23,7 @@ public class SportsServiceImp implements SportsService {
         sportsUser.setProject(project);
         sportsUser.setRanking(ranking);
         sportsUser.setUsername(username);
+        sportsUser.setScore(score);
         sportsUser.setOutRecord(outRecord);
         sportsReporistory.save(sportsUser);
         return "创建成功";
@@ -54,7 +55,7 @@ public class SportsServiceImp implements SportsService {
         sportsUser.setScore(score);
 
         sportsReporistory.save(sportsUser);
-        return null;
+        return "修改成功";
     }
 
     @Override
