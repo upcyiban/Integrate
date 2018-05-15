@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -112,16 +114,19 @@ public class SecondBrowseController {
         List<SecondArticle> secondArticleList =articleRepository.findByUseridOrderByCreatetimeDesc(userid);
         int i;
         int n= secondArticleList.size();
-        System.out.println(n);
-        SecondArticle secondArticle =new SecondArticle();
+        //System.out.println(n);
+        SecondArticle secondArticle ;
+        Collection<SecondArticle> secondArticleCollection = new ArrayList<>();
         for (i=0;i<n;i++){
             secondArticle = secondArticleList.get(i);
-            System.out.println(secondArticle.getId());
-            if (secondArticle.getIsdeal()==-1){
-                secondArticleList.remove(secondArticle);
-                n--;
+            //System.out.println(secondArticle.getId());
+            if (secondArticle.getIsdeal() == -1){
+                secondArticleCollection.add(secondArticle);
+
             }
+
         }
+        secondArticleList.removeAll(secondArticleCollection);
         return secondArticleList;
     }
 
