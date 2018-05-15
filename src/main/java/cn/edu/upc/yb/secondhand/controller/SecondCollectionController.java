@@ -100,7 +100,6 @@ public class SecondCollectionController {
         secondArticle.setCollections(collections);
         articleRepository.save(secondArticle);
 
-
         return collectionService.getOneCollectionInfo(secondCollection1);
     }
 
@@ -129,6 +128,24 @@ public class SecondCollectionController {
         return new Message(1,"delete secondCollection seccess");
 
     }
+
+    @ApiOperation("判断用户是否收藏某物品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "articleid",value = "物品id",dataType = "int",paramType = "query")
+    })
+    @RequestMapping(value = "/iscollection",method = RequestMethod.GET)
+    public Object isCollection(HttpServletRequest request,int articleid){
+        String token=request.getParameter(this.tokenHeader);
+        int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        SecondCollection secondCollection = collectionRepository.findByUserIdAndArticleId(userid,articleid);
+        if (secondCollection == null){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
 
 
 }
