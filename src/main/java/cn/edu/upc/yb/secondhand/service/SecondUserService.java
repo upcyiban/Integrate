@@ -8,6 +8,7 @@ import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,10 +51,16 @@ public class SecondUserService {
         return user;
     }
 
-    /*
-    注册用户信息
+    /**
+     * 注册用户信息
+     * @param request
+     * @param Qq
+     * @param phone
+     * @param wchat
+     * @param email
+     * @return
      */
-    public Object addUser(HttpServletRequest request,String Qq){
+    public Object addUser(HttpServletRequest request,String Qq,String phone,String wchat,String email){
         SecondUser user =new SecondUser();
         String token=request.getParameter(this.tokenHeader);
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
@@ -73,23 +80,34 @@ public class SecondUserService {
         user.setYbhead(userInfo.info.yb_userhead);
         user.setUsernick(userInfo.info.yb_sex);
         user.setQq(Qq);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setPhone(wchat);
         userRepository.save(user);
         return user;
     }
-    /*
-    增加用户其他信息
+
+    /**
+     * 更新用户联系方式信息
+     * @param request
+     * @param qq
+     * @param phone
+     * @param wchat
+     * @param email
+     * @return
      */
-    public Object addOtherInfo(HttpServletRequest request,String phone,String wchat,String email){
-        String token=request.getParameter(this.tokenHeader);
-        int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        SecondUser user=userRepository.findByUserid(yibanId);
-        if (user==null){
+    public Object updateUserInfo(HttpServletRequest request, String  qq, String phone, String wchat, String email){
+        String token = request.getParameter(this.tokenHeader);
+        int yibanId =  Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        SecondUser secondUser = userRepository.findByUserid(yibanId);
+        if (secondUser == null){
             return new Message(0,"SecondUser null");
         }
-        user.setPhone(phone);
-        user.setWchat(wchat);
-        user.setEmail(email);
-        return userRepository.save(user);
+        secondUser.setQq(qq);
+        secondUser.setPhone(phone);
+        secondUser.setWchat(wchat);
+        secondUser.setEmail(email);
+        return userRepository.save(secondUser);
     }
 
 }

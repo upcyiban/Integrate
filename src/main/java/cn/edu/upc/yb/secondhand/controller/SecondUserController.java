@@ -46,7 +46,7 @@ public class SecondUserController {
     @ApiOperation("获取其他用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "query",name = "userId",value = "用户易班id",dataType = "String")
+            @ApiImplicitParam(paramType = "query",name = "userid",value = "用户易班id",dataType = "String")
     })
     @RequestMapping(value = "/otherinfo",method = RequestMethod.GET)
     public Object otherUserInfo(HttpServletRequest request,int userid){
@@ -56,11 +56,15 @@ public class SecondUserController {
     @ApiOperation("注册用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
-            @ApiImplicitParam(paramType = "query", name = "Qq", dataType = "String",value = "用户qq")
+            @ApiImplicitParam(paramType = "query", name = "qq", dataType = "String",value = "用户qq"),
+            @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "wchat",value = "微信",dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "email",value = "邮箱",dataType = "String",paramType = "query")
     })
     @RequestMapping(value = "/signup",method = RequestMethod.POST)
-    public Object signup(HttpServletRequest request,String Qq){
-        return secondUserService.addUser(request,Qq);
+    public Object signup(HttpServletRequest request,String qq,String phone,String wchat,String email){
+
+        return secondUserService.addUser(request,qq,phone,wchat,email);
     }
 
     @ApiOperation("判断用户是否存在")
@@ -71,16 +75,17 @@ public class SecondUserController {
     }
 
 
-    @ApiOperation("增加用户其他信息")
+    @ApiOperation("更新用户联系方式信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = SwaggerParameter.Authorization, dataType = "String"),
+            @ApiImplicitParam(paramType = "query", name = "qq", dataType = "String",value = "用户qq"),
             @ApiImplicitParam(name = "phone",value = "电话",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "wchat",value = "微信",dataType = "String",paramType = "query"),
             @ApiImplicitParam(name = "email",value = "邮箱",dataType = "String",paramType = "query")
     })
-    @RequestMapping(value = "/addotherinfo",method = RequestMethod.POST)
-    public Object addPhone(HttpServletRequest request,String phone,String wchat,String email){
-         return secondUserService.addOtherInfo(request,phone,wchat,email);
+    @RequestMapping(value = "/updateuserinfo",method = RequestMethod.POST)
+    public Object addPhone(HttpServletRequest request,String qq,String phone,String wchat,String email){
+         return secondUserService.updateUserInfo(request,qq,phone,wchat,email);
     }
 
 }
