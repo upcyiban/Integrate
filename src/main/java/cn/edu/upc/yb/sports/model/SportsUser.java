@@ -18,7 +18,18 @@ public class SportsUser {
     private String  ranking;//排名
     private String score ; //成绩
     private long  ord ;
-    private  boolean outRecord;
+    private boolean outRecord;
+    private String recordInfo;
+
+    public String getRecordInfo() {
+        return recordInfo;
+    }
+
+    public void setRecordInfo(String recordInfo) {
+        this.recordInfo = recordInfo;
+    }
+
+
 
     public boolean isOutRecord() {
         return outRecord;

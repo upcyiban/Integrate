@@ -16,4 +16,5 @@ public interface SportsReporistory extends CrudRepository<SportsUser,Integer> {
     List<SportsUser> findAllByProject(String project,Sort sort);
 
     SportsUser findByUsernameAndAndProject(String  username,String project);
+    List<SportsUser> findAllByOutRecord(boolean done);
 }

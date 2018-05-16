@@ -16,8 +16,9 @@ public class SportsServiceImp implements SportsService {
     @Autowired
     private SportsReporistory sportsReporistory;
 
+
     @Override
-    public Object addUser(String project, String username, String ranking, String score, long ScoreOrder,boolean outRecord) {
+    public Object addUser(String project, String username, String ranking, String score, long ScoreOrder, boolean outRecord, String recordInfo) {
         SportsUser sportsUser = new SportsUser();
         sportsUser.setOrd(ScoreOrder);
         sportsUser.setProject(project);
@@ -25,7 +26,9 @@ public class SportsServiceImp implements SportsService {
         sportsUser.setUsername(username);
         sportsUser.setScore(score);
         sportsUser.setOutRecord(outRecord);
+        sportsUser.setRecordInfo(recordInfo);
         sportsReporistory.save(sportsUser);
+
         return "创建成功";
     }
 
@@ -33,7 +36,7 @@ public class SportsServiceImp implements SportsService {
     public Object findByUsername(String username) {
 
 
-        return sportsReporistory.findAllByUsername(username,new Sort(Sort.Direction.ASC, "ord"));
+        return sportsReporistory.findAllByUsername(username, new Sort(Sort.Direction.ASC, "ord"));
     }
 
     @Override
@@ -42,36 +45,23 @@ public class SportsServiceImp implements SportsService {
         return sportsReporistory.findAllByProject(project, new Sort(Sort.Direction.ASC, "ord"));
     }
 
+
     @Override
-    public Object modifyUser(String project, String username, String ranking, String score, long scoreOrder, boolean outRecord) {
+    public Object deleteUser(int id) {
 
-        SportsUser sportsUser = sportsReporistory.findByUsernameAndAndProject(username,project);
-
-        sportsUser.setOrd(scoreOrder);
-        sportsUser.setOutRecord(outRecord);
-        sportsUser.setProject(project);
-        sportsUser.setUsername(username);
-        sportsUser.setRanking(ranking);
-        sportsUser.setScore(score);
-
-        sportsReporistory.save(sportsUser);
-        return "修改成功";
+        sportsReporistory.delete(id);
+        return "删除成功";
     }
 
     @Override
-    public Object deleteUser(String project, String username) {
-
-        SportsUser sportsUser = sportsReporistory.findByUsernameAndAndProject(username,project);
-
-
-        sportsReporistory.delete(sportsUser);
-        return "删除成功";
+    public Object findAllOutRecord(boolean done) {
+        return sportsReporistory.findAllByOutRecord(done);
     }
 }
 
 /*
-*
-* DESC 降序排列
-*
-*
-* ASC  代表升序排列*/
+ *
+ * DESC 降序排列
+ *
+ *
+ * ASC  代表升序排列*/

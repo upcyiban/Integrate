@@ -6,10 +6,9 @@ package cn.edu.upc.yb.sports.service;
  */
 public interface SportsService {
 
-    public Object addUser(String project,String username,String ranking ,String score ,long ScoreOrd,boolean outRecord);
+    public Object addUser(String project,String username,String ranking ,String score ,long ScoreOrd,boolean outRecord,String recordInfo);
     public Object findByUsername(String username);
     public Object findByProject(String project);
-
-    public Object modifyUser(String project,String username,String ranking ,String score ,long scoreOrder ,boolean outRecord);
-    public  Object deleteUser(String project,String username);
+    public  Object deleteUser(int id);
+    public Object findAllOutRecord(boolean done);
 }
