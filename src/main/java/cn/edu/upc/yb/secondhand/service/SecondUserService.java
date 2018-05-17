@@ -82,7 +82,7 @@ public class SecondUserService {
         user.setQq(Qq);
         user.setPhone(phone);
         user.setEmail(email);
-        user.setPhone(wchat);
+        user.setWchat(wchat);
         userRepository.save(user);
         return user;
     }
