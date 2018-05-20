@@ -18,6 +18,7 @@ public interface LotteryListRepository extends CrudRepository<LotteryList, Long>
     List<LotteryList> findAllByIspass(int ispass);
     LotteryList findById(long lotteryId);
 
+
    List<LotteryList> findAllByCreatorid(long creatorId);
    List<LotteryList> findAllByPasscode(int passcode);
 

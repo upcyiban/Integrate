@@ -66,11 +66,14 @@ public class LotteryService {
     }
 
     // 该用户是不是已经抽过奖了
-    public boolean LotteryCondition2(long yibanId) {
-        List<PrizeList> result = prizeListRepository.findByYibanid(yibanId);
-        return result.isEmpty();
+    public boolean LotteryCondition2(long yibanId,long lotteryId) {
+        PrizeList res = prizeListRepository.findByYibanidAndLotteryid(yibanId, lotteryId);
+        if (res != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
 
     //需要前台传过来的参数强制转换成Create类型的数据
     public Object createLottery(String Authorization,String userName, String lotteryName, String lotteryIntro, Timestamp lotteryTimeBegin,Timestamp lotteryTimeEnd) {
@@ -182,7 +185,7 @@ public class LotteryService {
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
         String username = (String) userService.getStuName(request);
 
-        if (!LotteryCondition2(Long.valueOf(yibanId))) {
+        if (!LotteryCondition2(Long.valueOf(yibanId) , lotteryId)) {
 
             return new ResponseBean(-1, "你已经抽过奖了", false);
         }
