@@ -60,6 +60,7 @@ public class LotteryService {
     public boolean canLottery(Timestamp lotterytimebegin, Timestamp lotterytimeend) {
         Timestamp date = new Timestamp(System.currentTimeMillis());
         if (date.after(lotterytimebegin) && date.before(lotterytimeend)) {
+            System.out.println("时间上判断");
             return true;
         }
         return false;
@@ -68,12 +69,13 @@ public class LotteryService {
     // 该用户是不是已经抽过奖了
     public boolean LotteryCondition2(long yibanId,long lotteryId) {
         PrizeList res = prizeListRepository.findByYibanidAndLotteryid(yibanId, lotteryId);
-        if (res != null) {
+        if (res == null) {
             System.out.println("能抽奖");
-            return true;
+            return false;
+
         } else {
             System.out.println("不能抽奖");
-            return false;
+            return true;
         }
     }
 
@@ -190,17 +192,15 @@ public class LotteryService {
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
         String username = (String) userService.getStuName(request);
 
-        if (!LotteryCondition2(Long.valueOf(yibanId) , lotteryId)) {
+        if (LotteryCondition2(Long.valueOf(yibanId) , lotteryId)) {
 
             System.out.println(" 你已经参加了抽奖了");
             return new ResponseBean(-1, "你已经抽过奖了", false);
         }
-
-        LotteryList lotteryList = lotteryListRepository.findOne(lotteryId);
-        //传过来一个抽奖
-        List<Prize> prizes = prizeRepository.findAllByLotteryId(lotteryList.getId());
-        return dealLottery(prizes, Long.valueOf(yibanId), username, lotteryId);
-
+else {
+            List<Prize> prizes = prizeRepository.findAllByLotteryId(lotteryId);
+            return dealLottery(prizes, Long.valueOf(yibanId), username, lotteryId);
+        }
     }
 
     public Object isPass(long lotteryId, int passcode) {
