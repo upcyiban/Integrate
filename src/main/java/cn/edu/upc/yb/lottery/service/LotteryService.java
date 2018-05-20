@@ -181,7 +181,10 @@ public class LotteryService {
         if (tmp == null) {
             return new ResponseBean(0, "非法请求", false);
         }
-
+        System.out.println("用户抽奖");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
         long lotteryId = Long.valueOf(tmp);
         String authToken = request.getParameter(tokenHeader);
         String yibanId = jwtTokenUtil.getYBidFromTocken(authToken);
@@ -189,6 +192,7 @@ public class LotteryService {
 
         if (!LotteryCondition2(Long.valueOf(yibanId) , lotteryId)) {
 
+            System.out.println(" 你已经参加了抽奖了");
             return new ResponseBean(-1, "你已经抽过奖了", false);
         }
 
