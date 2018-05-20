@@ -69,8 +69,10 @@ public class LotteryService {
     public boolean LotteryCondition2(long yibanId,long lotteryId) {
         PrizeList res = prizeListRepository.findByYibanidAndLotteryid(yibanId, lotteryId);
         if (res != null) {
+            System.out.println("能抽奖");
             return true;
         } else {
+            System.out.println("不能抽奖");
             return false;
         }
     }
