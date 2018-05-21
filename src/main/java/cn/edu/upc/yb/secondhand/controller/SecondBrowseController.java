@@ -8,6 +8,7 @@ import cn.edu.upc.yb.secondhand.model.SecondKind;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.KindRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
+import cn.edu.upc.yb.secondhand.service.ReviewService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +41,9 @@ public class SecondBrowseController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @Autowired
     private KindRepository kindRepository;
@@ -155,7 +159,7 @@ public class SecondBrowseController {
     public Object historyReviewBrowse(HttpServletRequest request){
         String token=request.getParameter(this.tokenHeader);
         int userid=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
-        return reviewRepository.findByYbidAndIsdeleteOrderByCreatetimeDesc(userid,0);
+        return reviewService.historyReviewBrowse(userid);
     }
 
     @ApiOperation("查看所有种类")

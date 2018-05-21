@@ -115,7 +115,7 @@ public class SecondCollectionController {
     public Object deleteCollection(HttpServletRequest request,int collectionid){
 
         SecondCollection secondCollection =collectionRepository.findOne(collectionid);
-        if (secondCollection ==null){
+        if (secondCollection == null){
             return new Message(0,"null secondCollection");
         }
         SecondArticle secondArticle =articleRepository.findOne(secondCollection.getArticleId());
