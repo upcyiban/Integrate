@@ -43,10 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Object findtop10() {
 
-
-        Iterable<Article> articles = graduationArticleRepository.findAll();
-
-        return graduationArticleRepository.findTop10ByOrderById();
+        return graduationArticleRepository.theBest16();
     }
 
     @Override
