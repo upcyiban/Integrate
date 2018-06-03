@@ -33,4 +33,10 @@ public class ResponseMessage {
     public void setObj(Object obj) {
         this.obj = obj;
     }
+
+    public ResponseMessage(int code, String msg, Object obj) {
+        this.code = code;
+        this.msg = msg;
+        this.obj = obj;
+    }
 }
