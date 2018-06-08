@@ -48,9 +48,5 @@ WeekCp:
 #  只要超过20个以上的人不是cp那么就将其随机匹配出来
   maxNumOfNotCp: 4
 
-lottery:
- adminUserName: admin
- adminPassword: ICzJsDg7F1JNwQhhE+QsVQ==
- adminSalt: admin
- fonturl: yb.upc.edu.cn/pojescy
+
 
