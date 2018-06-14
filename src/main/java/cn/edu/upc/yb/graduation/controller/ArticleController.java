@@ -26,15 +26,14 @@ public class ArticleController {
     @GetMapping("/")
     @ApiOperation(value = "主页随机显示当前的数据")
     public Object index(){
-        return articleService.findtop10();
+        return articleService.randomOne();
     }
 
     @ApiOperation(value = "点赞数量最多的留言")
     @GetMapping("/best")
     public Object best(){
 
-        return articleService.theBesttop10();
-
+        return articleService.theBesttop16();
 
     }
 

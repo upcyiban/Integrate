@@ -16,14 +16,15 @@ public interface ArticleService {
      * */
     Object agreeWithYou(long articleId);
 
-    /*
-     *
-     * 主页的时候随机显示10个数据。*/
-    Object findtop10();
 
     /*
      *
      * 点赞数最多的10个数据*/
-    Object theBesttop10();
+    Object theBesttop16();
+
+    /*
+    *
+    * 随机显示一条留言*/
+    Object randomOne();
 
 }

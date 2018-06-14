@@ -17,8 +17,6 @@ public interface GraduationArticleRepository extends CrudRepository<Article, Int
 
     Article findById(long id);
 
-    Iterable<Article> findTop10ByOrderById();
-
     Iterable<Article> findAll(Sort sort);
 
     Iterable<Article> findAll();
@@ -26,8 +24,9 @@ public interface GraduationArticleRepository extends CrudRepository<Article, Int
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT * FROM graduation_article  ORDER BY  RAND() LIMIT 16", nativeQuery = true)
-    Iterable<Article> theBest16();
+    @Query(value = "SELECT * FROM graduation_article  ORDER BY  RAND() LIMIT 1", nativeQuery = true)
+    Iterable<Article> randomArticle();
+
 
 
 }

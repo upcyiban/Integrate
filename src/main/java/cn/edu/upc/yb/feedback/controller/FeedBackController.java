@@ -75,9 +75,11 @@ public class FeedBackController {
     @RequestMapping(value = "/findOne", method = RequestMethod.GET)
     public Object find(int id) {
 
+
         return ResponseEntity.ok(feedBackService.showOne(id));
 
     }
+
 
 
 }

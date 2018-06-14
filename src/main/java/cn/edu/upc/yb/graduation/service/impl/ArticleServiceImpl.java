@@ -51,20 +51,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    @Override
-    public Object findtop10() {
-        try {
-            return graduationArticleRepository.theBest16();
-
-        } catch (Exception e) {
-
-            return new ResponseMessage(-1, "没有数据或是数据不足", null);
-        }
-
-    }
 
     @Override
-    public Object theBesttop10() {
+    public Object theBesttop16(){
         try {
 
 
@@ -84,5 +73,17 @@ public class ArticleServiceImpl implements ArticleService {
 
             return new ResponseMessage(-1, "内部错误", null);
         }
+    }
+
+    @Override
+    public Object randomOne()  {
+        try {
+            return graduationArticleRepository.randomArticle();
+
+        } catch (Exception e) {
+
+            return new ResponseMessage(-1, "没有数据或是数据不足", null);
+        }
+
     }
 }
