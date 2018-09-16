@@ -1,15 +1,18 @@
 package cn.edu.upc.yb.foodshare.model;
 
-
+/**
+ * Created By Kazusa in 2018/7/6 11:03
+ */
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "foodShare_collection")
+@Table(name = "foodshare_collection")
 public class FoodCollection {
 
     @Id
     @GeneratedValue
+    @Column(name = "collection_id")
     private Long id;
 
     private int userid;//易班id

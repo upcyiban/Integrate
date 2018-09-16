@@ -3,54 +3,33 @@ package cn.edu.upc.yb.foodshare.repository;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Created By Kazusa in 2018/7/6 14:32
+ */
 public interface FoodArticleRepository extends CrudRepository<FoodArticle,Integer> {
-
-    Long countByUseridAndCheckAndStateIn(int userid,boolean check,int[] states);//根据易班id、是否被检查、是否被删除
-    // 目返回用户尚未查看的已通过审核的菜品数
+    // 返回用户尚未查看的已通过审核或者未通过的菜品数
+    Long countByUseridAndIscheckAndStateIn(int userid,int check,int[] states);
 
     //根据美食ID获取一个在state为？的美食
-    FoodArticle findByIdAndState(int ybid,int state);
+    FoodArticle findByIdAndState(int foodid,int state);
 
-    Page<FoodArticle> findByUseridAndStateInOrderByCreatetimeDesc(int userid,int[] states,Pageable pageable);//根据状态、id、时间返回用户发布的菜品信息
+    //返回用户发布的处于某种状态的菜品信息
+    List<FoodArticle> findByUseridAndStateInOrderByCreatetimeDesc(int userid, int[] states);
 
-    //根据标签和点赞数分页查询
+    //返回用户点赞、收藏、评论的菜品信息
+    List<FoodArticle> findByIdInAndState(List<Integer> foodid,int states);
 
-    List<FoodArticle> findByUseridAndStateIn(int userid,int[] states);
+    //按标签搜索，返回满足查询条件以及在发布状态的菜品，一次分页查询，一次十个（如果返回的标签能返回数字，可以在controller里写一个函数将
+    // 前端的标签分离为单个数字以%为间隔）
+    Page<FoodArticle> findByStateAndKindLikeOrderByCreatetimeDesc(int state,String kind,Pageable pageable);
 
-    //SQL语句查询，按照用户点赞的时间降序并且在发布中的美食
-    @Query(value = "select food.* from foodShare_food food,foodShare_like likes where" +
-            " food.food_id = likes.food_id and likes.user_id = ?1 and food.state = 0 order by " +
-            "likes.create_time desc",
-            countQuery = "select count(*) from test_food food,test_like likes where " +
-                    "food.food_id = likes.food_id and likes.user_id = ?1 and food.state = 0",nativeQuery = true)
-    Page<FoodArticle> findBylike(int userid,Pageable pageable);
+    //按菜品的名称搜索或者是关键字，依旧是分页查询，一次十个
+    Page<FoodArticle> findByStateAndNameLikeOrderByCreatetimeDesc(int state,String name,Pageable pageable);
 
-    //SQL语句查询，按照用户收藏的时间降序并且在发布中的美食
-    @Query(value = "select food.* from foodShare_food food,foodShare_collection collection where"+
-            " food.food_id = collection.food_id and collection.user_id = ?1 and food.state = 0 order by " +
-            " collection.create_time desc",
-            countQuery = "select count(*) from foodShare_food food,foodShare_collection collection where "+
-                    " food.food_id = collection.food_id and collection.user_id = ?1 and food.state = 0 "
-            ,nativeQuery = true)
-    Page<FoodArticle> findByCollection(int userid,Pageable pageable);
-
-    //获取评论过的菜品
-    Page<FoodArticle> findByIdInAndState(Set set, int state, Pageable pageable);
-//    @Query(value = "select DISTINCT food.* from foodShare_food food,foodShare_review review where"+
-//            " food.food_id = review.food_id and review.user_id = ?1 and food.state = 0 order by " +
-//            " collection.create_time desc",
-//            countQuery = "select count( DISTINCT food.food_id) from foodShare_food food,foodShare_review review where "+
-//                    " food.food_id = review.food_id and review.user_id = ?1 and food.state = 0 "
-//            ,nativeQuery = true)
-//    Page<FoodArticle> findByReview(int userid,Pageable pageable);
-
-
+    //浏览已发布的菜品,前端查询返回的菜品
+    Page<FoodArticle> findByStateOrderByCreatetime(int state,Pageable pageable);
 }

@@ -1,14 +1,10 @@
 package cn.edu.upc.yb.foodshare.controller;
 
-import cn.edu.upc.yb.common.dto.SwaggerParameter;
-import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodReview;
 import cn.edu.upc.yb.foodshare.repository.FoodArticleRepository;
-import cn.edu.upc.yb.foodshare.repository.FoodLikeRepository;
 import cn.edu.upc.yb.foodshare.repository.FoodReviewRepository;
-import cn.edu.upc.yb.foodshare.repository.FoodUserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,24 +25,16 @@ public class FoodManageController {
 
     @Autowired
     private FoodArticleRepository foodArticleRepository;
-
-    @Autowired
-    private FoodLikeRepository foodLikeRepository;
-    @Autowired
-    private FoodUserRepository foodUserRepository;
     @Autowired
     private FoodReviewRepository foodReviewRepository;
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @ApiOperation("删除已发布的菜品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
-            @ApiImplicitParam(name = "foodid",value = "id",paramType = "Query",dataType = "Integer")
+            @ApiImplicitParam(name = "foodId",value = "id",paramType = "Query",dataType = "Integer")
     })
-    @RequestMapping(value = "/delete")
-    public Object deleteFood(String Authorization,int foodid) {
-        FoodArticle foodArticle = foodArticleRepository.findOne(foodid);
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object deleteFood(int foodId) {
+        FoodArticle foodArticle = foodArticleRepository.findOne(foodId);
         if (foodArticle == null) {
             return new Message(0, "null article");
         }
@@ -57,27 +45,25 @@ public class FoodManageController {
 
     @ApiOperation("审核菜品是否通过，0表示通过，-2表示审核未通过")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
-            @ApiImplicitParam(name = "foodid",value = "id",paramType = "Query",dataType = "Integer"),
-            @ApiImplicitParam(name = "isPass",value = "是否通过审核",paramType = "Query",dataType = "Integer")
+            @ApiImplicitParam(name = "foodId",value = "id",paramType = "Query",dataType = "Integer"),
+            @ApiImplicitParam(name = "pass",value = "是否通过审核",paramType = "Query",dataType = "Integer")
     })
-    @RequestMapping(value = "/check")
-    public Object checkFood(String Authorization,int foodid,int isPass) {
-        FoodArticle foodArticle = foodArticleRepository.findOne(foodid);
-        foodArticle.setState(isPass);
+    @RequestMapping(value = "/check",method = RequestMethod.GET)
+    public Object checkFood(int foodId,int pass) {
+        FoodArticle foodArticle = foodArticleRepository.findOne(foodId);
+        foodArticle.setState(pass);
         foodArticleRepository.save(foodArticle);
         return "审核完成";
     }
 
     @ApiOperation("删除非法评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "reviewId",value = "评论ID",dataType = "Long",paramType = "query"),
     })
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public Object delete(String Authorization,Long reviewId){
+    @RequestMapping(value = "/review", method = RequestMethod.GET)
+    public Object delete(Long reviewId){
         FoodReview foodReview = foodReviewRepository.findOne(reviewId);
-        foodReview.setDelete(true);
+        foodReview.setDelete(1);
         foodReviewRepository.save(foodReview);
         return new Message(1,"delete review success!");
     }

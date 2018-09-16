@@ -1,5 +1,8 @@
 package cn.edu.upc.yb.foodshare.model;
 
+/**
+ * Created By Kazusa in 2018/7/6 10:43
+ */
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -7,44 +10,39 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "foodShare_article")
+@Table(name = "foodshare_article")
 public class FoodArticle {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "food_id")
-    @GeneratedValue
     private int id;
 
-    @Column(name = "user_id")
     private int userid;//建立者的易班id
 
-    @Column(name = "name")
     private String name;//菜品名称
 
-    @Column(name = "img_url")
     private String imgurl;//菜品图片url
 
-    @Column(name = "price")
     private String price;//菜品价格
 
-    @Column(name = "kind")
     private String kind;//菜品标签：标签表的id以“.”相隔
 
-    @Column(name = "detail")
     private String detail;//菜品详细描述
 
-    @Column(name = "address")
     private String address;//地址
 
-    private Date createTime;//创建时间或者修改后的时间
-    private Boolean check=false;//用户是否已检查通过审核
+    private Date createtime;//创建时间或者修改后的时间
 
-    @Column(name = "state")
+    private int ischeck= 0;//用户是否已检查通过审核
+
     private int state=1;//状态：0为审核通过已发布，-1为用户删除，1为待审核,-2为审核未通过
 
     private int review= 0;//评论数
     private int collection = 0;//收藏数
-    private int likeCount = 0;//点赞数
+    private int likecount = 0;//点赞数
+
+
 
     public FoodArticle(){
 
@@ -60,6 +58,20 @@ public class FoodArticle {
         this.state = state;
     }
 
+    public int getIscheck(){
+        return  ischeck;
+    }
+    public void setIscheck(int ischeck) {
+        this.ischeck = ischeck;
+    }
+
+    public int getLikecount() {
+        return likecount;
+    }
+
+    public void setLikecount(int likecount) {
+        this.likecount = likecount;
+    }
 
     public int getId() {
         return id;
@@ -122,20 +134,13 @@ public class FoodArticle {
     }
 
     public Date getCreatetime() {
-        return createTime;
+        return createtime;
     }
 
     public void setCreatetime(Date createtime) {
-        this.createTime = createtime;
+        this.createtime = createtime;
     }
 
-    public Boolean getIscheck() {
-        return check;
-    }
-
-    public void setIscheck(Boolean ischeck) {
-        this.check = ischeck;
-    }
 
     public int getState() {
         return state;
@@ -162,10 +167,10 @@ public class FoodArticle {
     }
 
     public int getLikeCount() {
-        return likeCount;
+        return likecount;
     }
 
     public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
+        this.likecount = likeCount;
     }
 }

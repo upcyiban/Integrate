@@ -1,5 +1,8 @@
 package cn.edu.upc.yb.foodshare.model;
 
+/**
+ * Created By Kazusa in 2018/7/6 10:29
+ */
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,12 +11,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="foodShare_user")
+@Table(name="foodshare_user")
 @JsonIgnoreProperties(value = {"createtime","lasttime","isadmin"})//
 public class FoodUser {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private int userid;//易班id
@@ -23,16 +26,9 @@ public class FoodUser {
 
     private Date createtime;//第一次登陆时间
     private Date lasttime;//上次登录时间
-    private boolean isadmin=false;//用户权限：false:正常用户,true:管理员
 
     public FoodUser(){
 
-    }
-    public FoodUser(int userid, String username, String usersex, String ybhead) {
-        this.userid = userid;
-        this.username = username;
-        this.usersex = usersex;
-        this.ybhead = ybhead;
     }
 
     public int getId() {
@@ -87,11 +83,4 @@ public class FoodUser {
         this.lasttime = lasttime;
     }
 
-    public boolean isIsadmin() {
-        return isadmin;
-    }
-
-    public void setIsadmin(boolean isadmin) {
-        this.isadmin = isadmin;
-    }
 }
