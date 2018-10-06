@@ -1,5 +1,8 @@
 package cn.edu.upc.yb.foodshare.model;
 
+/**
+ * Created By Kazusa in 2018/7/6 11:01
+ */
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,6 +23,9 @@ public class FoodLike {
 
     @Column(name = "create_time")
     private Date createtime;//创建时间
+
+
+
 
     public FoodLike(){
 

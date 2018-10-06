@@ -5,8 +5,8 @@ import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodCollection;
-import cn.edu.upc.yb.foodshare.model.FoodLike;
-import cn.edu.upc.yb.foodshare.repository.*;
+import cn.edu.upc.yb.foodshare.repository.FoodArticleRepository;
+import cn.edu.upc.yb.foodshare.repository.FoodCollectionRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController
-@RequestMapping(value = "/foodshare/collection")
+@RequestMapping(value = "/foodshare/collect")
 public class FoodCollectionController {
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -36,7 +36,7 @@ public class FoodCollectionController {
             @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
             @ApiImplicitParam(name = "foodId",value = "菜品ID",dataType = "Integer",paramType = "Query")
     })
-    @RequestMapping(value = "/isCl",method = RequestMethod.GET)
+    @RequestMapping(value = "/check",method = RequestMethod.GET)
     public Object isCollection(String Authorization,int foodId){
         int ybid = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(Authorization));
         FoodCollection foodCollection = foodCollectionRepository.findByFoodidAndUserid(foodId,ybid);

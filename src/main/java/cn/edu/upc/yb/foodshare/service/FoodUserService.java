@@ -1,5 +1,8 @@
 package cn.edu.upc.yb.foodshare.service;
 
+/**
+ * Created By Kazusa in 2018/7/6 16:56
+ */
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.ybapi.UserMe;
 import cn.edu.upc.yb.foodshare.dto.Message;
@@ -43,10 +46,11 @@ public class FoodUserService {
     public Object userInfo(String token){
         int yibanId = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         FoodUser foodUser = foodUserRepository.findByUserid(yibanId);
-        if(foodUser==null)return new Message(0,"用户不存在！");
-        return foodUser;
+        if(foodUser==null){
+            return new Message(0,"用户不存在！");
+        }
+        else return foodUser;
     }
-
     // 第一次登陆用户，注册用户信息
     public Object addUser(String token){
         FoodUser foodUser = new FoodUser();
@@ -68,7 +72,6 @@ public class FoodUserService {
         foodUser.setUsersex(userInfo.info.yb_sex);
         foodUser.setCreatetime(new Date());
         foodUser.setLasttime(new Date());
-        foodUser.setIsadmin(false);
         foodUserRepository.save(foodUser);
         return foodUser;
     }
@@ -78,11 +81,11 @@ public class FoodUserService {
         return Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
     }
 
-    //通过技术经过审核的菜品判断,有返回true，没有返回false
+    //经过审核的菜品判断,有返回true，没有返回false
     public Boolean ischeck(String token){
         int yibanId=Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
         int[] states ={0,-2};
-        Long is = foodArticleRepository.countByUseridAndCheckAndStateIn(yibanId,false,states);
+        Long is = foodArticleRepository.countByUseridAndIscheckAndStateIn(yibanId,0,states);
         return (is!=0);
     }
 

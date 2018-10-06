@@ -1,12 +1,15 @@
 package cn.edu.upc.yb.foodshare.model;
 
+/**
+ * Created By Kazusa in 2018/7/6 11:02
+ */
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "foodShare_review")
+@Table(name = "foodshare_review")
 @JsonIgnoreProperties(value = {"delete"})
 public class FoodReview {
 
@@ -21,8 +24,11 @@ public class FoodReview {
     private String ybname;//评论者昵称
     private String detail;//评论内容
 
-    private boolean delete=false;//是否被用户删除
+    private int isdelete = 0;//是否被用户删除
+
+
     private Date createtime;//创建时间
+
 
     public String getDetail() {
         return detail;
@@ -30,10 +36,6 @@ public class FoodReview {
 
     public void setDetail(String detail) {
         this.detail = detail;
-    }
-
-    public boolean isDelete() {
-        return delete;
     }
 
     public Long getId() {
@@ -56,8 +58,8 @@ public class FoodReview {
         return ybname;
     }
 
-    public boolean getDelete() {
-        return delete;
+    public int getDelete() {
+        return isdelete;
     }
 
     public Date getCreatetime() {
@@ -80,8 +82,8 @@ public class FoodReview {
         this.ybname = ybname;
     }
 
-    public void setDelete(boolean isdelete) {
-        this.delete = isdelete;
+    public void setDelete(int delete) {
+        this.isdelete = delete;
     }
 
     public void setCreatetime(Date createtime) {
