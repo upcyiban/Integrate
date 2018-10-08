@@ -28,6 +28,7 @@ public interface FoodArticleRepository extends CrudRepository<FoodArticle,Intege
     //按种类搜索，返回满足查询条件以及在发布状态的菜品
     @Query("select a from FoodArticle a where a.kind like CONCAT('%',:kind,'%') and a.state=0 order by a.createtime DESC")
     List<FoodArticle> findByStateAndKindLikeOrderByCreatetimeDesc(@Param(value = "kind")String kind);
+
     //按菜品的名称搜索,按时间倒序排列
     @Query("select a from FoodArticle a where a.name like CONCAT('%',:name,'%') and a.state=0 order by a.createtime DESC")
     List<FoodArticle> findByNameLikeAndStateOrOrderByCreatetime(@Param(value = "name")String name);
