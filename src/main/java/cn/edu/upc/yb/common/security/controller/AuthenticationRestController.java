@@ -98,7 +98,6 @@ public class AuthenticationRestController {
     public String genToken(Device device){
         final JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername("5831449");
         final String token = jwtTokenUtil.generateToken(userDetails, "","commit", device);
-
         return token;
 
     }
