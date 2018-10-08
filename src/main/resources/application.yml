@@ -6,7 +6,7 @@ spring:
     test-while-idle: true
     validation-query: SELECT 1
   jpa:
-#    show-sql: true
+    show-sql: true
     hibernate:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
@@ -28,7 +28,7 @@ jwt:
       refresh: refresh
 
 server:
-  port: 8085
+  port: 8080
 
 #  一周CP需要的依赖
 
