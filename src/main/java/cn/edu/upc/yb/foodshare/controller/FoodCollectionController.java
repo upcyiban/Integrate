@@ -61,7 +61,7 @@ public class FoodCollectionController {
         }
         int collectionCount = foodArticle.getCollection();
         int ybid = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(Authorization));
-        FoodCollection foodCollection = foodCollectionRepository.findByFoodidAndUserid(ybid,foodId);
+        FoodCollection foodCollection = foodCollectionRepository.findByFoodidAndUserid(foodId,ybid);
         if(foodCollection==null){
             foodCollection = new FoodCollection();
 

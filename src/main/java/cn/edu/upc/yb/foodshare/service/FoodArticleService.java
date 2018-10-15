@@ -99,18 +99,25 @@ public class FoodArticleService {
     //删除菜品
     public Object deleteFood(int foodid,int ybid){
         FoodArticle foodArticle = foodArticleRepository.findOne(foodid);
-        if(foodArticle.getUserid()!=ybid){
-            return new Message(0,"无权删除此菜品");
-        }
+
         if(foodArticle==null){
             return new Message(0,"null article");
+        }else{
+            if(foodArticle.getUserid()!=ybid){
+                return new Message(0,"无权删除此菜品");
+            }else{
+                if(foodArticle.getState()==-2){
+                    return new Message(0,"article has been deleted by administrator");
+                }
+                else{
+                    foodArticle.setState(-1);
+                    foodArticleRepository.save(foodArticle);
+                    return new Message(1,"delete success!");
+                }
+            }
         }
-        if(foodArticle.getState()==-2){
-            return new Message(0,"article has been deleted by administrator");
-        }
-        foodArticle.setState(-1);
-        foodArticleRepository.save(foodArticle);
-        return new Message(1,"delete success!");
+
+
     }
 
     //获取用户点赞的菜品
