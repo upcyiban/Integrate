@@ -11,6 +11,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +31,43 @@ public class FoodManageController {
     private FoodArticleRepository foodArticleRepository;
     @Autowired
     private FoodReviewRepository foodReviewRepository;
+
+    @ApiOperation("获取已经通过审核的菜品，分页查询,首页页数为0，待审核状态为1，0表示通过审核，-2表示未通过审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
+            @ApiImplicitParam(name = "pageSize",value = "页大小",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
+    })
+    @RequestMapping(value = "/getCheckFood",method = RequestMethod.GET)
+    public Page<FoodArticle> getCheckFood(String Authorization, int pageSize, int page){
+        Pageable pageable=new PageRequest(page,pageSize);
+        return foodArticleRepository.findByState(0,pageable);
+    }
+
+    @ApiOperation("获取未通过审核的菜品，分页查询，首页页数为0,待审核状态为1，0表示通过审核，-2表示未通过审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
+            @ApiImplicitParam(name = "pageSize",value = "页大小",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
+    })
+    @RequestMapping(value = "/getFailFood",method = RequestMethod.GET)
+    public Page<FoodArticle> getFailFood(String Authorization, int pageSize, int page){
+        Pageable pageable=new PageRequest(page,pageSize);
+        return foodArticleRepository.findByState(-2,pageable);
+    }
+
+    @ApiOperation("获取待审核的菜品，分页查询，首页页数为0,待审核状态为1，0表示通过审核，-2表示未通过审核")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
+            @ApiImplicitParam(name = "pageSize",value = "页大小",dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
+    })
+    @RequestMapping(value = "/getFood",method = RequestMethod.GET)
+    public Page<FoodArticle> getFood(String Authorization, int pageSize, int page){
+        Pageable pageable=new PageRequest(page,pageSize);
+        return foodArticleRepository.findByState(1,pageable);
+    }
+
 
     @ApiOperation("删除已发布的菜品")
     @ApiImplicitParams({
