@@ -41,7 +41,7 @@ public class FoodManageController {
     @RequestMapping(value = "/getCheckFood",method = RequestMethod.GET)
     public Page<FoodArticle> getCheckFood(String Authorization, int pageSize, int page){
         Pageable pageable=new PageRequest(page,pageSize);
-        return foodArticleRepository.findByState(0,pageable);
+        return foodArticleRepository.findByStateOrderByCreatetime(0,pageable);
     }
 
     @ApiOperation("获取未通过审核的菜品，分页查询，首页页数为0,待审核状态为1，0表示通过审核，-2表示未通过审核")
@@ -53,7 +53,7 @@ public class FoodManageController {
     @RequestMapping(value = "/getFailFood",method = RequestMethod.GET)
     public Page<FoodArticle> getFailFood(String Authorization, int pageSize, int page){
         Pageable pageable=new PageRequest(page,pageSize);
-        return foodArticleRepository.findByState(-2,pageable);
+        return foodArticleRepository.findByStateOrderByCreatetime(-2,pageable);
     }
 
     @ApiOperation("获取待审核的菜品，分页查询，首页页数为0,待审核状态为1，0表示通过审核，-2表示未通过审核")
@@ -65,7 +65,7 @@ public class FoodManageController {
     @RequestMapping(value = "/getFood",method = RequestMethod.GET)
     public Page<FoodArticle> getFood(String Authorization, int pageSize, int page){
         Pageable pageable=new PageRequest(page,pageSize);
-        return foodArticleRepository.findByState(1,pageable);
+        return foodArticleRepository.findByStateOrderByCreatetime(1,pageable);
     }
 
 
