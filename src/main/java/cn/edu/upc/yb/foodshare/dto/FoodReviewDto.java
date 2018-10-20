@@ -1,22 +1,10 @@
-package cn.edu.upc.yb.foodshare.model;
+package cn.edu.upc.yb.foodshare.dto;
 
 /**
- * Created By Kazusa in 2018/7/6 10:43
+ * Created By Kazusa in 2018/10/19 15:30
  */
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-
-@Entity
-@Table(name = "foodshare_article")
-public class FoodArticle {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "food_id")
-    private int id;
+public class FoodReviewDto {
+    private int foodId;
 
     private int userid;//建立者的易班id
 
@@ -32,41 +20,42 @@ public class FoodArticle {
 
     private String address;//地址
 
-    private Date createtime;//创建时间或者修改后的时间
-
-    private int ischeck= 0;//用户是否已检查通过审核
-
-    private int state=1;//状态：0为审核通过已发布，-1为用户删除，1为待审核,-2为审核未通过
-
     private int review= 0;//评论数
+
     private int collection = 0;//收藏数
+
     private int likecount = 0;//点赞数
 
+    private Long reviewId;
 
+    private String reviewDetail;
 
-    public FoodArticle(){
+    public FoodReviewDto(){
 
     }
 
-    public FoodArticle(String name, String imgurl, String priece, String kind, String detail, String address, int state) {
-        this.name = name;
-        this.imgurl = imgurl;
-        this.price = priece;
-        this.kind = kind;
-        this.detail = detail;
-        this.address = address;
-        this.state = state;
+    public Long getReviewId() {
+        return reviewId;
     }
 
-    public int getIscheck(){
-        return  ischeck;
-    }
-    public void setIscheck(int ischeck) {
-        this.ischeck = ischeck;
+    public String getReviewDetail() {
+        return reviewDetail;
     }
 
-    public int getId() {
-        return id;
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public void setReviewId(Long reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public void setReviewDetail(String reviewDetail) {
+        this.reviewDetail = reviewDetail;
     }
 
     public int getUserid() {
@@ -125,22 +114,6 @@ public class FoodArticle {
         this.address = address;
     }
 
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
 
     public int getReview() {
         return review;
