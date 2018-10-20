@@ -2,7 +2,11 @@ package cn.edu.upc.yb.foodshare.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
+import cn.edu.upc.yb.foodshare.dto.FoodReviewDto;
+import cn.edu.upc.yb.foodshare.model.FoodArticle;
+import cn.edu.upc.yb.foodshare.model.FoodReview;
 import cn.edu.upc.yb.foodshare.repository.FoodArticleRepository;
+import cn.edu.upc.yb.foodshare.repository.FoodReviewRepository;
 import cn.edu.upc.yb.foodshare.service.FoodArticleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping(value = "/foodshare/food")
 public class FoodArticleController {
@@ -24,6 +32,9 @@ public class FoodArticleController {
 
     @Autowired
     private FoodArticleRepository foodArticleRepository;
+
+    @Autowired
+    private FoodReviewRepository foodReviewRepository;
 
     @Autowired
     private FoodArticleService foodArticleService;
@@ -94,14 +105,38 @@ public class FoodArticleController {
         return foodArticleService.getCollectionFood(ybid);
     }
 
-    @ApiOperation("获取评论过的菜品")
+    @ApiOperation("获取评论过的菜品信息和评论内容")
     @ApiImplicitParams({
             @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
     })
     @RequestMapping(value = "/review",method = RequestMethod.GET)
-    public Object getReviewFood(String Authorization){
+    public List getReviewFood(String Authorization){
         int ybid = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(Authorization));
-        return foodArticleService.getReviewFood(ybid);
+        Set<FoodReview> set = foodReviewRepository.findByUseridAndIsdelete(ybid,0);
+        List<FoodReviewDto> foodReviewDtos = new ArrayList<>();
+        for(FoodReview foodReview : set){
+            FoodArticle foodArticle = foodArticleRepository.findOne(foodReview.getFoodid());
+            if(foodArticle.getState()!=0){
+            }
+            else{
+                FoodReviewDto foodReviewDto = new FoodReviewDto();
+                foodReviewDto.setAddress(foodArticle.getAddress());
+                foodReviewDto.setDetail(foodArticle.getDetail());
+                foodReviewDto.setFoodId(foodArticle.getId());
+                foodReviewDto.setImgurl(foodArticle.getImgurl());
+                foodReviewDto.setKind(foodArticle.getKind());
+                foodReviewDto.setName(foodArticle.getName());
+                foodReviewDto.setPrice(foodArticle.getPrice());
+                foodReviewDto.setReview(foodArticle.getReview());
+                foodReviewDto.setUserid(foodArticle.getUserid());
+                foodReviewDto.setCollection(foodArticle.getCollection());
+                foodReviewDto.setLikeCount(foodArticle.getLikeCount());
+                foodReviewDto.setReviewDetail(foodReview.getDetail());
+                foodReviewDto.setReviewId(foodReview.getId());
+                foodReviewDtos.add(foodReviewDto);
+            }
+        }
+        return foodReviewDtos;
     }
 
 
