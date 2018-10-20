@@ -65,6 +65,14 @@ public class FoodArticle {
         this.ischeck = ischeck;
     }
 
+    public int getLikecount() {
+        return likecount;
+    }
+
+    public void setLikecount(int likecount) {
+        this.likecount = likecount;
+    }
+
     public int getId() {
         return id;
     }

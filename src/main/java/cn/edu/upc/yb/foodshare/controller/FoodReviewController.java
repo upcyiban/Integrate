@@ -96,13 +96,12 @@ public class FoodReviewController {
 
     @ApiOperation("美食的所有未被删除的评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
             @ApiImplicitParam(name = "foodId",value = "评论菜品ID",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "pageSize",value = "页大小",dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "页数",dataType = "int",paramType = "query")
     })
-    @RequestMapping(value = "/getFood", method = RequestMethod.GET)
-    public Object getReview(String Authorization,int foodId,int pageSize,int page){
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Object getReview(int foodId,int pageSize,int page){
 
         if(foodArticleRepository.findOne(foodId)==null){
             return new Message(0,"food not exist!");
@@ -110,4 +109,6 @@ public class FoodReviewController {
         PageRequest pageable = new PageRequest(page,pageSize);
         return foodReviewRepository.findByFoodidAndIsdeleteOrderByCreatetimeDesc(foodId,0,pageable);
     }
+
+
 }

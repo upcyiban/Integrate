@@ -4,7 +4,6 @@ package cn.edu.upc.yb.foodshare.service;
  * Created By Kazusa in 2018/7/6 15:54
  */
 
-import cn.edu.upc.yb.foodshare.dto.FoodReviewDto;
 import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodCollection;
@@ -15,6 +14,9 @@ import cn.edu.upc.yb.foodshare.repository.FoodCollectionRepository;
 import cn.edu.upc.yb.foodshare.repository.FoodLikeRepository;
 import cn.edu.upc.yb.foodshare.repository.FoodReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -133,6 +135,15 @@ public class FoodArticleService {
         List<Integer> foodIds = new ArrayList<>();
         for(FoodCollection food : foodCollections){
             foodIds.add(food.getFoodid());
+        }
+        return foodArticleRepository.findByIdInAndState(foodIds,0);
+    }
+    //获取用户评论过的菜品
+    public Object getReviewFood(int ybid){
+        Set<FoodReview> set = foodReviewRepository.findByUseridAndIsdelete(ybid,0);
+        List<Integer> foodIds = new ArrayList();
+        for(FoodReview foodReview : set){
+            foodIds.add(foodReview.getFoodid());
         }
         return foodArticleRepository.findByIdInAndState(foodIds,0);
     }
