@@ -127,7 +127,13 @@ public class FoodManageController {
         return new Message(1,"delete review success!");
     }
 
-//    @ApiOperation("添加标签")
-
+    @ApiOperation(value = "判断管理员")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
+    })
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    Object login(String Authorization){
+        return true;
+    }
 
 }
