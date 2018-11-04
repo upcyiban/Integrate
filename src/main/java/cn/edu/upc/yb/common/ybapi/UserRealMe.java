@@ -48,6 +48,20 @@ public class UserRealMe {
     }
 
 
+    public Object getUserInfoByAccessToken(String ybtoken) throws IOException {
+        logger.info("ybtoken: " + ybtoken);
+        String queryString = "access_token=" + ybtoken;
+        String result = queryService.getYbApi("user/real_me", queryString);
+        Gson gson = new Gson();
+        System.out.println(result);
+        try {
+            UserRealMeInfo  userRealMeInfo = gson.fromJson(result,UserRealMeInfo.class);
+            return userRealMeInfo;
+        }catch (Exception e){
+            return new ErrorReporter(1,"请求失败");
+        }
+    }
+
     public  class UserRealMeInfo {
         public   String status;
 

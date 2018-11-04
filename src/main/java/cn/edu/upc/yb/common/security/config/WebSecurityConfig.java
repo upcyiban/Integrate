@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs",
                         "/configuration/**",
                         "/token"
+
                 ).permitAll()
                 .antMatchers(
                         "/auth/**",
@@ -82,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/match/apply",
                        "/match/showAll",
                         "/sports/*",
-                        "/graduation/*"
+                        "/graduation/*",
+                        "/common/user/getStuIdByVq"
                 ).permitAll()
                 .anyRequest().authenticated();
 
