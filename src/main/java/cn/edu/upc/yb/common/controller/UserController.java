@@ -7,13 +7,9 @@ import cn.edu.upc.yb.common.dto.YibanBasicUserInfo;
 import cn.edu.upc.yb.common.security.auth.YibanOAuth;
 import cn.edu.upc.yb.common.security.model.App;
 import cn.edu.upc.yb.common.security.model.AppRepository;
-import cn.edu.upc.yb.common.security.service.JwtAuthenticationResponse;
-import cn.edu.upc.yb.common.security.service.JwtUser;
 import cn.edu.upc.yb.common.service.UserService;
-import cn.edu.upc.yb.common.ybapi.UserMe;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import javafx.beans.binding.ObjectExpression;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sun.plugin.viewer.context.IExplorerAppletContext;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Response;
 import java.io.IOException;
 
 @RestController
