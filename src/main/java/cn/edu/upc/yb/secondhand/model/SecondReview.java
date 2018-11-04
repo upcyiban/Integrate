@@ -23,6 +23,7 @@ public class SecondReview {
     private Date createtime;
     private Date updatatime;
     private int isdelete = 0; //0为正常显示 -1为用户删除 -2为管理员删除
+    private boolean isRead=false;
 
     public SecondReview() {
     }
@@ -102,5 +103,13 @@ public class SecondReview {
 
     public void setIsdelete(int isdelete) {
         this.isdelete = isdelete;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }
