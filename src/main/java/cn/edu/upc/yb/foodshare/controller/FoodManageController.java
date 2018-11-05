@@ -1,14 +1,11 @@
 package cn.edu.upc.yb.foodshare.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
-import cn.edu.upc.yb.common.ybapi.SchoolAwardwx;
 import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodReview;
-import cn.edu.upc.yb.foodshare.model.FoodUser;
 import cn.edu.upc.yb.foodshare.repository.FoodArticleRepository;
 import cn.edu.upc.yb.foodshare.repository.FoodReviewRepository;
-import cn.edu.upc.yb.foodshare.repository.FoodUserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RequestMapping(value = "/foodshare/manage")
 @RestController
 @PreAuthorize("hasRole('ROLE_SECOND_ADMIN')")
@@ -31,8 +26,6 @@ public class FoodManageController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
-
-    private SchoolAwardwx schoolAwardwx = new SchoolAwardwx();
 
     @Autowired
     private FoodArticleRepository foodArticleRepository;
@@ -99,7 +92,7 @@ public class FoodManageController {
             @ApiImplicitParam(name = "pass",value = "是否通过审核",paramType = "Query",dataType = "Integer")
     })
     @RequestMapping(value = "/check",method = RequestMethod.GET)
-    public Object checkFood(String Authorization,int foodId,int pass) throws IOException {
+    public Object checkFood(String Authorization,int foodId,int pass) {
         FoodArticle foodArticle = foodArticleRepository.findOne(foodId);
         if(foodArticle==null){
             return new Message(0,"此菜品不存在！请输入正确的菜品ID");
@@ -108,16 +101,7 @@ public class FoodManageController {
             if(pass==0){
                 foodArticle.setState(pass);
                 foodArticleRepository.save(foodArticle);
-                Boolean flag = schoolAwardwx.schoolAwardwx(Authorization,foodArticle.getUserid(),20);
-                if(flag){
-                    return new Message(1,"菜品通过审核,用户获取20网薪");
-                }
-                else{
-                    foodArticle.setState(1);
-                    foodArticleRepository.save(foodArticle);
-                    return new Message(0,"请求网薪奖励失败，请重新审核");
-                }
-
+                return new Message(1,"菜品通过审核");
             }
             else if(pass==-2){
                 foodArticle.setState(pass);
