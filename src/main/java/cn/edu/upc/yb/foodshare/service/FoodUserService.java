@@ -38,7 +38,9 @@ public class FoodUserService {
     //判断用户是否存在
     public Boolean isExist(String token){
         int yibanId = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(token));
+        System.out.println(yibanId);
         FoodUser foodUser = foodUserRepository.findByUserid(yibanId);
+        System.out.println(foodUser);
         return (foodUser!=null);
     }
 
