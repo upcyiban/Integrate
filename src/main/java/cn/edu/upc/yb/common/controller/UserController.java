@@ -64,6 +64,7 @@ public class UserController {
         }
         else return ResponseEntity.ok(new ErrorReporter(-1,"解析出错"));
     }
+
     @PostMapping("/getStuIdByVq")
     public Object getStuId(String appName, String vq) {
         logger.info("应用:" + appName + " 获取权限");
