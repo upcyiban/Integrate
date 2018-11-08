@@ -43,6 +43,27 @@ public class UserController {
         return userService.getStuId(request);
     }
 
+    @PostMapping("/getAccessToken")
+
+    public Object getAccess_token (String appName ,String vq){
+
+        logger.info("应用:" + appName + " 获取权限");
+
+        App app = appRepository.findFirstByAppname(appName);
+        if (app == null) {
+            return ResponseEntity.ok(new ErrorReporter(1, "未找到应用" + appName));
+        }
+
+        YibanOAuth yibanOAuth = new YibanOAuth(vq, app);
+        yibanOAuth.dealYibanOauth();
+        if (yibanOAuth.isHasError()==false){
+
+            YibanBasicUserInfo yibanBasicUserInfo = yibanOAuth.getYibanBasicUserInfo();
+
+            return ResponseEntity.ok(yibanBasicUserInfo);
+        }
+        else return ResponseEntity.ok(new ErrorReporter(-1,"解析出错"));
+    }
     @PostMapping("/getStuIdByVq")
     public Object getStuId(String appName, String vq) {
         logger.info("应用:" + appName + " 获取权限");
