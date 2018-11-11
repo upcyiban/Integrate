@@ -31,7 +31,7 @@ public class SchoolAwardwx {
 
     public Boolean schoolAwardwx(String token,int ybId,int pay)throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
-        String queryString = "access_token=" + ybtoken + "&yb_userid=" + ybId+ "&pay=" + pay;
+        String queryString = "access_token=" + ybtoken + "&yb_userid=" + ybId+ "&award=" + pay;
         String result = queryService.getYbApi("school/award_wx", queryString);
         Gson gson = new Gson();
         System.out.println(result);
