@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @RestController
@@ -180,5 +182,41 @@ public class FoodArticleController {
     @RequestMapping(value = "/name",method = RequestMethod.GET)
     public Object nameSearch(String Authorization,String name){
         return foodArticleService.nameSearch(name);
+    }
+
+
+    //拓展功能接口
+
+    //随机推荐菜品
+    @ApiOperation("推荐一个随机的已发布的菜品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+    })
+    @RequestMapping(value = "/randomCommend",method = RequestMethod.GET)
+    public Object randomCommend(String Authorization) {
+        Long countL = foodArticleRepository.count();
+        int count = countL.intValue();
+        Random random = new Random();
+        int rand = random.nextInt(count) + 1;
+        FoodArticle foodArticle = foodArticleRepository.findByIdAndState(rand, 0);
+        while (foodArticle == null) {
+            rand = random.nextInt(count) + 1;
+            foodArticle = foodArticleRepository.findByIdAndState(rand, 0);
+        }
+        return foodArticle;
+    }
+
+    @ApiOperation("推荐一个最近被发布的菜品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+    })
+    @RequestMapping(value = "/latestCommend",method = RequestMethod.GET)
+    public Object latestCommend(String Authorization){
+        Random random = new Random();
+        int rand = random.nextInt(5) + 1;
+        Pageable pageable=new PageRequest(0,rand);
+        Page<FoodArticle> foodArticles = foodArticleRepository.findByStateOrderByCreatetimeDesc(0,pageable);
+        int rand2 = random.nextInt(rand);
+        return foodArticles.getContent().get(rand2);
     }
 }

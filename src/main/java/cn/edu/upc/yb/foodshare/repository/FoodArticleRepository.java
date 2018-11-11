@@ -35,4 +35,7 @@ public interface FoodArticleRepository extends CrudRepository<FoodArticle,Intege
 
     //浏览已发布的菜品,前端查询返回的菜品
     Page<FoodArticle> findByStateOrderByCreatetime(int state,Pageable pageable);
+
+    //返回一组数据，最近发布的菜品
+    Page<FoodArticle> findByStateOrderByCreatetimeDesc(int state,Pageable pageable);
 }
