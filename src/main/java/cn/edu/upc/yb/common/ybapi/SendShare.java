@@ -27,7 +27,7 @@ public class SendShare {
     public Object getSendShare(String token,String content,String share_title,String share_url) throws IOException {
         String ybtoken = jwtTokenUtil.getYbaccessToken(token);
         String queryString = "access_token=" + ybtoken + "content=" + content + "share_title" + share_title + "share_url" + share_url ;
-        String result = queryService.getYbApi("share/send_share", queryString);
+        String result = queryService.postYbApi("share/send_share", queryString);
         Gson gson = new Gson();
         System.out.println(result);
         try {
