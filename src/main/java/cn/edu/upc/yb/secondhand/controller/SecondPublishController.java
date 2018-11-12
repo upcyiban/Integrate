@@ -9,6 +9,7 @@ import cn.edu.upc.yb.secondhand.model.SecondUser;
 import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
+import cn.edu.upc.yb.secondhand.service.SecondMsgSendService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,9 @@ public class SecondPublishController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private SecondMsgSendService secondMsgSendService;
 
 
     @ApiOperation("发布物品")
@@ -139,9 +143,13 @@ public class SecondPublishController {
         secondReview.setYbname(user.getUsername());
         secondReview.setCreatetime(createTime);
 
+        secondMsgSendService.reviewSend(token,secondArticle,user);
+
         secondArticle.setReviews(secondArticle.getReviews()+1);
         articleRepository.save(secondArticle);
-        return   reviewRepository.save(secondReview);
+        secondReview = reviewRepository.save(secondReview);
+
+        return   secondReview;
     }
 
     @ApiOperation("更新评论")

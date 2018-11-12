@@ -2,6 +2,7 @@ package cn.edu.upc.yb.secondhand.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
+import cn.edu.upc.yb.common.ybapi.MsgLetter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.SecondArticle;
 import cn.edu.upc.yb.secondhand.model.SecondCollection;
@@ -10,6 +11,7 @@ import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
 import cn.edu.upc.yb.secondhand.repository.CollectionRepository;
 import cn.edu.upc.yb.secondhand.repository.UserRepository;
 import cn.edu.upc.yb.secondhand.service.CollectionService;
+import cn.edu.upc.yb.secondhand.service.SecondMsgSendService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +39,9 @@ public class SecondCollectionController {
 
     @Autowired
     private CollectionService collectionService;
+
+    @Autowired
+    private SecondMsgSendService secondMsgSendService;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -99,7 +104,7 @@ public class SecondCollectionController {
         collections++;
         secondArticle.setCollections(collections);
         articleRepository.save(secondArticle);
-
+        secondMsgSendService.collectionSend(token,secondArticle);
         return collectionService.getOneCollectionInfo(secondCollection1);
     }
 
