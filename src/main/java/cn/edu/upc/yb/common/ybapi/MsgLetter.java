@@ -15,14 +15,20 @@ public class MsgLetter {
     @Autowired
     private QueryService queryService;
 
+    public static String string2Unicode(String string) {
+        StringBuffer unicode = new StringBuffer();
+        for (int i = 0; i < string.length(); i++) {
+            // 取出每一个字符
+            char c = string.charAt(i);
+            // 转换为unicode
+            unicode.append("\\u" + Integer.toHexString(c));
+        }
+
+        return unicode.toString();
+    }
 
     public Object setMsgLetter(String token,String toYbUid,String content){
-        byte[] bytes = content.getBytes();
-        try {
-            content = new String(bytes,"UTF-8");
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
+        string2Unicode(content);
         System.out.println("发送站内信："+content);
         String yibantoken = jwtTokenUtil.getYbaccessToken(token);
         String userid = jwtTokenUtil.getYBidFromTocken(token);

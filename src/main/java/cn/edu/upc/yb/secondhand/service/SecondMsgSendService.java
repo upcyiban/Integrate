@@ -17,8 +17,7 @@ public class SecondMsgSendService {
     private MsgLetter msgLetter;
 
     public void reviewSend(String token, SecondArticle secondArticle, SecondUser user){
-        String content = "评论了您在二手市场发布的" + secondArticle.getName() + "，快去看看吧。"+
-                "\nhttp://f.yiban.cn/iapp218463";
+        String content = new String("评论了您在二手市场发布的" + secondArticle.getName() + "，快去看看吧。"+ "\nhttp://f.yiban.cn/iapp218463") ;
        // System.out.println("评论"+content);
         String touid = String.valueOf(secondArticle.getUserid());
         Boolean result = false;
@@ -26,8 +25,7 @@ public class SecondMsgSendService {
     }
 
     public void collectionSend(String token,SecondArticle secondArticle){
-        String content = "收藏了您在二手市场发布的" + secondArticle.getName() + "，快去看看吧。"+
-                "\nhttp://f.yiban.cn/iapp218463";
+        String content =new String( "收藏了您在二手市场发布的" + secondArticle.getName() + "，快去看看吧。"+ "\nhttp://f.yiban.cn/iapp218463");
 
         String touid = String.valueOf(secondArticle.getUserid());
        // System.out.println("收藏"+content);
