@@ -17,6 +17,12 @@ public class MsgLetter {
 
 
     public Object setMsgLetter(String token,String toYbUid,String content){
+        byte[] bytes = content.getBytes();
+        try {
+            content = new String(bytes,"UTF-8");
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
         System.out.println("发送站内信："+content);
         String yibantoken = jwtTokenUtil.getYbaccessToken(token);
         String userid = jwtTokenUtil.getYBidFromTocken(token);
