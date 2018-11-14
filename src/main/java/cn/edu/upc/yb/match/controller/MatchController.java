@@ -27,6 +27,8 @@ public class MatchController {
                                    String member1Rank, String member2Name, String member2College, String member2Rank,
                                    String ideaName, String instructions){
         Team team = new Team(teamName, captainName ,tel , email, qq, college, rank, member1Name, member1College, member1Rank, member2Name, member2College, member2Rank, ideaName, instructions);
+                   System.out.println("验证码为：=====>" + teamName);
+
         teamRepository.save(team);
     }
 
