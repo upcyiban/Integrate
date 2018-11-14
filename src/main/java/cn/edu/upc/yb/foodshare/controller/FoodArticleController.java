@@ -2,7 +2,9 @@ package cn.edu.upc.yb.foodshare.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
+import cn.edu.upc.yb.common.ybapi.SchoolAwardwx;
 import cn.edu.upc.yb.foodshare.dto.FoodReviewDto;
+import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodReview;
 import cn.edu.upc.yb.foodshare.repository.FoodArticleRepository;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +45,8 @@ public class FoodArticleController {
     private FoodArticleService foodArticleService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private SchoolAwardwx schoolAwardwx;
 
     @ApiOperation("发布菜品")
     @ApiImplicitParams({
@@ -54,8 +59,15 @@ public class FoodArticleController {
             @ApiImplicitParam(name = "address",value = "菜品地址",dataType = "String",paramType = "query")
     })
     @RequestMapping(value = "/public", method = RequestMethod.POST)
-    public Object publicFood(String Authorization,String name,String kind,String detail,String imgurl,String price,String address){
+    public Object publicFood(String Authorization,String name,String kind,String detail,String imgurl,String price,String address) throws IOException {
         int ybid = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(Authorization));
+        Boolean flag = schoolAwardwx.schoolAwardwx(Authorization,ybid,20);
+        if(flag){
+            System.out.println("发放网薪成功");
+        }
+        else{
+            System.out.println("发送网薪失败");
+        }
         return foodArticleService.publicFood(ybid,name,kind,detail,imgurl,price,address);
     }
 
