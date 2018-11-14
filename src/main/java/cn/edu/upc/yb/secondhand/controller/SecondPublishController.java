@@ -2,6 +2,7 @@ package cn.edu.upc.yb.secondhand.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
+import cn.edu.upc.yb.common.ybapi.MsgLetter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.SecondArticle;
 import cn.edu.upc.yb.secondhand.model.SecondReview;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +30,9 @@ public class SecondPublishController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
+
+    @Autowired
+    MsgLetter msgLetter;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -243,6 +248,16 @@ public class SecondPublishController {
         reviewRepository.save(review);
 
         return new Message(1,"delete success");
+    }
+    @ApiOperation("sendtest")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "context",value = "内容",dataType = "String",paramType = "query")
+    })
+    @GetMapping("/sendtest")
+    public void sendTest(HttpServletRequest request,String context){
+        String token = request.getParameter(this.tokenHeader);
+        msgLetter.setMsgLetter(token,String.valueOf(5830631),context);
     }
 
 }
