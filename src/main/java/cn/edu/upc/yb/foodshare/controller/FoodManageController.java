@@ -3,6 +3,7 @@ package cn.edu.upc.yb.foodshare.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.security.service.JwtTokenUtil;
 import cn.edu.upc.yb.common.ybapi.SchoolAwardwx;
+import cn.edu.upc.yb.common.ybapi.TradeWx;
 import cn.edu.upc.yb.foodshare.dto.Message;
 import cn.edu.upc.yb.foodshare.model.FoodArticle;
 import cn.edu.upc.yb.foodshare.model.FoodReview;
@@ -36,6 +37,9 @@ public class FoodManageController {
 
     @Autowired
     private SchoolAwardwx schoolAwardwx = new SchoolAwardwx();
+
+    @Autowired
+    private TradeWx tradeWx = new TradeWx();
 
     @Autowired
     private FoodArticleRepository foodArticleRepository;
@@ -95,45 +99,7 @@ public class FoodManageController {
         return new Message(1, "delete success!");
     }
 
-    @ApiOperation("审核发放网薪接口（尚未有活动账号测试，不可使用，使用另外一个审核接口），审核菜品是否通过，0表示通过，-2表示审核未通过")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
-            @ApiImplicitParam(name = "foodId",value = "id",paramType = "Query",dataType = "Integer"),
-            @ApiImplicitParam(name = "pass",value = "是否通过审核",paramType = "Query",dataType = "Integer")
-    })
-    @RequestMapping(value = "/checkAward",method = RequestMethod.GET)
-    public Object checkFoodAward(String Authorization,int foodId,int pass) throws IOException {
-        FoodArticle foodArticle = foodArticleRepository.findOne(foodId);
-        if(foodArticle==null){
-            return new Message(0,"此菜品不存在！请输入正确的菜品ID");
-        }
-        else {
-            if(pass==0){
-                foodArticle.setState(pass);
-                foodArticleRepository.save(foodArticle);
-                Boolean flag = schoolAwardwx.schoolAwardwx(Authorization,foodArticle.getUserid(),20);
-                if(flag){
-                    return new Message(1,"菜品通过审核,用户获取20网薪");
-                }
-                else{
-                    foodArticle.setState(1);
-                    foodArticleRepository.save(foodArticle);
-                    return new Message(0,"请求网薪奖励失败，请重新审核");
-                }
-
-            }
-            else if(pass==-2){
-                foodArticle.setState(pass);
-                foodArticleRepository.save(foodArticle);
-                return new Message(1,"菜品未通过审核");
-            }
-            else{
-                return new Message(0,"输入0或-2");
-            }
-        }
-    }
-
-    @ApiOperation("普通审核接口不会发放网薪，审核菜品是否通过，0表示通过，-2表示审核未通过")
+    @ApiOperation("审核菜品是否通过，0表示通过，-2表示审核未通过")
     @ApiImplicitParams({
             @ApiImplicitParam(name = SwaggerParameter.Authorization,value = "token",paramType = "Query",dataType = "String"),
             @ApiImplicitParam(name = "foodId",value = "id",paramType = "Query",dataType = "Integer"),
