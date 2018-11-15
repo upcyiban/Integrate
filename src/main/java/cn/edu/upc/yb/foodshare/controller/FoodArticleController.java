@@ -62,13 +62,7 @@ public class FoodArticleController {
     public Object publicFood(String Authorization,String name,String kind,String detail,String imgurl,String price,String address) throws IOException {
         int ybid = Integer.valueOf(jwtTokenUtil.getYBidFromTocken(Authorization));
         Boolean flag = schoolAwardwx.schoolAwardwx(Authorization,ybid,20);
-        if(flag){
-            System.out.println("发放网薪成功");
-        }
-        else{
-            System.out.println("发送网薪失败");
-        }
-        return foodArticleService.publicFood(ybid,name,kind,detail,imgurl,price,address);
+        return foodArticleService.publicFood(ybid,name,kind,detail,imgurl,price,address,flag);
     }
 
     @ApiOperation("更新菜品信息")
