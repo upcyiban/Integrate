@@ -32,7 +32,7 @@ public class FoodArticleService {
     private FoodReviewRepository foodReviewRepository;
 
     //发布菜品
-    public Object publicFood(int ybid, String name, String kind, String detail, String imgurl, String price, String address){
+    public Object publicFood(int ybid, String name, String kind, String detail, String imgurl, String price, String address, Boolean flag){
         FoodArticle foodArticle = new FoodArticle();
         foodArticle.setUserid(ybid);
         foodArticle.setAddress(address);
@@ -42,9 +42,14 @@ public class FoodArticleService {
         foodArticle.setName(name);
         foodArticle.setPrice(price);
         foodArticle.setCreatetime(new Date());
-
         foodArticleRepository.save(foodArticle);
-        return new Message(1,"上传成功，等待审核");
+        if(flag){
+            return new Message(1,"上传成功，发放网薪成功，请等待审核");
+        }
+        else{
+            return new Message(0,"上传成功，发放网薪失败，请等待审核");
+        }
+
     }
     //更新菜品
     public Object updateFood(int foodId,String name,String kind,String detail,String imgurl,String price,String address){
