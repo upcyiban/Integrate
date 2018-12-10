@@ -1,6 +1,7 @@
 package cn.edu.upc.yb.secondhand.controller;
 
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
+import cn.edu.upc.yb.common.ybapi.MsgLetter;
 import cn.edu.upc.yb.secondhand.dto.Message;
 import cn.edu.upc.yb.secondhand.model.SecondArticle;
 import cn.edu.upc.yb.secondhand.model.SecondKind;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +40,25 @@ public class SecondManageController {
 
     @Autowired
     private KindRepository kindRepository;
+
+    @Autowired
+    private MsgLetter msgLetter;
+
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
+    @ApiOperation("测试站内信发送")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = SwaggerParameter.Authorization, value = "token", dataType ="String",paramType = "query"),
+            @ApiImplicitParam(name = "touid",value = "接受id",dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "context",value = "内容",dataType = "String",paramType = "query"),
+    })
+    @RequestMapping(value = "/sendmsg",method = RequestMethod.GET)
+    public Object sendMsg(HttpServletRequest request,String touid,String context){
+        String token=request.getParameter(this.tokenHeader);
+        return msgLetter.setMsgLetter(token,touid,context);
+
+    }
 
 
     /*
