@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
+
 @Service
 public class MsgLetter {
 
@@ -14,6 +16,7 @@ public class MsgLetter {
 
     @Autowired
     private QueryService queryService;
+
 
     public static String string2Unicode(String string) {
         StringBuffer unicode = new StringBuffer();
@@ -28,8 +31,16 @@ public class MsgLetter {
     }
 
     public Object setMsgLetter(String token,String toYbUid,String content){
-        string2Unicode(content);
-        System.out.println("发送站内信："+content);
+        //string2Unicode(content);
+        System.out.println("send Message："+content);
+        try{
+            content = new String(content.getBytes(),"UTF-8");
+            System.out.println("context:"+content);
+            System.out.println("默认编码："+Charset.defaultCharset());
+
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
         String yibantoken = jwtTokenUtil.getYbaccessToken(token);
         String userid = jwtTokenUtil.getYBidFromTocken(token);
         String queryString = "access_token=" + yibantoken + "&to_yb_uid=" + toYbUid + "&content=" +content;

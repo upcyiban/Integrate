@@ -3,14 +3,8 @@ package cn.edu.upc.yb.secondhand.controller;
 import cn.edu.upc.yb.common.dto.SwaggerParameter;
 import cn.edu.upc.yb.common.ybapi.MsgLetter;
 import cn.edu.upc.yb.secondhand.dto.Message;
-import cn.edu.upc.yb.secondhand.model.SecondArticle;
-import cn.edu.upc.yb.secondhand.model.SecondKind;
-import cn.edu.upc.yb.secondhand.model.SecondReview;
-import cn.edu.upc.yb.secondhand.model.SecondUser;
-import cn.edu.upc.yb.secondhand.repository.ArticleRepository;
-import cn.edu.upc.yb.secondhand.repository.KindRepository;
-import cn.edu.upc.yb.secondhand.repository.ReviewRepository;
-import cn.edu.upc.yb.secondhand.repository.UserRepository;
+import cn.edu.upc.yb.secondhand.model.*;
+import cn.edu.upc.yb.secondhand.repository.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 
 @RestController
@@ -43,6 +38,8 @@ public class SecondManageController {
 
     @Autowired
     private MsgLetter msgLetter;
+
+
 
     @Value("${jwt.header}")
     private String tokenHeader;
