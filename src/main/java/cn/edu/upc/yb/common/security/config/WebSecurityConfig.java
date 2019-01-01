@@ -81,11 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/auth/**",
                         "/lottery/admin/**",
                         "/match/apply",
-                       "/match/showAll",
+                        "/match/showAll",
                         "/sports/*",
                         "/graduation/*",
                         "/common/user/getStuIdByVq",
-                        "/common/user/getAccessToken"
+                        "/common/user/getAccessToken",
+                        "/happy_new_year/**"
                 ).permitAll()
                 .anyRequest().authenticated();
 
